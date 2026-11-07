@@ -210,6 +210,11 @@ jobs:
           python tests/windows_portable_exe_smoke.py --exe "$exe" |
             Tee-Object -FilePath 'installed-upgrade-e2e.json'
           if ($LASTEXITCODE -ne 0) { throw 'Upgraded Windows EXE failed full offline end-to-end test' }
+          # Check the real UI with Playwright/installed Edge, not a Chromium
+          # virtual-time DOM snapshot that can race pending native API requests.
+          python -m pip install playwright==1.56.0
+          if ($LASTEXITCODE -ne 0) { throw 'Cannot install Windows browser verification dependency' }
+          Copy-Item "$env:GITHUB_WORKSPACE/.github/scripts/windows_edge_real_ui.py" tests/windows_edge_ui_smoke.py -Force
           python tests/windows_edge_ui_smoke.py --exe "$exe"
           if ($LASTEXITCODE -ne 0) { throw 'Installed upgraded EXE GUI failed browser smoke test' }
           $setupHash = (Get-FileHash build-lab/Setup-B.exe -Algorithm SHA256).Hash.ToLowerInvariant()
