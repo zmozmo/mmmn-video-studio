@@ -112,10 +112,14 @@ jobs:
           if (-not $pair) { throw 'Could not find a matching Windows ffmpeg.exe and ffprobe.exe pair' }
           Copy-Item $pair[0] portable/bin/ffmpeg.exe -Force
           Copy-Item $pair[1] portable/bin/ffprobe.exe -Force
-          & .\portable\bin\ffmpeg.exe -hide_banner -version | Select-Object -First 1
-          if ($LASTEXITCODE -ne 0) { throw 'Windows ffmpeg.exe could not run' }
-          & .\portable\bin\ffprobe.exe -hide_banner -version | Select-Object -First 1
-          if ($LASTEXITCODE -ne 0) { throw 'Windows ffprobe.exe could not run' }
+          # Do not pipe native -version output directly into Select-Object -First 1:
+          # PowerShell may close the pipe before ffmpeg exits, causing a false nonzero code.
+          $ffmpegVersion = @(& .\portable\bin\ffmpeg.exe -hide_banner -version 2>&1)
+          if ($LASTEXITCODE -ne 0) { throw "Windows ffmpeg.exe could not run, exit $LASTEXITCODE" }
+          $ffmpegVersion | Select-Object -First 1
+          $ffprobeVersion = @(& .\portable\bin\ffprobe.exe -hide_banner -version 2>&1)
+          if ($LASTEXITCODE -ne 0) { throw "Windows ffprobe.exe could not run, exit $LASTEXITCODE" }
+          $ffprobeVersion | Select-Object -First 1
           $encoders = & .\portable\bin\ffmpeg.exe -hide_banner -encoders 2>&1 | Out-String
           if ($encoders -notmatch 'libx264') { throw 'Cannot package FFmpeg without required H.264 encoder' }
           New-Item -Force -ItemType Directory build-lab | Out-Null
