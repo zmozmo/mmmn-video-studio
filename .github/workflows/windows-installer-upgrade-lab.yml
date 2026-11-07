@@ -40,8 +40,12 @@ jobs:
           $source = Join-Path $stage 'MMMN-Video-Studio'
           if (!(Test-Path (Join-Path $source 'portable\launcher.py'))) { throw 'Missing source entrypoint' }
           if (!(Test-Path (Join-Path $source 'windows-installer\MMMN-Video-Studio.nsi'))) { throw 'Missing NSIS installer definition' }
-          foreach ($entry in (Get-ChildItem -LiteralPath $source -Force)) {
-            Copy-Item -LiteralPath $entry.FullName -Destination (Join-Path (Get-Location) $entry.Name) -Recurse -Force
+          # Merge extracted source files including .github/workflows without nesting.
+          foreach ($file in (Get-ChildItem -LiteralPath $source -File -Recurse -Force)) {
+            $relative = $file.FullName.Substring($source.Length + 1)
+            $destination = Join-Path (Get-Location) $relative
+            New-Item -ItemType Directory -Path (Split-Path $destination -Parent) -Force | Out-Null
+            Copy-Item -LiteralPath $file.FullName -Destination $destination -Force
           }
           Remove-Item -LiteralPath $archive -Force
           # On the Windows runner verify the source is still privacy-safe.
@@ -69,7 +73,11 @@ jobs:
         shell: pwsh
         run: |
           New-Item -Force -ItemType Directory build-lab | Out-Null
-          node --test
+          # Explicit test inputs avoid Node 22 auto-running the UI bundle generator.
+          $jsFiles = @(Get-ChildItem -Path tests -File -Filter '*.test.mjs' |
+            Select-Object -ExpandProperty FullName)
+          if ($jsFiles.Count -lt 1) { throw 'No JavaScript tests were extracted' }
+          node --test @jsFiles
           if ($LASTEXITCODE -ne 0) { throw 'JavaScript suite failed' }
           python scripts/run-python-tests.py --timeout 180 --report build-lab/python-tests.json
           if ($LASTEXITCODE -ne 0) { throw 'Python suite failed or timed out' }
