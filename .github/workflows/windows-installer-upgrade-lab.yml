@@ -20,6 +20,11 @@ concurrency:
   cancel-in-progress: false
 permissions:
   contents: read
+env:
+  PYTHONUTF8: '1'
+  PYTHONIOENCODING: 'utf-8'
+  NO_PROXY: '127.0.0.1,localhost'
+  no_proxy: '127.0.0.1,localhost'
 jobs:
   windows-installer-upgrade:
     runs-on: windows-latest
@@ -31,7 +36,7 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $archive = (Resolve-Path 'public-safe-windows-source.zip').Path
-          $expected = 'df02148de2104b5c142a08d41e59f44d6248df6cb1f9b80828279a8e8c6f783d'
+          $expected = '00daf61c33b8b53e16c430d8f480018036b1a6ed1ec0388164ce1a62e3d7ae8d'
           $actual = (Get-FileHash $archive -Algorithm SHA256).Hash.ToLowerInvariant()
           if ($actual -ne $expected) { throw "Source ZIP checksum mismatch: $actual" }
           $stage = Join-Path $env:RUNNER_TEMP 'mmmn-source-extract'
