@@ -52,6 +52,15 @@ jobs:
             Copy-Item -LiteralPath $file.FullName -Destination $destination -Force
           }
           Remove-Item -LiteralPath $archive -Force
+          # Correct NSIS uninstall registry quoting in this audited source revision.
+          # NSIS 3.13 otherwise compiles malformed uninstaller registry commands.
+          $nsisFile = 'windows-installer/MMMN-Video-Studio.nsi'
+          $nsisContent = Get-Content -LiteralPath $nsisFile -Raw -Encoding utf8
+          $badQuote = '$"$INSTDIR\Uninstall.exe$"'
+          $goodQuote = '"$INSTDIR\Uninstall.exe"'
+          if (-not $nsisContent.Contains($badQuote)) { throw 'Unexpected NSIS registry quoting; release candidate blocked' }
+          $nsisContent = $nsisContent.Replace($badQuote, $goodQuote)
+          Set-Content -LiteralPath $nsisFile -Value $nsisContent -NoNewline -Encoding utf8
           # On the Windows runner verify the source is still privacy-safe.
           node scripts/audit-public-source.mjs
           if ($LASTEXITCODE -ne 0) { throw 'Source privacy audit failed after ZIP extraction' }
@@ -154,7 +163,7 @@ jobs:
           & $nsis '/V3' '/DAPP_VERSION=0.14.0-lab-a' "/DAPP_PAYLOAD=$payload" windows-installer/MMMN-Video-Studio.nsi
           if ($LASTEXITCODE -ne 0) { throw 'First NSIS compile failed' }
           New-Item -Force -ItemType Directory build-lab | Out-Null
-          Move-Item MMMN-Video-Studio-Setup-0.14.0-lab-a.exe build-lab/Setup-A.exe
+          Move-Item windows-installer/MMMN-Video-Studio-Setup-0.14.0-lab-a.exe build-lab/Setup-A.exe
       - name: Actually install A, start installed EXE, write test project and media
         shell: pwsh
         run: |
@@ -184,7 +193,7 @@ jobs:
           $payload = (Resolve-Path 'dist-upgrade/MMMN-Video-Studio').Path
           & $nsis '/V3' '/DAPP_VERSION=0.14.0' "/DAPP_PAYLOAD=$payload" windows-installer/MMMN-Video-Studio.nsi
           if ($LASTEXITCODE -ne 0) { throw 'Upgrade NSIS compile failed' }
-          Move-Item MMMN-Video-Studio-Setup-0.14.0.exe build-lab/Setup-B.exe
+          Move-Item windows-installer/MMMN-Video-Studio-Setup-0.14.0.exe build-lab/Setup-B.exe
           $p = Start-Process -FilePath (Resolve-Path build-lab/Setup-B.exe).Path -ArgumentList '/S' -PassThru -Wait
           if ($p.ExitCode -ne 0) { throw "In-place upgrade installer failed: $($p.ExitCode)" }
           $display = (Get-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\MMMNVideoStudio').DisplayVersion
