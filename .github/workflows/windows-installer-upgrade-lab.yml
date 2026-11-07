@@ -181,7 +181,7 @@ jobs:
       - name: Compile second release and update IN PLACE without uninstall
         shell: pwsh
         run: |
-          Set-Content -Path TRIAL-REVISION.txt -Value 'windows-release-0.14.0' -NoNewline
+          Set-Content -Path TRIAL-REVISION.txt -Value 'installer-lab-upgrade' -NoNewline
           python -m PyInstaller --noconfirm --clean --onedir --console --name MMMN-Video-Studio `
             --distpath dist-upgrade --workpath build-upgrade `
             --add-data 'web;web' --add-data 'renderer;renderer' `
