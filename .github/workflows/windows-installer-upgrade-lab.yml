@@ -35,7 +35,7 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $archive = (Resolve-Path 'public-safe-windows-source.zip').Path
-          $expected = '00daf61c33b8b53e16c430d8f480018036b1a6ed1ec0388164ce1a62e3d7ae8d'
+          $expected = 'a4ffb06ec4903f8c5266f981dffbb71302df23fd7b0611c1bf8944b48fac51b3'
           $actual = (Get-FileHash $archive -Algorithm SHA256).Hash.ToLowerInvariant()
           if ($actual -ne $expected) { throw "Source ZIP checksum mismatch: $actual" }
           $stage = Join-Path $env:RUNNER_TEMP 'mmmn-source-extract'
@@ -92,12 +92,15 @@ jobs:
           # Chocolatey packages are not guaranteed to use one fixed bin directory.
           # Resolve the two EXEs together; never mix different FFmpeg distributions.
           $candidates = @()
-          $command = Get-Command ffmpeg.exe -ErrorAction SilentlyContinue
-          if ($command -and $command.Source) { $candidates += $command.Source }
           $choco = 'C:\ProgramData\chocolatey\lib'
+          # Prefer real binaries, never package Chocolatey launcher shims.
           if (Test-Path $choco) {
             $candidates += @(Get-ChildItem $choco -Recurse -File -Filter 'ffmpeg.exe' -ErrorAction SilentlyContinue |
               Select-Object -ExpandProperty FullName)
+          }
+          $command = Get-Command ffmpeg.exe -ErrorAction SilentlyContinue
+          if ($command -and $command.Source -and ($command.Source -notlike '*\chocolatey\bin\*')) {
+            $candidates += $command.Source
           }
           $pair = $null
           foreach ($path in ($candidates | Select-Object -Unique)) {
