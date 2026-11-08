@@ -187,6 +187,14 @@ def run():
                             page.locator('[data-action="open-local-exports"]').click()
                         assert opening.value.status==200, "Could not open saved MP4 folder"
                         print("PASS: Explorer opens Backup, Project and Export folders from UI",flush=True)
+                        # Reject arbitrary browser-supplied paths; the backend is
+                        # strictly limited to these three trusted folders.
+                        rejected=page.evaluate("""async () => {
+                            try { await window.__TAURI__.core.invoke('open_local_folder',{kind:'../../Windows/System32'});return false; }
+                            catch(e) { return true; }
+                        }""")
+                        assert rejected, "Local folder API accepted arbitrary filesystem paths"
+                        print("PASS: rejected unsafe browser-supplied folder traversal",flush=True)
 
                         # Recreate an accidental manuscript edit after the verified
                         # full-media backup, then restore the real snapshot through UI.
