@@ -90,9 +90,13 @@ replace('portable/studio_server.py',
 replace('web/app.js',
     '<span class="pill">Windows Offline Studio • v0.14.1</span>',
     '<span class="pill">MMMN Windows Offline Studio • v0.14.4</span>')
-replace('web/app.js',
-    'Local Windows Trial',
-    'Windows Offline Installer')
+# Two distinct UI labels refer to the same old installed-app mode.
+ui=root/'web/app.js'
+raw=ui.read_text(encoding='utf-8')
+if raw.count('Local Windows Trial')!=2:
+    raise ValueError('Installed-app UI mode labels changed unexpectedly')
+ui.write_text(raw.replace('Local Windows Trial','Windows Offline Installer'),encoding='utf-8')
+print('WINDOWS 0.14.4: corrected both installed mode labels',flush=True)
 replace('web/app.js',
     'Windows GitHub Runner မှာ Install → Upgrade → Data Preservation စစ်ဆေးပြီးပါပြီ။',
     'Windows 0.14.4 ကို GitHub Windows Runner တွင် Build → Install → Upgrade → MP4 Render → Uninstall အစအဆုံး စမ်းသပ်ပြီးမှ Release တင်ပါမည်။')
