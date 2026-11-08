@@ -336,6 +336,19 @@ def verify_full_hd_multi_scene_and_cancel(app,ffprobe):
     print(f"PASS: continuous 300-second real 1080p export encoded in "
           f"{time.monotonic()-started:.1f}s on disposable Windows runner",flush=True)
 
+    # Final realistic longer narration check: actual 15-minute FULL 1080p
+    # continuous video encode and FFprobe frame validation. This is distinct
+    # from streaming/importing a fifteen-minute WAV recording.
+    preserved_five_minute_hash=sha(Path(five_minutes["output"]))
+    started=time.monotonic()
+    fifteen_minutes=finish(begin(77,900,"cut"),limit=1100)
+    check_video(fifteen_minutes,27000,900,"15-minute 1080p six-scene offline MP4")
+    assert sha(Path(five_minutes["output"]))==preserved_five_minute_hash,(
+        "Long video encode modified previously completed five-minute MP4")
+    print(f"PASS: continuous 900-second H.264/AAC 1080p video, 27000 frames "
+          f"encoded in {time.monotonic()-started:.1f}s on disposable Windows runner; "
+          f"earlier 5-minute video preserved byte-for-byte",flush=True)
+
 def main():
     exe=Path(os.environ["MMMN_RELEASE_INSTALLED_EXE"])
     assert exe.is_file(),"Published EXE not installed"
@@ -349,7 +362,7 @@ def main():
         combine_book(app,ffprobe,hashes)
         verify_export_presets(app,ffprobe)
         verify_full_hd_multi_scene_and_cancel(app,ffprobe)
-    print("WINDOWS 0.14.4 PUBLISHED-BINARY LONGFORM + FOUR-PRESET + 5-MINUTE-FULL-HD QA PASS",flush=True)
+    print("WINDOWS 0.14.4 PUBLISHED-BINARY LONGFORM + FOUR-PRESET + 15-MINUTE-FULL-HD QA PASS",flush=True)
 
 if __name__=="__main__":
     main()
