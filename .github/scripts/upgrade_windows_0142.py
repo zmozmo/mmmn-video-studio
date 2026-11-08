@@ -100,5 +100,14 @@ class StorageSafety(unittest.TestCase):
         self.assertEqual(info['totalBytes'],1000)
 if __name__=='__main__':unittest.main()
 '''
+# The release contract uses regex literals such as 0\.14\.1; updating plain
+# version strings alone leaves old assertions and fails the strict CI gate.
+gate=root/'tests'/'windows-final-artifact-gate.test.mjs'
+old=gate.read_text(encoding='utf-8')
+if r'0\.14\.1' not in old:
+    raise ValueError("Cannot locate 0.14.1 Windows artifact regex witness")
+gate.write_text(old.replace(r'0\.14\.1',r'0\.14\.2'),encoding='utf-8')
+print("WINDOWS STRICT REGEX RELEASE WITNESS 0.14.2",flush=True)
+
 (root/'tests'/'windows_storage_capacity_test.py').write_text(tests,encoding='utf-8')
 print("WINDOWS 0.14.2 UPGRADE AND 5 SAFETY TESTS READY",flush=True)
