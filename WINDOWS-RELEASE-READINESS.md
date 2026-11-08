@@ -19,6 +19,8 @@ Date: 8 November 2026 · Android paused · No download or local user-machine act
 | Windows 0.14.5 exact tested EXE published without rebuild | [42499285203](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499285203) | PASS |
 | 0.14.5 downloaded public EXE independent upgrade/UI/backup/security/uninstall | [42499308041](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499308041) | PASS |
 | **90-minute continuous Full HD MP4, 162,000 frames, intact source and recovery** | [42499519584](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499519584) — 90m job | PASS |
+| **120-minute continuous Full HD MP4, 216,000 frames, intact source and recovery** | [42499519584](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499519584) — 120m job | PASS |
+| 60 distinct pictures / 59 dissolves, 15-minute Full HD, 61-file recovery snapshot | [42499523807](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499523807) | PASS |
 | Native Windows Build A/B → Install → Upgrade → Render → Uninstall | [42478959788](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42478959788) | PASS |
 | Publish exact tested EXE bytes without rebuild | [42479446166](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42479446166) | PASS |
 | Real published EXE 0.14.0→0.14.4 upgrade, Edge UI, backup/restore, API security and uninstall | [42479467429](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42479467429) | PASS |
@@ -38,12 +40,13 @@ The complete narrated MMMN novel lasts **no more than 90 minutes**. A six-to-eig
 - **Safety headroom:** test **120 minutes** (216,000 video frames) to allow introduction/outro, audio pauses and future changes; this is a resilience goal, not a new user requirement.
 - **Acceptance checks:** full video/audio duration, actual decoded frame count, output integrity, original narration and prior MP4 unchanged, progress/cancel/retry, available disk space, backup/restore and recovery after interruption.
 - **Currently verified:** continuous **90-minute Full HD MP4, 162,000 frames**, exact published Windows **0.14.5** EXE ([90-minute QA PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499519584)); media and full snapshot SHA-256 intact.
-- **Not yet verified:** 120-minute optional headroom and the owner's personal Windows 11 laptop. Do not claim these have passed before separate confirmation.
+- **Verified:** 120-minute optional headroom (**216,000 frames**), 60-distinct-scene storyboard and 59 dissolves, all on independently installed Windows 0.14.5 public EXE.
+- **Not yet verified:** the owner's own Windows 11 laptop, real novel narration/photos, and full variety of third-party media codecs.
 
 ## Conditions still not verified
 
 - User's actual Windows 11 HP laptop hardware and Windows security warnings: **not tested**.
-- Over-90-minute optional output and low-memory/low-battery behavior on the user's personal Windows laptop: **not fully tested**.
+- Long duration output up to 120 minutes **passed on hosted Windows**, but low-memory/low-battery behavior on the user's personal laptop remains untested.
 - Full variety of customer-supplied audio/image/video codecs and damaged real files: **not exhaustively tested**.
 - Installer is **unsigned**. SmartScreen may display an unknown publisher warning; adding a genuine code signature requires a recognized signing solution.
 - Full backup is local by default. The user must copy a verified complete snapshot directory to another physical drive to withstand disk loss.
