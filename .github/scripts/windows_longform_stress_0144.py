@@ -197,6 +197,107 @@ def verify_export_presets(app,ffprobe):
               f"H.264/AAC, 30frames, {duration:.2f}s",flush=True)
     print("PASS: all four public Windows full-quality MP4 export presets",flush=True)
 
+
+def make_short_wav(seconds):
+    """Synthetic silence at 16kHz. Never uses real/private narration."""
+    import io
+    stream=io.BytesIO()
+    with wave.open(stream,"wb") as output:
+        output.setnchannels(1)
+        output.setsampwidth(2)
+        output.setframerate(16000)
+        for _ in range(seconds):
+            output.writeframesraw(b"\0\0"*16000)
+    return stream.getvalue()
+
+def verify_full_hd_multi_scene_and_cancel(app,ffprobe):
+    """A real 45s HD multi-scene MP4, cross-dissolve, cancel and retry.
+
+    15-minute WAV IMPORT alone is not a long MP4 render. This explicitly
+    tests encoded video durations, frame totals, and cancellation cleanup.
+    """
+    from urllib.error import HTTPError
+    audio_id="long-hd-audio-qa0144"
+    photo_id="long-hd-photo-qa0144"
+    app.upload(audio_id,"wav",make_short_wav(45))
+    app.upload(photo_id,"png",fixture.PNG)
+
+    def begin(chapter,seconds,transition):
+        scenes=[
+            {"assetId":photo_id,"ext":"png","duration":seconds/3,
+             "motion":"still"} for _ in range(3)
+        ]
+        return app.api("start_render_job",{
+            "chapterNumber":chapter,"sourceVideoId":audio_id,
+            "sourceVideoExt":"wav","scenes":scenes,"preset":"youtube",
+            "recordedSeconds":seconds,"transitionMode":transition,
+            "quality":"full",
+        })
+
+    def finish(job,limit=270):
+        deadline=time.monotonic()+limit
+        while time.monotonic()<deadline:
+            state=app.api("get_render_job_status",{"id":job["id"]})
+            if state["status"] in ("complete","cancelled","failed"):
+                return state
+            time.sleep(.5)
+        app.api("cancel_render_job",{"id":job["id"]})
+        raise TimeoutError("45sec Full HD encode or cancellation exceeded deadline")
+
+    def check_video(result,expected_frames,expected_seconds,label):
+        assert result["status"]=="complete",f"{label}: {result}"
+        out=Path(result["output"])
+        assert out.is_file() and out.stat().st_size>1024,f"{label} missing MP4"
+        proc=subprocess.run([str(ffprobe),"-v","error","-count_frames",
+            "-show_entries","stream=codec_type,codec_name,width,height,nb_read_frames:format=duration",
+            "-of","json",str(out)],check=True,capture_output=True,text=True,timeout=120)
+        info=json.loads(proc.stdout)
+        streams={s["codec_type"]:s for s in info["streams"]}
+        video=streams["video"]
+        frames=int(video["nb_read_frames"])
+        duration=float(info["format"]["duration"])
+        assert (video["width"],video["height"])==(1920,1080),f"{label}: wrong resolution"
+        assert video["codec_name"]=="h264" and streams["audio"]["codec_name"]=="aac"
+        assert frames==expected_frames,f"{label}: missing video frames {frames}/{expected_frames}"
+        assert abs(duration-expected_seconds)<.3,f"{label}: {duration} versus {expected_seconds}"
+        print(f"PASS: {label}, {frames} Full HD frames, {duration:.3f}s, H.264/AAC",flush=True)
+        return out
+
+    first=finish(begin(70,45,"cut"))
+    first_path=check_video(first,1350,45,"45-second 3-scene full-quality 1080p hard-cut MP4")
+    before=sha(first_path)
+    # Repeat to exercise the persistent reproducible scene cache; original must
+    # remain byte-identical across later app actions, not necessarily new output.
+    second=finish(begin(71,45,"cut"))
+    check_video(second,1350,45,"45-second 3-scene repeated MP4/cache path")
+    assert sha(first_path)==before,"Previous export modified on repeat render"
+
+    # Transition makes different frame accounting than cuts. Full HD, 3 scenes.
+    # Use 9 seconds for a fast transition test with a distinct chapter.
+    dissolve=finish(begin(72,9,"dissolve"),limit=150)
+    check_video(dissolve,270,9,"9-second Full HD multi-scene dissolve MP4")
+
+    # Begin 45s render and immediately request cancel. No stale active job or
+    # partially-published final MP4 may be left behind.
+    current=begin(73,45,"cut")
+    try:
+        begin(74,45,"cut")
+    except HTTPError as exc:
+        assert exc.code in (400,409,422),f"Concurrent render returned {exc.code}"
+    else:
+        raise AssertionError("Second full-HD render unexpectedly started concurrently")
+    app.api("cancel_render_job",{"id":current["id"]})
+    state=finish(current,limit=90)
+    assert state["status"]=="cancelled",f"Cancel did not stop export safely: {state}"
+    assert state.get("output") is None,"Cancelled render published an output path"
+    assert sha(first_path)==before,"Cancelled render corrupted an earlier MP4"
+    print("PASS: concurrent export blocked; cancel stopped FFmpeg; prior MP4 intact",flush=True)
+
+    # Cancellation must not wedge the worker or prevent a subsequent export.
+    recovery=finish(begin(75,3,"cut"),limit=120)
+    check_video(recovery,90,3,"retry after cancellation")
+    print("PASS: multi-minute-style export lifecycle: encode, cache, dissolve, cancel, retry",flush=True)
+
 def main():
     exe=Path(os.environ["MMMN_RELEASE_INSTALLED_EXE"])
     assert exe.is_file(),"Published EXE not installed"
@@ -209,7 +310,8 @@ def main():
         ffprobe,hashes=make_chapter_mp4s(exe)
         combine_book(app,ffprobe,hashes)
         verify_export_presets(app,ffprobe)
-    print("WINDOWS 0.14.4 PUBLISHED-BINARY LONGFORM + FOUR-PRESET QA PASS",flush=True)
+        verify_full_hd_multi_scene_and_cancel(app,ffprobe)
+    print("WINDOWS 0.14.4 PUBLISHED-BINARY LONGFORM + FOUR-PRESET + 45S-1080P-RENDER QA PASS",flush=True)
 
 if __name__=="__main__":
     main()
