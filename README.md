@@ -14,4 +14,6 @@ SHA-256: `db57d26241c19c9a2629f959245fa0ecb74c86d5a9bbfe04df8031cfe5da6830`
 
 **Additional [long-form published EXE test PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42491529466):** 15-minute WAV (28,800,044 bytes) streamed with per-chunk integrity, full backup/restore, and 3 H.264/AAC two-second chapters combined to one 180-frame, 6.023-second MP4. [QA addendum](downloads/WINDOWS-0144-LONGFORM-VERIFIED.txt).
 
+**All four full-quality MP4 export presets PASS:** [Independent public EXE Windows QA 42491917768](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42491917768): YouTube 1920×1080, TikTok 1080×1920, Facebook 1080×1350, Square 1080×1080; H.264/AAC, 30fps, each one-second synthetic clip. [Complete QA addendum](downloads/WINDOWS-0144-LONGFORM-VERIFIED.txt).
+
 **Windows SmartScreen may warn (unsigned).** Actual user's laptop not tested, Android paused. No mandatory subscription or cloud API.

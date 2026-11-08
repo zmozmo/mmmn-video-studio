@@ -20,3 +20,14 @@ Scope: synthetic private-free data only. 15-minute WAV input is NOT proof
 of hours-long encoded MP4 or all real-world device/codec combinations.
 No source/executable rebuild was made during this QA.
 Owner's real laptop has not been tested; installer remains unsigned.
+
+FOUR FULL-QUALITY MP4 PRESETS ON EXACT PUBLIC EXE — PASS
+Run: https://github.com/zmozmo/mmmn-video-studio/actions/runs/42491917768
+YouTube: 1920x1080, 30 frames, 1.00s, H.264/AAC: PASS
+TikTok / Shorts: 1080x1920, 30 frames, 1.00s, H.264/AAC: PASS
+Facebook: 1080x1350, 30 frames, 1.00s, H.264/AAC: PASS
+Square: 1080x1080, 30 frames, 1.00s, H.264/AAC: PASS
+Repeated 15-minute WAV streaming, full backup/restore and three-chapter MP4
+merge in the same exact public installer test: PASS
+These four full-size video encodes are 1-second synthetic fixtures; not proof
+of hours-long 1080p editing or export on the user's Windows laptop.
