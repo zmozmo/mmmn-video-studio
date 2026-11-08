@@ -32,7 +32,7 @@
 
 [Published Windows EXE four-format export — PASS, Run 42491917768](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42491917768). With a synthetic 1-second WAV and PNG, the exact installed 0.14.4 EXE rendered and FFprobe-validated **YouTube 1920×1080**, **TikTok/Shorts 1080×1920**, **Facebook 1080×1350**, and **Square 1080×1080**. Every file was H.264 video / AAC audio at **30 fps (30 frames)**. The same run independently repeated the 15-minute WAV import/backup/restore and three-chapter MP4 merge. These tests validate all four output paths at full resolution, not hours of 1080p encoding.
 
-## Limitations
+## Final extended Windows acceptance
 
 **Final extended Windows 0.14.4 QA:** [Exact published installer Run 42492649641 — PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42492649641). Verified two 45-second 1920×1080 three-scene H.264/AAC MP4 renders with **1,350 full-HD frames each**, 9-second three-scene cross-dissolve (**270 frames**), rejection of simultaneous export, safe cancellation without corrupting previous MP4, retry after cancel (**90 frames**), and SHA-256-verified full-media snapshot copy to a separate synthetic external-drive folder, simulated local snapshot loss, copy-back and verification. The 15-minute synthetic narration, 3-chapter merge and four platform export presets passed again. This simulation does not prove real USB hardware or hour-long encoding.
 
