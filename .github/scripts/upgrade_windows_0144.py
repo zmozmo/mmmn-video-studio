@@ -38,9 +38,7 @@ replace('portable/studio_server.py',
         if path.is_file():""")
 replace('portable/studio_server.py',
     """        os.replace(stage, path)
-        return None
-
-    def project_storage_info""",
+        return None""",
     """        stage = self.root / f'project-state.pending-{secrets.token_hex(12)}.json'
         try:
             # Exclusive create is required: never follow an existing link or
@@ -52,9 +50,7 @@ replace('portable/studio_server.py',
             os.replace(stage, path)
         finally:
             stage.unlink(missing_ok=True)
-        return None
-
-    def project_storage_info""")
+        return None""")
 
 # Do not read a forged import metadata symlink or convert a partial symlink
 # into an imported media asset. A Windows rename refuses target collisions,
