@@ -24,6 +24,10 @@
 
 [Direct public verified executable](https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0144/downloads/MMMN-Video-Studio-Setup-0.14.4.exe) · [Independent QA receipt](https://github.com/zmozmo/mmmn-video-studio/blob/windows-binaries-0144/downloads/WINDOWS-0144-ACCEPTANCE-VERIFIED.txt)
 
+## Additional published-installer long-form QA
+
+[Independent long-form WAV and three-chapter merge — PASS, Run 42491529466](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42491529466). The already published 0.14.4 EXE was downloaded unchanged and installed on a disposable Windows runner. A synthetic **15-minute WAV (28,800,044 bytes)** was imported in SHA-256-verified chunks; a full backup was verified and restored with original bytes and manuscript intact; three two-second H.264/AAC chapters were encoded with packaged FFmpeg and combined into one **6.023-second, 180-frame** full-book MP4 without altering the originals. This establishes the tested streaming and merge path, not hours-long MP4 encoding on the owner's laptop.
+
 ## Limitations
 
 Windows native and published-binary acceptance tests passed on GitHub-hosted disposable Windows machines only. The user's own laptop was not tested or touched. Installer is unsigned and may raise SmartScreen warning. The app requires no paid AI API, subscription or online server to edit and render locally; there is no automatic Google Drive sync, external-drive backup copy, or mandatory Burmese transcription model. The user should separately copy a verified full backup to an external drive. No private real manuscripts, voice recordings or images were published.
