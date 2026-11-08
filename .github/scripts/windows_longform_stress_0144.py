@@ -8,6 +8,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import time
 import wave
@@ -84,6 +85,26 @@ def backup_restore_long_wav(app,digest):
     assert sha(fixture.DATA/"media"/f"{new_id}.wav")==digest
     assert sha(oldfile)==digest and app.api("verify_local_backup",{"id":snap["id"]})["verified"]
     print("PASS: large full-media backup, real restore, original WAV and metadata intact",flush=True)
+
+    # Exercise an Explorer-style external copy and copy-back, without using
+    # shell commands or touching user data. This is a SECOND synthetic folder,
+    # NOT a guarantee of physical removable-USB media reliability.
+    source=fixture.DATA/"snapshots"/snap["id"]
+    external=ROOT/"simulated-external-drive"/snap["id"]
+    shutil.copytree(source,external)
+    contents=[x for x in source.rglob("*") if x.is_file()]
+    assert len(contents)>=3
+    for original_file in contents:
+        relative=original_file.relative_to(source)
+        assert sha(external/relative)==sha(original_file),(
+            "External copy changed synthetic backup byte content")
+    shutil.rmtree(source)
+    assert not source.exists(),"Test did not remove simulated local snapshot"
+    shutil.copytree(external,source)
+    assert app.api("verify_local_backup",{"id":snap["id"]})["verified"]
+    assert sha(source/"media"/f"{MEDIA_ID}.wav")==digest
+    print("PASS: simulated external-folder backup copy, local loss, copy-back and SHA-256 verification",flush=True)
+
 
 def make_chapter_mp4s(exe):
     found=[p for p in exe.parent.rglob("ffmpeg.exe") if p.parent.name.lower()=="bin"]
