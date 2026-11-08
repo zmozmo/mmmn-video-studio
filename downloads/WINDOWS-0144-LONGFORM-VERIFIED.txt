@@ -52,3 +52,16 @@ Original EXE SHA-256 unchanged: db57d26241c19c9a2629f959245fa0ecb74c86d5a9bbfe04
 Real hardware external USB and user's own Windows laptop are NOT tested.
 An actual 15-minute/1-hour VIDEO encode is NOT certified here.
 Code signing is not present. No private media ever uploaded.
+
+FINAL FIVE-MINUTE REAL ENCODE ACCEPTANCE — PASS
+Windows native published EXE SHA-256: db57d26241c19c9a2629f959245fa0ecb74c86d5a9bbfe04df8031cfe5da6830
+Run: https://github.com/zmozmo/mmmn-video-studio/actions/runs/42493062578
+FULL quality YouTube 1920 x 1080 H.264/AAC, 30 fps: PASS
+Continuous MP4 duration: 300.000 seconds (5:00): PASS
+Source scene count: 6; total verified video frames: 9,000: PASS
+FFmpeg encoding wall time on GitHub Windows runner: 45.9 seconds
+The long WAV import, snapshot backup/copy/restore, 3-chapter merge, four
+export presets, 45-second repeated render, dissolve and cancel/retry also PASS.
+CAUTION: Hosted runner timing cannot predict user's laptop speed.
+No physical USB hardware or personal source files were used. This does not
+certify hour-long MP4 encoding or every third-party codec.

@@ -18,4 +18,6 @@ SHA-256: `db57d26241c19c9a2629f959245fa0ecb74c86d5a9bbfe04df8031cfe5da6830`
 
 **Final [extended native published-binary stress QA PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42492649641):** 45 seconds of actual 1080p video at 30fps, same export twice, 9s 1080p dissolve, cancel/retry, simulated USB-style backup copy/loss/restore with SHA-256. [Full receipt](downloads/WINDOWS-0144-LONGFORM-VERIFIED.txt).
 
+**[Five-minute full-HD MP4 exported and independently inspected — PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42493062578).** 300.000s, 1920×1080, six scenes, 30fps / **9,000 frames**, H.264/AAC; hosted Windows runner encoded in **45.9s**. This is not an owner-laptop performance estimate.
+
 **Windows SmartScreen may warn (unsigned).** Owner's actual laptop remains untested, Android paused. No mandatory subscription or cloud API.
