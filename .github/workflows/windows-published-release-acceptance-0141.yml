@@ -39,6 +39,26 @@ jobs:
             throw 'Public installer integrity mismatch: refusal to execute'
           }
           Write-Host "Direct public released installer checksum verified: $actual"
+      - name: Install EXACT prior stable Windows 0.14.0 and create real local app data through its API
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force legacy | Out-Null
+          gh release download 'v0.14.0' -R $env:GITHUB_REPOSITORY -D legacy -p 'MMMN-Video-Studio-Setup-0.14.0.exe*'
+          if ($LASTEXITCODE -ne 0) { throw 'Could not download the actual previous stable Windows release' }
+          $legacy='legacy/MMMN-Video-Studio-Setup-0.14.0.exe'
+          $actual=(Get-FileHash $legacy -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($actual -ne 'd1b1908cd078d140713f923c33ccb5c2d4c8abe2f4042cfef982a3aaa21c462f') {
+            throw 'Previous stable Windows installer digest mismatch'
+          }
+          $p=Start-Process -FilePath (Resolve-Path $legacy) -ArgumentList '/S' -Wait -PassThru
+          if ($p.ExitCode -ne 0) { throw "Previous stable installer failed: $($p.ExitCode)" }
+          $exe=Join-Path $env:LOCALAPPDATA 'Programs/MMMN Video Studio/MMMN-Video-Studio.exe'
+          if (!(Test-Path $exe)) { throw 'Previous Windows release did not install' }
+          $testRoot=Join-Path $env:RUNNER_TEMP 'mmmn-legacy-0140-to-0141'
+          "MMMN_UPGRADE_TEST_ROOT=$testRoot" >> $env:GITHUB_ENV
+          $env:MMMN_UPGRADE_TEST_ROOT=$testRoot
+          python .github/scripts/windows_upgrade_0140_to_0141.py before --exe "$exe"
+          if ($LASTEXITCODE -ne 0) { throw 'Could not save real legacy manuscript, WAV, PNG and backup via previous installed app' }
       - name: Install published setup.exe silently into ephemeral Windows runner user profile
         shell: pwsh
         run: |
@@ -49,6 +69,8 @@ jobs:
           "MMMN_RELEASE_INSTALLED_EXE=$exe" >> $env:GITHUB_ENV
           & $exe --self-test
           if ($LASTEXITCODE -ne 0) { throw 'Installed executable failed real FFmpeg self-test' }
+          python .github/scripts/windows_upgrade_0140_to_0141.py after --exe "$exe"
+          if ($LASTEXITCODE -ne 0) { throw 'REAL 0.14.0 to 0.14.1 upgrade changed original user data or backup bytes' }
       - name: Independent real installed UI, narration upload, save/reload, and backup QA
         shell: pwsh
         run: |
