@@ -26,6 +26,16 @@ Date: 8 November 2026 · Android paused · No download or local user-machine act
 
 The native build includes 129 Python tests plus the JavaScript suite. Long-form QA verified 28,800,044 WAV bytes and a 6.023-second / 180-frame chapter-concatenation output. These are distinct workloads. **A 15-minute recording import is not the same as a 15-minute video render.** All four platform presets were exercised with 1-second full-resolution synthetic exports, not an hour-long final MP4.
 
+## Actual novel-length acceptance target (owner clarification, 2026-11-08)
+
+The complete narrated MMMN novel lasts **no more than 90 minutes**. A six-to-eight-hour video was an incorrect assumption and is **not a release requirement**.
+
+- **Primary real-novel target:** one complete 90-minute 1920×1080 H.264/AAC MP4, 30fps / **162,000 video frames**. Chapter-by-chapter MP4 production and combining must remain optional.
+- **Safety headroom:** test **120 minutes** (216,000 video frames) to allow introduction/outro, audio pauses and future changes; this is a resilience goal, not a new user requirement.
+- **Acceptance checks:** full video/audio duration, actual decoded frame count, output integrity, original narration and prior MP4 unchanged, progress/cancel/retry, available disk space, backup/restore and recovery after interruption.
+- **Currently verified:** continuous 15-minute MP4, 27,000 frames on published Windows 0.14.4 EXE ([QA](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42493702496)).
+- **Not yet verified:** a continuous 90-minute or 120-minute MP4 on the published EXE and the owner's personal Windows 11 laptop. Do not claim these have passed before the corresponding runs succeed.
+
 ## Conditions still not verified
 
 - User's actual Windows 11 HP laptop hardware and Windows security warnings: **not tested**.
