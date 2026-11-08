@@ -16,6 +16,7 @@ def main():
         roots=list((scratch/"src").rglob("portable/studio_server.py"))
         if len(roots)!=1: raise RuntimeError("Cannot find source server: "+str(roots))
         root=roots[0].parent.parent
+        subprocess.run([sys.executable, str(pathlib.Path(os.environ['GITHUB_WORKSPACE'])/'.github/scripts/fix_windows_mime.py'),str(root)],check=True)
         port=port_number()
         host=f"http://127.0.0.1:{port}"
         env=dict(os.environ,MMMN_TRIAL_PORT=str(port),MMMN_TRIAL_DATA_DIR=str(scratch/"data"),MMMN_NO_BROWSER="1",NO_PROXY="127.0.0.1,localhost")
