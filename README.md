@@ -16,8 +16,6 @@ SHA-256: `db57d26241c19c9a2629f959245fa0ecb74c86d5a9bbfe04df8031cfe5da6830`
 
 **All four full-quality MP4 export presets PASS:** [Independent public EXE Windows QA 42491917768](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42491917768): YouTube 1920×1080, TikTok 1080×1920, Facebook 1080×1350, Square 1080×1080; H.264/AAC, 30fps, each one-second synthetic clip. [Complete QA addendum](downloads/WINDOWS-0144-LONGFORM-VERIFIED.txt).
 
-**Windows SmartScreen may warn (unsigned).**
-
 **Final [extended native published-binary stress QA PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42492649641):** 45 seconds of actual 1080p video at 30fps, same export twice, 9s 1080p dissolve, cancel/retry, simulated USB-style backup copy/loss/restore with SHA-256. [Full receipt](downloads/WINDOWS-0144-LONGFORM-VERIFIED.txt).
 
- Actual user's laptop not tested, Android paused. No mandatory subscription or cloud API.
+**Windows SmartScreen may warn (unsigned).** Owner's actual laptop remains untested, Android paused. No mandatory subscription or cloud API.
