@@ -33,6 +33,8 @@ There is no requirement for VS Code, CMD, Python/Node.js installation, source ZI
 | 0.14.5 exact byte-for-byte setup.exe publication | **PASS** | [Run 42499285203](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499285203) |
 | 0.14.5 independent public-EXE install, UI, backup, security and uninstall | **PASS** | [Run 42499308041](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499308041) |
 | **0.14.5 continuous 90-minute full-HD MP4, 162,000 frames, verified WAV and backup** | **PASS** | [90-minute job, Run 42499519584](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499519584) |
+| **0.14.5 continuous 120-minute full-HD MP4, 216,000 frames, verified WAV and backup** | **PASS** | [120-minute job, Run 42499519584](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499519584) |
+| 0.14.5: 60 different images, 59 dissolves, 15-minute 1080p MP4 and complete media snapshot | **PASS** | [Run 42499523807](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499523807) |
 | Native Windows 0.14.4 Build A/B, install and in-place upgrade | **PASS** | [Run 42478959788](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42478959788) |
 | Bundled offline FFmpeg MP4, real Edge UI and preserved project/media checksums | **PASS** | [Same native run](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42478959788) |
 | Published the exact tested EXE, no binary rebuild | **PASS** | [Run 42479446166](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42479446166) |
@@ -42,6 +44,8 @@ There is no requirement for VS Code, CMD, Python/Node.js installation, source ZI
 | Extended original EXE: 45-second 1080p ×2, cross-dissolve, cancel/retry, synthetic external-folder backup copy and recovery | **PASS** | [Run 42492649641](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42492649641) |
 | Continuous 5-minute H.264/AAC 1080p MP4, 6 scenes and 9,000 checked frames | **PASS** | [Run 42493062578](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42493062578) |
 | Continuous 15-minute H.264/AAC 1080p MP4, 6 scenes and 27,000 checked frames | **PASS** | [Run 42493702496](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42493702496) |
+
+The older 0.14.4 native suite recorded **129 Python tests** plus JavaScript tests. Windows 0.14.5 adds seven length-aware full-frame verification regressions and retains atomic save/import regression coverage. The new published EXE passed **90-minute and 120-minute** real encoded H.264/AAC MP4 checks with 162,000 and 216,000 frames, plus 60 distinct storyboard pictures/59 fades. The original 0.14.4 publication remains available for history but has a known full-novel timeout bug.
 
 The full native release check recorded **129 Python tests** along with the JavaScript suite. A separate published-binary long-form stress run imported **28,800,044 bytes** of synthetic WAV (15 minutes), verified full snapshot and recovery, and combined three two-second H.264/AAC chapters into an **180-frame, 6.023-second** MP4 while preserving all original chapter checksums. The separately downloaded published-EXE acceptance also passed. These tests certify the hosted Windows test environment and tested paths, **not every codec or PC, and not the owner's laptop**. The four export presets were checked with **one-second synthetic clips**, not hours of 1080p rendering.
 
