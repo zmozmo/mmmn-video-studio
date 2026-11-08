@@ -1,10 +1,6 @@
 name: Windows 0.14.5 Complete Novel 90m and 120m MP4 QA
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/windows-novel-length-acceptance-0145.yml'
   workflow_run:
     workflows: ["Independently QA Released Windows 0.14.5 Direct Setup EXE"]
     types: [completed]
@@ -16,7 +12,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   full-novel-windows:
-    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.repository.full_name == github.repository) }}
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.repository.full_name == github.repository) }}
     name: Full novel ${{ matrix.minutes }}min 1080p (${{ matrix.frames }} frames)
     runs-on: windows-latest
     timeout-minutes: 55
