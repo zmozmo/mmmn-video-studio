@@ -1,16 +1,16 @@
 # MMMN Video Studio — Windows အတွက် စတင်အသုံးပြုနည်း
 
-**Version:** 0.14.4 · **Windows 11 x64** · **Offline-first** · **Android ကို ခဏရပ်ထားသည်**
+**Version:** 0.14.5 · **Windows 11 x64** · **Offline-first** · **Android ကို ခဏရပ်ထားသည်**
 
 > ဒီစာမျက်နှာက အက်ပ်ကို တကယ် install စမ်းသုံးဖို့ အဆင်သင့်ဖြစ်တဲ့အခါ အသုံးပြုရန်ပါ။ ကိုယ်ပိုင် Windows Laptop မှာ ChatGPT က အခုထိ install မလုပ်ထားပါ။
 
 ## ၁။ Setup.exe တစ်ဖိုင်တည်းနဲ့ စတင်ခြင်း
 
-[Windows Setup.exe — MMMN Video Studio 0.14.4](https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0144/downloads/MMMN-Video-Studio-Setup-0.14.4.exe)
+[Windows Setup.exe — MMMN Video Studio 0.14.5](https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0145/downloads/MMMN-Video-Studio-Setup-0.14.5.exe)
 
-- ဖိုင်အမည် — `MMMN-Video-Studio-Setup-0.14.4.exe`
-- အရွယ်အစား — **64,855,430 bytes**
-- SHA-256 — `db57d26241c19c9a2629f959245fa0ecb74c86d5a9bbfe04df8031cfe5da6830`
+- ဖိုင်အမည် — `MMMN-Video-Studio-Setup-0.14.5.exe`
+- အရွယ်အစား — **64,844,005 bytes**
+- SHA-256 — `3afb835da0c14c7b3da761e07b479c15a3956ee97efb771b450467d2f529f274`
 - VS Code၊ CMD၊ Source ZIP၊ Python၊ Node.js၊ Paid AI API **မလိုပါ**။
 
 Windows SmartScreen မှာ **Unknown Publisher** လို့ ပေါ်နိုင်ပါတယ်။ Installer ကို Digital Code Sign မလုပ်ထားသေးတာကြောင့်ပါ။ မသေချာတဲ့ Installer ကို လုံခြုံရေးပိတ်ပြီး အတင်းမဖွင့်ပါနဲ့။ GitHub Release Branch မှာရှိတဲ့ ဖိုင်နဲ့ SHA-256 ကို စစ်ပြီး ယုံကြည်မှသာ ဆက်လုပ်ပါ။
@@ -46,8 +46,8 @@ Video Encoding **H.264**, Audio **AAC**, **30 fps** ဖြစ်ပါတယ်�
 - **အဓိကပန်းတိုင်:** ၉၀ မိနစ်စာ 1920×1080 H.264/AAC MP4 (30 fps၊ 162,000 frames)။
 - **အပိုခံနိုင်ရည်:** Intro/Outro နှင့် အချိန်ပိုအတွက် ၂ နာရီအထိ စမ်းသပ်ရန် (216,000 frames)။
 - ဝတ္ထုတစ်ပုဒ်ကို MP4 **တစ်ခုတည်း** ထုတ်နိုင်ဖို့ ဦးစားပေးပြီး အခန်းလိုက်ထုတ်/ပြန်ပေါင်းတာကို ရွေးချယ်စရာအဖြစ် ထားပါမယ်။
-- **လက်ရှိ အတည်ပြုပြီးသားအဆင့်:** ၁၅ မိနစ်ကြာ Full HD Video၊ 27,000 frames — [GitHub QA PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42493702496)။
-- **၉၀ မိနစ်နဲ့ ၂ နာရီ Full HD Video စမ်းသပ်မှုကို မအတည်ပြုရသေးပါ။** ကိုယ်ပိုင် Laptop ပေါ်မှာလည်း မစမ်းရသေးပါ။
+- **လက်ရှိ အတည်ပြုပြီးသားအဆင့်:** ဝတ္ထုတစ်ပုဒ်စာ **၉၀ မိနစ် Full HD MP4 တစ်ဖိုင်တည်း**၊ 162,000 frames — [Windows 0.14.5 QA PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499519584)။
+- **၉၀ မိနစ် Full HD Video ကို အတည်ပြုပြီးပါပြီ။** ၂ နာရီ အပိုခံနိုင်ရည် Test က ဆက်စစ်နေဆဲပါ။ ကိုယ်ပိုင် Laptop ပေါ်မှာတော့ မစမ်းရသေးပါ။
 
 ## ၄။ ဝတ္ထုအခန်းတွေ ပေါင်းရန်
 
@@ -67,8 +67,8 @@ Chapter MP4 နှစ်ခု သို့မဟုတ် ထို့ထက်
 
 - Google Drive ကို အလိုအလျောက် ချိတ်ဆက်/Sync မလုပ်ပါ။ မူရင်းဝတ္ထုကို Drive ပေါ်မှာ ပြောင်းလဲမပေးပါ။
 - မြန်မာအသံမှ စာသားပြောင်းရာမှာ Offline Speech Model သီးခြားလိုနိုင်ပြီး အမှားမရှိကြောင်း မအာမခံပါ။
-- GitHub Windows Runner မှာ **၅ မိနစ်နဲ့ ၁၅ မိနစ်အပြည့် 1920×1080 Full HD MP4** ထုတ်စမ်းပြီး PASS ဖြစ်ပါတယ်။ ၁၅ မိနစ် MP4 မှာ **27,000 frames** ပါဝင်ကြောင်း စစ်ပြီးပါပြီ။ [Windows စမ်းသပ်မှု အထောက်အထား](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42493702496)။ ကိုယ်ပိုင် Laptop မှာတော့ မစမ်းရသေးပါ။
+- GitHub Windows Runner မှာ **၉၀ မိနစ်အပြည့် 1920×1080 Full HD MP4** ကို **162,000 frames** စစ်ပြီး PASS ဖြစ်ပါတယ်။ ၅ မိနစ်နဲ့ ၁၅ မိနစ် Test တွေလည်း PASS ဖြစ်ပါတယ်။ [Windows စမ်းသပ်မှု အထောက်အထား](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42493702496)။ ကိုယ်ပိုင် Laptop မှာတော့ မစမ်းရသေးပါ။
 - Installer Digital Signature မရှိသေးပါ။ Windows SmartScreen က Warning ပြနိုင်ပါတယ်။
 - ကိုယ်ပိုင်ဝတ္ထုမူရင်း၊ အသံ၊ ဓာတ်ပုံ၊ Password တွေကို Public GitHub Repository ထဲ မတင်ပါနဲ့။
 
-[Release Readiness Report](WINDOWS-RELEASE-READINESS.md) · [Version 0.14.4 Release Notes](WINDOWS-0144-RELEASE-NOTES.md)
+[Release Readiness Report](WINDOWS-RELEASE-READINESS.md) · [Version 0.14.5 Release Notes](WINDOWS-0145-RELEASE-NOTES.md)
