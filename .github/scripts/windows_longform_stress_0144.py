@@ -251,9 +251,10 @@ def verify_full_hd_multi_scene_and_cancel(app,ffprobe):
             unique_id=f"long-hd-audio-{seconds}-qa0144"
             app.upload(unique_id,"wav",make_short_wav(seconds))
             available_audio[seconds]=unique_id
+        scene_count=6 if seconds>=300 else 3
         scenes=[
-            {"assetId":photo_id,"ext":"png","duration":seconds/3,
-             "motion":"still"} for _ in range(3)
+            {"assetId":photo_id,"ext":"png","duration":seconds/scene_count,
+             "motion":"still"} for _ in range(scene_count)
         ]
         return app.api("start_render_job",{
             "chapterNumber":chapter,"sourceVideoId":available_audio[seconds],
@@ -324,7 +325,16 @@ def verify_full_hd_multi_scene_and_cancel(app,ffprobe):
     # Cancellation must not wedge the worker or prevent a subsequent export.
     recovery=finish(begin(75,3,"cut"),limit=120)
     check_video(recovery,90,3,"retry after cancellation")
-    print("PASS: multi-minute-style export lifecycle: encode, cache, dissolve, cancel, retry",flush=True)
+    print("PASS: multi-scene export lifecycle: encode, cache, dissolve, cancel, retry",flush=True)
+
+    # Core production-style stress: not just a 15-minute WAV IMPORT or
+    # a one-second MP4. Actually encode a continuous 5-MINUTE FULL HD MP4
+    # with six scenes and 30fps/9,000 verified frames using packaged FFmpeg.
+    started=time.monotonic()
+    five_minutes=finish(begin(76,300,"cut"),limit=600)
+    check_video(five_minutes,9000,300,"5-minute 1080p six-scene offline MP4")
+    print(f"PASS: continuous 300-second real 1080p export encoded in "
+          f"{time.monotonic()-started:.1f}s on disposable Windows runner",flush=True)
 
 def main():
     exe=Path(os.environ["MMMN_RELEASE_INSTALLED_EXE"])
@@ -339,7 +349,7 @@ def main():
         combine_book(app,ffprobe,hashes)
         verify_export_presets(app,ffprobe)
         verify_full_hd_multi_scene_and_cancel(app,ffprobe)
-    print("WINDOWS 0.14.4 PUBLISHED-BINARY LONGFORM + FOUR-PRESET + 45S-1080P-RENDER QA PASS",flush=True)
+    print("WINDOWS 0.14.4 PUBLISHED-BINARY LONGFORM + FOUR-PRESET + 5-MINUTE-FULL-HD QA PASS",flush=True)
 
 if __name__=="__main__":
     main()
