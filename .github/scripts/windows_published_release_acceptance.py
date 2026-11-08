@@ -159,6 +159,18 @@ def run():
                         assert snapshots and projectfile.is_file() and stored[0].is_file()
                         print("PASS: UI full-media backup COMPLETED and preserved project/audio",flush=True)
 
+                        # A saved folder is not enough: the app must independently
+                        # verify the backup hashes through its user-facing control.
+                        page.locator('[data-action="verify-native-backup"]').click()
+                        deadline=time.monotonic()+35
+                        while time.monotonic()<deadline:
+                            if any("Backup VERIFIED:" in msg for msg in dialogs):break
+                            if any("Backup verification FAILED" in msg for msg in dialogs):
+                                raise AssertionError("Native SHA-256 backup verification failed: "+str(dialogs))
+                            page.wait_for_timeout(250)
+                        else:raise AssertionError("UI backup SHA-256 verification never completed: "+str(dialogs))
+                        print("PASS: user-facing full backup SHA-256 verification",flush=True)
+
                         # The app must not silently make outbound web requests during core use.
                         # blob:/data: URLs are local in-memory browser media, not network.
                         assert not outbounds, "Offline local mode requested remote connections: "+str(outbounds[:5])
