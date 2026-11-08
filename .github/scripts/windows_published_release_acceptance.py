@@ -87,10 +87,12 @@ def run():
                     context=browser.new_context(accept_downloads=False)
                     page=context.new_page()
                     errors=[]
+                    responses=[]
                     outbounds=[]
                     page.on("pageerror",lambda err: errors.append("JS: "+str(err)[:600]))
                     page.on("console",lambda msg: errors.append("CONSOLE: "+msg.text[:600]) if msg.type=="error" else None)
                     page.on("request",lambda req: outbounds.append(req.url) if not req.url.startswith(url) else None)
+                    page.on("response",lambda res: responses.append((res.status,res.url)) if '/__api/' in res.url else None)
                     page.on("dialog",lambda dialog: dialog.accept())
                     try:
                         page.goto(url,wait_until="domcontentloaded",timeout=40000)
@@ -107,7 +109,20 @@ def run():
                         field.fill(original+"\n"+marker)
                         page.locator('[data-action="save-text"]').click()
                         projectfile=localdata/"project-state.json"
-                        expect_file_contains(projectfile,marker)
+                        try:
+                            expect_file_contains(projectfile,marker,seconds=12)
+                        except AssertionError as error:
+                            bridge=page.evaluate("""() => ({
+                                hasBridge: !!window.__TAURI__,
+                                hasInvoke: typeof window.__TAURI__?.core?.invoke,
+                                trial: window.__MMMN_TRIAL__,
+                                toast: document.querySelector('#toast')?.textContent,
+                                selected: document.querySelector('#chapter-text')?.value?.slice(-120),
+                                localStorageHasMarker: (localStorage.getItem('mmmn-studio-state')||'').includes('MMMN-ACCEPTANCE-SYNTHETIC-EDIT-2026')
+                            })""")
+                            items=[str(p.relative_to(localdata)) for p in localdata.rglob("*") if p.is_file()]
+                            raise AssertionError(f"{error}, bridge={bridge}, responses={responses[-20:]}, errors={errors[-10:]}, files={items[-20:]}")
+
                         page.reload(wait_until="domcontentloaded")
                         page.locator(".shell").wait_for(state="visible",timeout=30000)
                         page.locator('[data-tab="manuscript"]').first.click()
@@ -144,6 +159,7 @@ def run():
                         print("PASS: no outbound network request or browser runtime error",flush=True)
                         print("WINDOWS PUBLISHED RELEASE ACCEPTANCE PASS",flush=True)
                     finally:
+                        print("BACKEND API RESPONSES:",responses[-22:],flush=True)
                         print("BROWSER CONSOLE ERRORS:",errors[-12:],flush=True)
                         print("OUTBOUND REQUESTS:",outbounds[-12:],flush=True)
                         browser.close()
