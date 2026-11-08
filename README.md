@@ -33,8 +33,9 @@ There is no requirement for VS Code, CMD, Python/Node.js installation, source ZI
 | Published the exact tested EXE, no binary rebuild | **PASS** | [Run 42479446166](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42479446166) |
 | Independent runner downloads public EXE, upgrades real 0.14.0, UI/backup/security/uninstall tests | **PASS** | [Run 42479467429](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42479467429) |
 | Additional 15-minute WAV streaming, full backup/restore and 3-chapter MP4 merge on installed public EXE | **PASS** | [Run 42491529466](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42491529466) |
+| All four FULL-quality platform MP4 presets on the exact installed published EXE | **PASS** | [Run 42491917768](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42491917768) |
 
-The full native release check recorded **129 Python tests** along with the JavaScript suite. A separate published-binary long-form stress run imported **28,800,044 bytes** of synthetic WAV (15 minutes), verified full snapshot and recovery, and combined three two-second H.264/AAC chapters into an **180-frame, 6.023-second** MP4 while preserving all original chapter checksums. The separately downloaded published-EXE acceptance also passed. These tests certify the hosted Windows test environment and tested paths, **not every codec or PC, and not the owner's laptop**.
+The full native release check recorded **129 Python tests** along with the JavaScript suite. A separate published-binary long-form stress run imported **28,800,044 bytes** of synthetic WAV (15 minutes), verified full snapshot and recovery, and combined three two-second H.264/AAC chapters into an **180-frame, 6.023-second** MP4 while preserving all original chapter checksums. The separately downloaded published-EXE acceptance also passed. These tests certify the hosted Windows test environment and tested paths, **not every codec or PC, and not the owner's laptop**. The four export presets were checked with **one-second synthetic clips**, not hours of 1080p rendering.
 
 ## Backup and recovery
 
