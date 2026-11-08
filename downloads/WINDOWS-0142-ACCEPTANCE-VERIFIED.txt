@@ -1,0 +1,40 @@
+MMMN Video Studio — Windows 0.14.2
+VERIFIED UNSIGNED DIRECT SETUP EXE
+Date: 2026-11-08
+Binary: MMMN-Video-Studio-Setup-0.14.2.exe
+Bytes: 64819122
+SHA256: 80da4ce34f88aea685d33989b16c4749a58a2e5b50178280a93bcfcfab217692
+
+REAL WINDOWS NATIVE BUILD — PASS
+https://github.com/zmozmo/mmmn-video-studio/actions/runs/42471534266
+Full install, in-place upgrade, bundled FFmpeg H.264/AAC export, real Edge GUI,
+original project+media SHA256 protection, uninstaller and source tests.
+
+INDEPENDENT PUBLIC EXECUTABLE ACCEPTANCE — PASS
+https://github.com/zmozmo/mmmn-video-studio/actions/runs/42472031214
+The externally downloadable EXE was downloaded again and verified by SHA256
+in a separate disposable Windows runner; previous 0.14.0 was installed first,
+synthetic project, original WAV, photo and backup saved, then 0.14.2 upgraded
+in place, preserving 7 original file hashes and verified preupgrade metadata.
+Real Edge browser GUI edits retained all scene timing and images across reload,
+the app reported free Windows disk space, WAV media import kept exact bytes,
+and full backup SHA256 verification and real restore succeeded.
+Windows folder opening was allowlisted and arbitrary path traversal rejected.
+No external requests were observed during core offline use.
+
+WHAT'S NEW IN 0.14.2
+- Preflight free disk space before importing a large narrator recording / media
+- Retain minimum spare capacity for project backups and exports
+- Reject media collisions, including symbolic links
+- Display free disk headroom in the storage UI
+- Preserve 0.14.1 manuscript/scene retention, full backup/restore and Explorer controls
+
+DOCUMENTATION
+https://github.com/zmozmo/mmmn-video-studio/blob/main/WINDOWS-0142-RELEASE-NOTES.md
+
+IMPORTANT
+This installer is UNSIGNED, and Windows SmartScreen may warn. Windows CI
+acceptance does not imply it has been installed on the user's own Windows 11
+laptop. Android remains paused. Only synthetic media was used in the public
+build, never the user's private novel files or recordings. Windows native
+hosted-runner acceptance does not guarantee all long projects or codecs.
