@@ -12,4 +12,6 @@ SHA-256: `db57d26241c19c9a2629f959245fa0ecb74c86d5a9bbfe04df8031cfe5da6830`
 
 0.14.4 adds atomic manuscript save staging and recovery symlink protection, import metadata/partial symlink rejection, safe Windows destination collision semantics, updated offline UI and full backup Explorer guidance. This repository branch contains only public-safe files and the unsigned EXE. User manuscript/recording/image data is never uploaded.
 
+**Additional [long-form published EXE test PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42491529466):** 15-minute WAV (28,800,044 bytes) streamed with per-chunk integrity, full backup/restore, and 3 H.264/AAC two-second chapters combined to one 180-frame, 6.023-second MP4. [QA addendum](downloads/WINDOWS-0144-LONGFORM-VERIFIED.txt).
+
 **Windows SmartScreen may warn (unsigned).** Actual user's laptop not tested, Android paused. No mandatory subscription or cloud API.

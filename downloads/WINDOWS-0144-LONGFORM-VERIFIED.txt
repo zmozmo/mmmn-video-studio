@@ -1,0 +1,22 @@
+MMMN WINDOWS 0.14.4 — ADDITIONAL INDEPENDENT LONG-FORM QA
+Date: 2026-11-08 UTC
+Conclusion: PASS (GitHub-hosted Windows x64)
+Release EXE: MMMN-Video-Studio-Setup-0.14.4.exe
+SHA-256: db57d26241c19c9a2629f959245fa0ecb74c86d5a9bbfe04df8031cfe5da6830
+Run: https://github.com/zmozmo/mmmn-video-studio/actions/runs/42491529466
+Test source: https://github.com/zmozmo/mmmn-video-studio/blob/main/.github/scripts/windows_longform_stress_0144.py
+
+REAL INSTALLED PUBLIC EXE:
+- Downloaded exact public EXE and verified the published checksum: PASS
+- Installed + executed bundled FFmpeg/FFprobe: PASS
+- Streamed 15-minute synthetic WAV, 28,800,044 bytes, verified every chunk: PASS
+- SHA-256 verified full-media backup and restored original project/WAV: PASS
+- Encoded 3 synthetic H.264/AAC MP4 chapters using bundled FFmpeg: PASS
+- Joined 3 chapters to a valid 180-frame / 6.023-second H.264/AAC MP4: PASS
+- Original chapter MP4 bytes remain unchanged: PASS
+- Uninstalled app from disposable hosted-Windows runner: PASS
+
+Scope: synthetic private-free data only. 15-minute WAV input is NOT proof
+of hours-long encoded MP4 or all real-world device/codec combinations.
+No source/executable rebuild was made during this QA.
+Owner's real laptop has not been tested; installer remains unsigned.
