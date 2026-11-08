@@ -47,6 +47,13 @@ jobs:
           evidence=json.loads((root/'RELEASE-EVIDENCE-VERIFIED.json').read_text())
           if not isinstance(candidate,dict) or not isinstance(evidence,dict):
               raise SystemExit('Release verification metadata corrupt')
+          if (candidate.get('status')!='PASS' or evidence.get('status')!='PASS'
+              or candidate.get('version')!='0.14.0'
+              or candidate.get('exact_tested_bytes_reused') is not True
+              or candidate.get('sha256')!=actual
+              or evidence.get('sha256')!=actual
+              or evidence.get('windows_install_upgrade_render_uninstall')!='VERIFIED'):
+              raise SystemExit('Cannot publish: release evidence does not independently match the verified native setup.exe')
           print('VERIFIED NATIVE WINDOWS SETUP',installer.stat().st_size,'bytes SHA256',actual)
           print('CANDIDATE',str(candidate)[:1500])
           print('EVIDENCE',str(evidence)[:1500])
