@@ -1,16 +1,16 @@
 # MMMN Video Studio — Windows Offline-first
 
-**Latest verified Windows release: 0.14.4 (unsigned)** · 8 November 2026  
+**Latest Windows release: 0.14.5 (unsigned; 90-minute novel acceptance PASS)** · 8 November 2026  
 **Android: paused** · **Personal laptop: deliberately not tested**
 
 ## One-click Windows x64 Installer (direct EXE, no ZIP)
 
-**[MMMN Video Studio 0.14.4 Windows setup.exe](https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0144/downloads/MMMN-Video-Studio-Setup-0.14.4.exe)**
+**[MMMN Video Studio 0.14.5 Windows setup.exe](https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0145/downloads/MMMN-Video-Studio-Setup-0.14.5.exe)**
 
-- Filename: `MMMN-Video-Studio-Setup-0.14.4.exe`
-- Size: **64,855,430 bytes**
-- SHA-256: `db57d26241c19c9a2629f959245fa0ecb74c86d5a9bbfe04df8031cfe5da6830`
-- [Published direct executable and independent acceptance record](https://github.com/zmozmo/mmmn-video-studio/tree/windows-binaries-0144/downloads)
+- Filename: `MMMN-Video-Studio-Setup-0.14.5.exe`
+- Size: **64,844,005 bytes**
+- SHA-256: `3afb835da0c14c7b3da761e07b479c15a3956ee97efb771b450467d2f529f274`
+- [Published direct executable and independent acceptance record](https://github.com/zmozmo/mmmn-video-studio/tree/windows-binaries-0145/downloads)
 
 There is no requirement for VS Code, CMD, Python/Node.js installation, source ZIP or a paid video API to use the installed application. **Unsigned**: Windows SmartScreen may display an unknown-publisher warning; check the exact checksum. The user's actual Windows 11 laptop has not been tested yet.
 
@@ -21,13 +21,18 @@ There is no requirement for VS Code, CMD, Python/Node.js installation, source ZI
 - Render H.264/AAC MP4 using bundled FFmpeg, without external API/subscription: YouTube 16:9, TikTok/Shorts/Reels 9:16, Facebook 4:5 and square presets.
 - Create **verified full-media local backups**, verify via SHA-256, restore after an accidental edit, open Project/Backup/MP4 folders directly in Windows Explorer and keep existing user files across in-place installer upgrades/uninstalls.
 - New in **0.14.4**: unique exclusive project-save staging files with failure cleanup, project-recovery symlink protection, and collision-safe media finalization. Old trial labels and obsolete ZIP/CMD backup instructions corrected. Nine new regression tests.
+- New in **0.14.5**: repair the hard-coded 180-second FFprobe full-frame verification timeout that prevented 90/120-minute video exports in 0.14.4. Frame-by-frame inspection stays enabled with a bounded duration-scaled check. The exact released 0.14.5 EXE produced a continuous **90-minute 1920×1080 H.264/AAC MP4 (162,000 frames)**; full local backup/restore and output SHA protection also passed on a disposable Windows runner.
 
-[မြန်မာလို Windows စတင်အသုံးပြုနည်း](WINDOWS-QUICKSTART-MM.md) · [0.14.4 release notes](WINDOWS-0144-RELEASE-NOTES.md) · [Release readiness](WINDOWS-RELEASE-READINESS.md) · [0.14.3 notes](WINDOWS-0143-RELEASE-NOTES.md)
+[မြန်မာလို Windows စတင်အသုံးပြုနည်း](WINDOWS-QUICKSTART-MM.md) · [0.14.5 release notes](WINDOWS-0145-RELEASE-NOTES.md) · [Release readiness](WINDOWS-RELEASE-READINESS.md) · [0.14.3 notes](WINDOWS-0143-RELEASE-NOTES.md)
 
 ## Exact native and independently downloaded Windows acceptance
 
 | Gate | Outcome | Evidence |
 | --- | --- | --- |
+| Latest Windows 0.14.5 build, install, in-place upgrade, media and recovery | **PASS** | [Run 42498880529](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42498880529) |
+| 0.14.5 exact byte-for-byte setup.exe publication | **PASS** | [Run 42499285203](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499285203) |
+| 0.14.5 independent public-EXE install, UI, backup, security and uninstall | **PASS** | [Run 42499308041](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499308041) |
+| **0.14.5 continuous 90-minute full-HD MP4, 162,000 frames, verified WAV and backup** | **PASS** | [90-minute job, Run 42499519584](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499519584) |
 | Native Windows 0.14.4 Build A/B, install and in-place upgrade | **PASS** | [Run 42478959788](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42478959788) |
 | Bundled offline FFmpeg MP4, real Edge UI and preserved project/media checksums | **PASS** | [Same native run](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42478959788) |
 | Published the exact tested EXE, no binary rebuild | **PASS** | [Run 42479446166](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42479446166) |
@@ -46,8 +51,11 @@ From the installed Windows app, open **Updates / Storage → Create + Verify Ful
 
 ## Development and privacy
 
-The `public-safe-windows-source.zip` stored in this public repo is a pinned audited baseline used **by CI only**; the user does not need to download it. Windows patch scripts apply sequentially (0.14.1 → 0.14.2 → 0.14.3 → 0.14.4) on disposable GitHub Windows runners. Any private manuscript, personal images, narration, backups, secrets and personal Google Drive links must **never** be added to this public repo.
+The `public-safe-windows-source.zip` stored in this public repo is a pinned audited baseline used **by CI only**; the user does not need to download it. Windows patch scripts apply sequentially (0.14.1 → 0.14.2 → 0.14.3 → 0.14.4 → 0.14.5) on disposable GitHub Windows runners. Any private manuscript, personal images, narration, backups, secrets and personal Google Drive links must **never** be added to this public repo.
 
+- [0.14.5 long-video verification fix](.github/scripts/upgrade_windows_0145.py)
+- [0.14.5 Windows installer and upgrade QA](.github/workflows/windows-installer-upgrade-0145.yml)
+- [0.14.5 published-EXE 90/120-minute QA](.github/workflows/windows-novel-length-acceptance-0145.yml)
 - [0.14.4 source hardening and regression tests](.github/scripts/upgrade_windows_0144.py)
 - [0.14.4 Windows installer and upgrade tests](.github/workflows/windows-installer-upgrade-0144.yml)
 - [Exact verified EXE publisher](.github/workflows/publish-windows-0144-binary-branch.yml)
