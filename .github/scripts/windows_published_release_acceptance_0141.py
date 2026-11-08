@@ -164,6 +164,7 @@ def run():
                         snapshots=list((localdata/"snapshots").glob("snapshot-*"))
                         assert snapshots and projectfile.is_file() and stored[0].is_file()
                         print("PASS: UI full-media backup COMPLETED and preserved project/audio",flush=True)
+                        backed_up_scenes=json.loads(projectfile.read_text(encoding="utf-8"))["chapters"][0]["scenes"]
 
                         # A saved folder is not enough: the app must independently
                         # verify the backup hashes through its user-facing control.
@@ -216,7 +217,7 @@ def run():
                         restored=json.loads(projectfile.read_text(encoding="utf-8"))
                         assert mutation not in restored["chapters"][0]["text"], "Restore did not undo accidental edits"
                         assert marker in restored["chapters"][0]["text"], "Restored snapshot lost saved manuscript"
-                        assert restored["chapters"][0]["scenes"]==initial_scenes, "Restore lost scene timing or image assignments"
+                        assert restored["chapters"][0]["scenes"]==backed_up_scenes, "Restore lost the backed-up narration-aligned storyboard"
                         saved_audio_id=restored["chapters"][0].get("audioAssetId")
                         assert saved_audio_id, "Restored narration link missing"
                         matches=list((localdata/"media").glob(saved_audio_id+".*"))
