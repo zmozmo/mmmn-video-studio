@@ -1,10 +1,6 @@
 name: Windows 0.14.5 60 Distinct-Scene Full-HD Storyboard QA
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/windows-storyboard-60-scenes-0145.yml'
   workflow_run:
     workflows: ["Independently QA Released Windows 0.14.5 Direct Setup EXE"]
     types: [completed]
@@ -16,7 +12,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   published-60-scenes:
-    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.repository.full_name == github.repository) }}
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.repository.full_name == github.repository) }}
     runs-on: windows-latest
     timeout-minutes: 45
     env:
