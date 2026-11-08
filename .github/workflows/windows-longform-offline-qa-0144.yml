@@ -1,11 +1,6 @@
-name: Independent Windows 0.14.4 Long-Form and Four Presets QA
+name: Windows 0.14.4 Final Published-EXE Stress Acceptance (Manual)
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/scripts/windows_longform_stress_0144.py'
-      - '.github/workflows/windows-longform-offline-qa-0144.yml'
 permissions:
   contents: read
 concurrency:
