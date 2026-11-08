@@ -162,7 +162,7 @@ jobs:
       - name: Build first release EXE, compile first NSIS setup
         shell: pwsh
         run: |
-          Set-Content -Path TRIAL-REVISION.txt -Value 'installer-lab-base' -NoNewline
+          Set-Content -Path TRIAL-REVISION.txt -Value 'installer-lab-0141-base' -NoNewline
           python -m PyInstaller --noconfirm --clean --onedir --console --name MMMN-Video-Studio `
             --distpath dist-base --workpath build-base `
             --add-data 'web;web' --add-data 'renderer;renderer' `
@@ -194,7 +194,7 @@ jobs:
       - name: Compile second release and update IN PLACE without uninstall
         shell: pwsh
         run: |
-          Set-Content -Path TRIAL-REVISION.txt -Value 'installer-lab-upgrade' -NoNewline
+          Set-Content -Path TRIAL-REVISION.txt -Value 'installer-lab-0141-upgrade' -NoNewline
           python -m PyInstaller --noconfirm --clean --onedir --console --name MMMN-Video-Studio `
             --distpath dist-upgrade --workpath build-upgrade `
             --add-data 'web;web' --add-data 'renderer;renderer' `
