@@ -77,4 +77,16 @@ for name in ("version.txt","package.json","src-tauri/Cargo.toml","src-tauri/taur
     if "0.14.0" not in content:raise ValueError(name+": missing old release version")
     p.write_text(content.replace("0.14.0","0.14.1"),encoding="utf-8")
     print("VERSION UPDATED",name,flush=True)
+# The embedded source has older workflow-level test literals. Update the
+# checked-in build contract to the same 0.14.1 candidate, not stale 0.14.0.
+workflow=root/".github/workflows/windows-installer-upgrade-lab.yml"
+wf=workflow.read_text(encoding="utf-8")
+if "0.14.0" not in wf: raise ValueError("Missing prior Windows workflow version")
+workflow.write_text(wf.replace("0.14.0","0.14.1"),encoding="utf-8")
+gate=root/"tests/windows-final-artifact-gate.test.mjs"
+checks=gate.read_text(encoding="utf-8")
+if r"0\.14\.0" not in checks: raise ValueError("Missing prior Windows source test version")
+gate.write_text(checks.replace(r"0\.14\.0",r"0\.14\.1"),encoding="utf-8")
+print("UPDATED Windows source build contract tests",flush=True)
+
 print("MMMN WINDOWS 0.14.1 SOURCE UPGRADE READY",flush=True)
