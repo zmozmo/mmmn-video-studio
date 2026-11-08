@@ -67,6 +67,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
+      - name: Fix Windows .mjs JavaScript module response MIME before all tests and packaging
+        shell: pwsh
+        run: |
+          python .github/scripts/fix_windows_mime.py
+          if ($LASTEXITCODE -ne 0) { throw 'Windows offline UI JavaScript MIME compatibility patch failed' }
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
