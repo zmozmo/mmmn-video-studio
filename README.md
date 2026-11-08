@@ -1,53 +1,53 @@
-# MMMN Video Studio — Offline-first Windows Video Studio
+# MMMN Video Studio — Windows Offline-first
 
-**Latest verified Windows version: 0.14.3 (unsigned)** · 8 November 2026
-**Android development: paused** · **User laptop: not tested**
+**Latest verified Windows release: 0.14.4 (unsigned)** · 8 November 2026  
+**Android: paused** · **Personal laptop: deliberately not tested**
 
-## Direct Windows setup.exe — no ZIP, development tools or subscription needed
+## One-click Windows x64 Installer (direct EXE, no ZIP)
 
-[MMMN Video Studio 0.14.3 Windows x64 Installer](https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0143/downloads/MMMN-Video-Studio-Setup-0.14.3.exe)
+**[MMMN Video Studio 0.14.4 Windows setup.exe](https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0144/downloads/MMMN-Video-Studio-Setup-0.14.4.exe)**
 
-- Filename: `MMMN-Video-Studio-Setup-0.14.3.exe`
-- Size: **64,840,856 bytes**
-- SHA-256: `4c4de4daad56d292e7b697a004f74ffb374ddb7a79916c317f0d2e250d30c3ed`
-- [Published binary-only branch and QA receipt](https://github.com/zmozmo/mmmn-video-studio/tree/windows-binaries-0143/downloads)
+- Filename: `MMMN-Video-Studio-Setup-0.14.4.exe`
+- Size: **64,855,430 bytes**
+- SHA-256: `db57d26241c19c9a2629f959245fa0ecb74c86d5a9bbfe04df8031cfe5da6830`
+- [Published direct executable and independent acceptance record](https://github.com/zmozmo/mmmn-video-studio/tree/windows-binaries-0144/downloads)
 
-This executable is **unsigned** and may show Windows SmartScreen's "unknown publisher" prompt. No one needs VS Code, CMD, Python, Node.js or a ZIP extraction to install this version. The owner's personal laptop is deliberately **not tested yet**.
+There is no requirement for VS Code, CMD, Python/Node.js installation, source ZIP or a paid video API to use the installed application. **Unsigned**: Windows SmartScreen may display an unknown-publisher warning; check the exact checksum. The user's actual Windows 11 laptop has not been tested yet.
 
-## What's new in 0.14.3
+## Features
 
-- Multiple simultaneous media imports reserve their **remaining declared bytes**. The server rejects a second oversized upload **before** the partial file is created, rather than overcommitting the same disk capacity.
-- Every imported media chunk checks current free space against the import's disk reserve before writing, so disk pressure from another app cannot silently exhaust the recording drive.
-- Pending-import metadata and partial symlinks are refused; correct WAV bytes and SHA-256 are preserved.
-- Five new storage regression tests. Existing Windows 0.14.2 and 0.14.1 enhancements remain: free-disk display, manuscript edits preserving all scene choices/timing/locks, one-click Explorer folders for backups, projects and MP4 exports.
+- Local-first Burmese manuscript editor with scene-by-scene storyboard, image choices, manual scene locking and timing. Editing a manuscript **preserves** scene choices, manual locks and existing timing.
+- Import your own WAV/MP3 audio narration, images and videos. Imports check available disk space at the beginning and **before each chunk**, reserve space for parallel imports, and reject unsafe symlink/media collisions.
+- Render H.264/AAC MP4 using bundled FFmpeg, without external API/subscription: YouTube 16:9, TikTok/Shorts/Reels 9:16, Facebook 4:5 and square presets.
+- Create **verified full-media local backups**, verify via SHA-256, restore after an accidental edit, open Project/Backup/MP4 folders directly in Windows Explorer and keep existing user files across in-place installer upgrades/uninstalls.
+- New in **0.14.4**: unique exclusive project-save staging files with failure cleanup, project-recovery symlink protection, and collision-safe media finalization. Old trial labels and obsolete ZIP/CMD backup instructions corrected. Nine new regression tests.
 
-[Full 0.14.3 release notes](WINDOWS-0143-RELEASE-NOTES.md) · [0.14.2 release notes](WINDOWS-0142-RELEASE-NOTES.md)
+[Full 0.14.4 release notes](WINDOWS-0144-RELEASE-NOTES.md) · [0.14.3 notes](WINDOWS-0143-RELEASE-NOTES.md)
 
-## Exact release evidence
+## Exact native and independently downloaded Windows acceptance
 
-- **[Real Windows Build, Install, Upgrade, MP4 Render and Uninstall — PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42475358558)**. Includes 143 JavaScript and 120 Python tests; two NSIS builds; actual installed Windows executables; in-place upgrade without uninstall; real FFmpeg H.264/AAC MP4; Edge UI; byte-exact project/media hash preservation and uninstall preservation.
-- **[Publish the EXACT tested setup.exe bytes — PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42475837823)**. Published executable matches the successful native Windows evidence, not a subsequent unverified rebuild.
-- **[Independent published-binary Windows QA — PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42475858282)**. A separate runner downloaded the public installer, verified its SHA-256, installed real 0.14.0, created synthetic manuscript/media/full-backup data, upgraded to 0.14.3, verified original hashes, exercised real Edge UI, WAV import, save/reload, SHA-256 full backup and restore, tampered-backup detection, missing/forged API token rejection, offline core flow, folder allowlisting and uninstall.
+| Gate | Outcome | Evidence |
+| --- | --- | --- |
+| Native Windows 0.14.4 Build A/B, install and in-place upgrade | **PASS** | [Run 42478959788](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42478959788) |
+| Bundled offline FFmpeg MP4, real Edge UI and preserved project/media checksums | **PASS** | [Same native run](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42478959788) |
+| Published the exact tested EXE, no binary rebuild | **PASS** | [Run 42479446166](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42479446166) |
+| Independent runner downloads public EXE, upgrades real 0.14.0, UI/backup/security/uninstall tests | **PASS** | [Run 42479467429](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42479467429) |
 
-**These results prove the tested release flow on GitHub-hosted Windows runners, not every media format, hardware configuration, or the owner's own Windows 11 device.** The app remains unsigned. Never install a binary whose checksum differs from the value above.
+The full native release check recorded **129 Python tests** along with the JavaScript suite. The separately downloaded published-EXE acceptance also passed. These tests certify the hosted Windows test environment and tested paths, **not every codec or PC, and not the owner's laptop**.
 
-## How it works
+## Backup and recovery
 
-1. Install the x64 Windows app. Upgrades from verified older releases are designed to preserve data; keep a full backup on a separate drive first.
-2. Open the local UI in the default browser. It is bound to `127.0.0.1` and uses a protected localhost API.
-3. Import a Burmese manuscript, your own WAV/MP3 narration, and images/video for each scene. Adjust scene durations and storyboard layout manually.
-4. Render bundled offline FFmpeg H.264/AAC MP4 for YouTube (16:9), Shorts/TikTok/Reels (9:16), Facebook (4:5), or square videos.
-5. Create a full-media backup, verify its SHA-256, and **copy the entire snapshot directory to a different drive** for disaster recovery.
+From the installed Windows app, open **Updates / Storage → Create + Verify Full Backup**. After verification, click **Open Backup Folder**; copy the **whole** `snapshot-...` folder to an external USB/different drive using Explorer. Keep `manifest.json`, `project-state.json` and `media/` together. Verify SHA-256 on the snapshot prior to restoration. A local same-disk backup alone will not protect against disk loss.
 
-The app does not require an external video AI API, cloud subscription or internet access for core offline editing and rendering. Optional Google Drive auto-sync is **not included**. No mandatory preinstalled Myanmar speech recognition model is provided. Rendering large video projects still depends on device CPU, RAM and available disk space.
+## Development and privacy
 
-## Repository and privacy
+The `public-safe-windows-source.zip` stored in this public repo is a pinned audited baseline used **by CI only**; the user does not need to download it. Windows patch scripts apply sequentially (0.14.1 → 0.14.2 → 0.14.3 → 0.14.4) on disposable GitHub Windows runners. Any private manuscript, personal images, narration, backups, secrets and personal Google Drive links must **never** be added to this public repo.
 
-The reproducible `public-safe-windows-source.zip` is a pinned, privacy-audited source baseline for GitHub CI—not a user download. CI applies verified Windows 0.14.1, 0.14.2 and 0.14.3 incremental source patches **in sequence** before compiling. Keep personal manuscripts, narration, artwork, backups, tokens, Google Drive links and identity data **out of this public repo**.
+- [0.14.4 source hardening and regression tests](.github/scripts/upgrade_windows_0144.py)
+- [0.14.4 Windows installer and upgrade tests](.github/workflows/windows-installer-upgrade-0144.yml)
+- [Exact verified EXE publisher](.github/workflows/publish-windows-0144-binary-branch.yml)
+- [Independent installed-public-binary QA](.github/workflows/windows-published-release-acceptance-0144.yml)
 
-- [Windows 0.14.3 patch and five regression tests](.github/scripts/upgrade_windows_0143.py)
-- [Windows 0.14.3 native build and upgrade workflow](.github/workflows/windows-installer-upgrade-0143.yml)
-- [Publish only if Windows build PASS](.github/workflows/publish-windows-0143-binary-branch.yml)
-- [Independent published-executable QA workflow](.github/workflows/windows-published-release-acceptance-0143.yml)
+Because GitHub Release asset creation previously returned HTTP 403 for the available integration, the exact verified unsigned setup.exe is directly available from a **binary-only Git branch**. The older 0.14.0 GitHub Release is retained. This does not imply an installer code signature.
 
-GitHub Release creation was previously blocked by HTTP 403 in the available integration. The verified newer installer is published as a **direct EXE in the binary-only Git branch**; the separate older `v0.14.0` GitHub Release remains available. The direct EXE is not a signed GitHub Releases asset.
+Local editing and rendering require no cloud connection or subscription. Automatic Google Drive sync and model-based Burmese transcription are not included.
