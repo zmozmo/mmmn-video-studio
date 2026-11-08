@@ -35,6 +35,8 @@ There is no requirement for VS Code, CMD, Python/Node.js installation, source ZI
 | Additional 15-minute WAV streaming, full backup/restore and 3-chapter MP4 merge on installed public EXE | **PASS** | [Run 42491529466](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42491529466) |
 | All four FULL-quality platform MP4 presets on the exact installed published EXE | **PASS** | [Run 42491917768](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42491917768) |
 | Extended original EXE: 45-second 1080p ×2, cross-dissolve, cancel/retry, synthetic external-folder backup copy and recovery | **PASS** | [Run 42492649641](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42492649641) |
+| Continuous 5-minute H.264/AAC 1080p MP4, 6 scenes and 9,000 checked frames | **PASS** | [Run 42493062578](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42493062578) |
+| Continuous 15-minute H.264/AAC 1080p MP4, 6 scenes and 27,000 checked frames | **PASS** | [Run 42493702496](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42493702496) |
 
 The full native release check recorded **129 Python tests** along with the JavaScript suite. A separate published-binary long-form stress run imported **28,800,044 bytes** of synthetic WAV (15 minutes), verified full snapshot and recovery, and combined three two-second H.264/AAC chapters into an **180-frame, 6.023-second** MP4 while preserving all original chapter checksums. The separately downloaded published-EXE acceptance also passed. These tests certify the hosted Windows test environment and tested paths, **not every codec or PC, and not the owner's laptop**. The four export presets were checked with **one-second synthetic clips**, not hours of 1080p rendering.
 
