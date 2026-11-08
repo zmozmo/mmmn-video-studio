@@ -1,0 +1,24 @@
+MMMN VIDEO STUDIO WINDOWS 0.14.3 — INDEPENDENT RELEASE ACCEPTANCE PASS
+Date: 2026-11-08 UTC
+Filename: MMMN-Video-Studio-Setup-0.14.3.exe
+Size: 64840856 bytes
+SHA-256: 4c4de4daad56d292e7b697a004f74ffb374ddb7a79916c317f0d2e250d30c3ed
+Source commit: 89686b73cf149d9b6cc7b2438da7bef03989761a
+
+NATIVE WINDOWS BUILD / INSTALL / UPGRADE / RENDER / UNINSTALL: PASS
+https://github.com/zmozmo/mmmn-video-studio/actions/runs/42475358558
+EXACT TESTED-BINARY PUBLISH: PASS
+https://github.com/zmozmo/mmmn-video-studio/actions/runs/42475837823
+INDEPENDENT PUBLISHED-BINARY WINDOWS ACCEPTANCE: PASS
+https://github.com/zmozmo/mmmn-video-studio/actions/runs/42475858282
+
+The independent Windows runner downloaded this exact direct EXE from the
+public binary-only branch; verified its SHA-256; installed real Windows 0.14.0;
+created a synthetic manuscript, WAV, image and verified full backup; installed
+0.14.3 over it; verified seven legacy file hashes; exercised real Edge UI,
+WAV import, save/reload, full backup and restore, deliberate backup corruption
+detection, unauthenticated API write rejection, offline core flow and uninstall.
+
+Scope: unsigned installer, hosted disposable Windows runner only.
+The owner's actual laptop and every media format are NOT certified.
+No private manuscripts, recordings or original user photos were used.
