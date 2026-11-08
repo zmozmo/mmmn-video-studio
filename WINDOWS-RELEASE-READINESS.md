@@ -21,6 +21,8 @@ Date: 8 November 2026 · Android paused · No download or local user-machine act
 | Exact published EXE: synthetic 15-minute streamed WAV, full backup/restore, 3-chapter MP4 merge | [42491529466](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42491529466) | PASS |
 | Exact published EXE: YouTube/TikTok/Facebook/Square full-resolution, 30fps H.264/AAC exports | [42491917768](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42491917768) | PASS |
 | Exact published EXE: 45s 1080p three-scene render twice, 9s dissolve, cancel and retry, simulated external-folder snapshot copy-back | [42492649641](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42492649641) | PASS |
+| Exact published EXE: continuous 5-minute 1080p MP4, 9,000 frames | [42493062578](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42493062578) | PASS |
+| Exact published EXE: continuous 15-minute 1080p MP4, 27,000 frames, prior MP4 preserved | [42493702496](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42493702496) | PASS |
 
 The native build includes 129 Python tests plus the JavaScript suite. Long-form QA verified 28,800,044 WAV bytes and a 6.023-second / 180-frame chapter-concatenation output. These are distinct workloads. **A 15-minute recording import is not the same as a 15-minute video render.** All four platform presets were exercised with 1-second full-resolution synthetic exports, not an hour-long final MP4.
 
