@@ -1,20 +1,24 @@
-# MMMN Video Studio — Windows 0.14.4 Release Readiness
+# MMMN Video Studio — Windows 0.14.5 Release Readiness
 
 **Decision: GitHub-hosted Windows release gates PASS; ready for owner-controlled first-device acceptance.**  
 Date: 8 November 2026 · Android paused · No download or local user-machine action has been performed by ChatGPT.
 
 ## Downloadable Windows release
 
-- Direct, unsigned Windows x64 setup: https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0144/downloads/MMMN-Video-Studio-Setup-0.14.4.exe
-- Filename: `MMMN-Video-Studio-Setup-0.14.4.exe`
-- Size: **64,855,430 bytes**
-- SHA-256: `db57d26241c19c9a2629f959245fa0ecb74c86d5a9bbfe04df8031cfe5da6830`
+- Direct, unsigned Windows x64 setup: https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0145/downloads/MMMN-Video-Studio-Setup-0.14.5.exe
+- Filename: `MMMN-Video-Studio-Setup-0.14.5.exe`
+- Size: **64,844,005 bytes**
+- SHA-256: `3afb835da0c14c7b3da761e07b479c15a3956ee97efb771b450467d2f529f274`
 - No source ZIP, Python, CMD, VS Code or paid API required for installation or core editing and MP4 export.
 
 ## Automated gates already passed
 
 | Independent gate | GitHub run | Evidence |
 | --- | --- | --- |
+| Windows 0.14.5 source patch, native Build A/B, upgrade, original data safety, offline MP4 | [42498880529](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42498880529) | PASS |
+| Windows 0.14.5 exact tested EXE published without rebuild | [42499285203](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499285203) | PASS |
+| 0.14.5 downloaded public EXE independent upgrade/UI/backup/security/uninstall | [42499308041](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499308041) | PASS |
+| **90-minute continuous Full HD MP4, 162,000 frames, intact source and recovery** | [42499519584](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499519584) — 90m job | PASS |
 | Native Windows Build A/B → Install → Upgrade → Render → Uninstall | [42478959788](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42478959788) | PASS |
 | Publish exact tested EXE bytes without rebuild | [42479446166](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42479446166) | PASS |
 | Real published EXE 0.14.0→0.14.4 upgrade, Edge UI, backup/restore, API security and uninstall | [42479467429](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42479467429) | PASS |
@@ -33,13 +37,13 @@ The complete narrated MMMN novel lasts **no more than 90 minutes**. A six-to-eig
 - **Primary real-novel target:** one complete 90-minute 1920×1080 H.264/AAC MP4, 30fps / **162,000 video frames**. Chapter-by-chapter MP4 production and combining must remain optional.
 - **Safety headroom:** test **120 minutes** (216,000 video frames) to allow introduction/outro, audio pauses and future changes; this is a resilience goal, not a new user requirement.
 - **Acceptance checks:** full video/audio duration, actual decoded frame count, output integrity, original narration and prior MP4 unchanged, progress/cancel/retry, available disk space, backup/restore and recovery after interruption.
-- **Currently verified:** continuous 15-minute MP4, 27,000 frames on published Windows 0.14.4 EXE ([QA](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42493702496)).
-- **Not yet verified:** a continuous 90-minute or 120-minute MP4 on the published EXE and the owner's personal Windows 11 laptop. Do not claim these have passed before the corresponding runs succeed.
+- **Currently verified:** continuous **90-minute Full HD MP4, 162,000 frames**, exact published Windows **0.14.5** EXE ([90-minute QA PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499519584)); media and full snapshot SHA-256 intact.
+- **Not yet verified:** 120-minute optional headroom and the owner's personal Windows 11 laptop. Do not claim these have passed before separate confirmation.
 
 ## Conditions still not verified
 
 - User's actual Windows 11 HP laptop hardware and Windows security warnings: **not tested**.
-- Very long (hour-scale) encoded H.264/AAC chapter exports and low-memory/low-battery behavior on the user's laptop: **not tested**.
+- Over-90-minute optional output and low-memory/low-battery behavior on the user's personal Windows laptop: **not fully tested**.
 - Full variety of customer-supplied audio/image/video codecs and damaged real files: **not exhaustively tested**.
 - Installer is **unsigned**. SmartScreen may display an unknown publisher warning; adding a genuine code signature requires a recognized signing solution.
 - Full backup is local by default. The user must copy a verified complete snapshot directory to another physical drive to withstand disk loss.
