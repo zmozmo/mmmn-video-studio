@@ -29,10 +29,12 @@ The 0.14.5 patch replaces the fixed 180-second final full-frame verification tim
 | Publish exact already-tested unsigned installer bytes | PASS | [42499285203](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499285203) |
 | Download published EXE, install/upgrade, real Edge UI, backup, API security, uninstall | PASS | [42499308041](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499308041) |
 | **90-minute continuous 1920×1080 H.264/AAC MP4**, 30fps / **162,000 verified frames**, SHA-preserved backup/restore | PASS | [90m job in 42499519584](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499519584) |
+| **120-minute continuous 1920×1080 H.264/AAC MP4**, 30fps / **216,000 verified frames**, original WAV and MP4 intact | PASS | [120m job in 42499519584](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499519584) |
+| 60 distinct scene pictures, 59 dissolves, 15-minute 1080p MP4, 27,000 frames, 61-file verified snapshot | PASS | [42499523807](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499523807) |
 
 The actual 90-minute MP4 contained **5,400.000 seconds**, and the GitHub-hosted Windows test recorded **641.9 seconds** for the export operation. This is not a speed benchmark for the owner's personal computer. All test source images, WAV and manuscript are synthetic.
 
-The owner's complete novel narration is specified as **no longer than 90 minutes**. A two-hour export and a 60-distinct-image, 59-dissolve storyboard export are additional resilience checks, not prerequisites to changing the narration's actual stated duration. Their final 0.14.5 results must be confirmed separately.
+The owner's complete novel narration is specified as **no longer than 90 minutes**. The optional two-hour export and the 60-distinct-image, 59-dissolve storyboard acceptance **also passed**. The two-hour MP4 contained **7,200.000 seconds / 216,000 frames**; the 60-image 15-minute MP4 contained **900.000 seconds / 27,000 frames**. All used synthetic media on disposable Windows machines, not the user's actual laptop.
 
 ## Limitations and first-device acceptance
 
