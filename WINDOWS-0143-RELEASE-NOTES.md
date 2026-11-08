@@ -1,22 +1,23 @@
-# MMMN Video Studio Windows 0.14.3 — candidate until independent QA PASS
+# Windows 0.14.3 — Verified Concurrent-Import and Disk Safety
 
-This is a Windows-only incremental hardening release built on the independently
-verified 0.14.2 baseline. Android remains paused. No private manuscripts, images,
-recordings, API secrets or cloud sync are included.
+**Verified unsigned Windows x64 release — 8 November 2026.** Android paused. User laptop not tested.
 
-## Changes
+Based on independently verified 0.14.2, this update adds:
+- Import capacity accounting that reserves outstanding bytes from all active imports, preventing concurrent operations from overcommitting free space.
+- Pre-chunk free-space checking to preserve headroom if other apps consume disk during an upload.
+- Reject pending metadata and media-partial symlinks instead of following them.
+- Five regression tests: concurrent overcommit rejection, abort freeing the reservation, low-space chunk rejection without writing, byte-for-byte successful WAV finalization, and symlink overwrite refusal.
+- Full compatibility with previous manuscript edit preservation, native Full Backup/Restore, UI storage display, and offline FFmpeg H.264/AAC rendering.
 
-- Reserve outstanding bytes from all active media imports at upload preflight,
-  preventing independent WAV/image imports from overcommitting the same disk.
-- Recheck disk headroom before **each** media chunk is written; if free space
-  drops unexpectedly, reject the chunk before changing the partial file.
-- Refuse pending-import metadata/partial symlinks before reading or writing.
-- Add five unit tests for concurrent reservations, abort capacity recovery,
-  low-space chunks, successful byte-exact imports and symlink overwrite refusal.
-- Preserve verified full-media backup/restore, offline H.264/AAC rendering,
-  all UI improvements, and the 0.14.2 published release as rollback.
+## Verified native release chain
 
-**Release gate:** Must pass Windows A/B Build → Install → In-place Upgrade →
-Real H.264/AAC MP4 Render → GUI → Backup/Restore → Uninstall, and a second
-separate Windows runner testing the EXACT published setup.exe. Until then,
-0.14.2 remains the approved latest release. User laptop not tested.
+1. [Native Windows build and installer-lab PASS — Run 42475358558](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42475358558): source privacy and regression tests; 120 Python tests and 143 JavaScript tests; native NSIS Build A/B, install, upgrade, MP4 render, real Edge UI, recovery, project/media hashes and uninstall.
+2. [Published exact verified EXE PASS — Run 42475837823](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42475837823): released the tested bytes, no rebuild.
+3. [Independent published EXE acceptance PASS — Run 42475858282](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42475858282): a separate Windows runner downloaded the actual published binary; confirmed SHA-256; installed 0.14.0 then upgraded to 0.14.3; tested UI, WAV import, full backup/restore, tampered backup refusal, unauthorized API writes, and uninstall.
+
+**Installer:** `MMMN-Video-Studio-Setup-0.14.3.exe` · **64,840,856 bytes**
+**SHA-256:** `4c4de4daad56d292e7b697a004f74ffb374ddb7a79916c317f0d2e250d30c3ed`
+
+[Direct executable and release verification receipt](https://github.com/zmozmo/mmmn-video-studio/tree/windows-binaries-0143/downloads)
+
+Scope: free offline-first Windows x64, no mandatory API/subscription. The application is not code-signed. The runner tests do not constitute proof on the user's own laptop, all media codecs or all long-form projects. Personal novels/audio/images were never published.
