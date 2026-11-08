@@ -1,18 +1,22 @@
 # MMMN Video Studio — Windows (Offline-first)
 
-**Latest Windows release:** **0.14.0 (verified unsigned installer)**, published **8 November 2026**.
+**Latest Windows update:** **0.14.1 (verified unsigned installer)**, published **8 November 2026**, independently tested against the prior 0.14.0 installation.
 
 ### Download the actual Windows installer
 
-**[MMMN-Video-Studio-Setup-0.14.0.exe — Direct download](https://github.com/zmozmo/mmmn-video-studio/releases/download/v0.14.0/MMMN-Video-Studio-Setup-0.14.0.exe)**
+**[MMMN-Video-Studio-Setup-0.14.1.exe — Direct download](https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0141/downloads/MMMN-Video-Studio-Setup-0.14.1.exe)**
 
-File size: 64,823,394 bytes. SHA-256:
+File size: 64,821,111 bytes. SHA-256:
 
 ```text
-d1b1908cd078d140713f923c33ccb5c2d4c8abe2f4042cfef982a3aaa21c462f
+d9966b888f7e46fb0bdbcf16626e32e2de99f1cc134521b3e2300b59b04fd861
 ```
 
-[Stable release page](https://github.com/zmozmo/mmmn-video-studio/releases/tag/v0.14.0) • [Verified Windows CI #10](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42442410316) • [Independent published-release acceptance tests](https://github.com/zmozmo/mmmn-video-studio/actions/workflows/windows-published-release-acceptance.yml)
+[Verified 0.14.1 installer download branch](https://github.com/zmozmo/mmmn-video-studio/tree/windows-binaries-0141/downloads) • [Native Windows Install/Upgrade/Render/Uninstall PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42448702717) • [Independent real 0.14.0→0.14.1 upgrade / GUI / WAV / backup / restore PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42449367102)
+
+**What's new in 0.14.1:** Fixes the manuscript-save bug that could erase storyboard scenes, timing, manual locks and chosen artwork. Adds one-click Windows Explorer buttons to open the user's Backup, Project and MP4 Export folders. [Read the Windows 0.14.1 release notes](WINDOWS-0141-RELEASE-NOTES.md).
+
+**GitHub release API note:** The verified 0.14.1 EXE is currently published as a **direct downloadable file** in a public-safe Git branch, not as a GitHub Release asset, because the latter returned a GitHub integration 403. It does not require downloading or extracting a ZIP. The previous 0.14.0 GitHub Release remains available at [v0.14.0](https://github.com/zmozmo/mmmn-video-studio/releases/tag/v0.14.0).
 
 You **do not need to extract a ZIP, use VS Code, or run build scripts**. Download the EXE, close any old copy of the studio, and run the installer for the same Windows user account. For upgrades, run the newer installer without first uninstalling the previous version. For important projects, make a separate copy of your saved media and backups before upgrading.
 
@@ -30,9 +34,9 @@ The installer is **unsigned**. Windows SmartScreen may warn about an unknown pub
 
 ### Verification and limitations
 
-- The Windows GitHub-hosted runner **compiled the installer**, installed the base version, upgraded it in place, rendered H.264 + AAC video, opened the real Edge UI, checked project/media SHA-256 hashes and verified uninstall retained test data. [Full CI evidence](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42442410316).
+- The Windows GitHub-hosted runner **compiled the 0.14.1 installer**, installed a base version, upgraded it in place, rendered H.264 + AAC video, opened the real Edge UI, checked project/media SHA-256 hashes and verified uninstall retained test data. [Full CI evidence](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42448702717).
 - The setup EXE on the release page is the **same verified installer bytes**, not an untested rebuild.
-- A separate, independent workflow **PASSED** after downloading the public installer, installing it on another clean Windows runner, verifying the real Edge editor, saving/reloading chapter edits, importing a WAV narration, completing a full backup, checking its SHA-256, and proving no outbound requests. [Independent acceptance PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42446622034).
+- A separate, independent workflow **PASSED** after downloading the public 0.14.1 installer directly, installing the actual 0.14.0 first, upgrading to 0.14.1, verifying that seven project/media/backup file hashes remain unchanged, opening the real Edge editor, saving/reloading chapter edits without deleting the existing storyboard, importing WAV narration, completing a full backup and SHA-256 verification, actually restoring it, testing local folder access and proving no outbound requests. [Independent acceptance PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42449367102).
 - This is an **unsigned Windows release**, not a code-signed release or a guarantee that every laptop/codec/project will work. The user's Windows 11 device has not yet been tested.
 - Rendering is CPU-based and longer, high-resolution videos may take time, RAM and disk space.
 - Burmese automatic speech transcription requires separately installed **offline speech models** and is not an always-ready built-in feature. Your own narration audio import/export is independent of speech transcription.
