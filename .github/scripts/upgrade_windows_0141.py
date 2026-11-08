@@ -89,4 +89,19 @@ if r"0\.14\.0" not in checks: raise ValueError("Missing prior Windows source tes
 gate.write_text(checks.replace(r"0\.14\.0",r"0\.14\.1"),encoding="utf-8")
 print("UPDATED Windows source build contract tests",flush=True)
 
+# Keep the real installed-upgrade probe aligned with the actual 0.14.1
+# revision names. This is NOT a waiver: the probe still verifies original
+# project/media SHA-256 and pre-upgrade checkpoint existence.
+for rel in ("tests/windows_installer_probe.py",
+            "tests/windows_installer_probe_test.py",
+            ".github/workflows/windows-installer-upgrade-lab.yml"):
+    file=root/rel
+    raw=file.read_text(encoding="utf-8")
+    if "installer-lab-base" not in raw:
+        raise ValueError("Prior revision witness missing: "+rel)
+    new=raw.replace("installer-lab-base","installer-lab-0141-base")
+    new=new.replace("installer-lab-upgrade","installer-lab-0141-upgrade")
+    file.write_text(new,encoding="utf-8")
+    print("UPGRADE REVISION WITNESS UPDATED",rel,flush=True)
+
 print("MMMN WINDOWS 0.14.1 SOURCE UPGRADE READY",flush=True)
