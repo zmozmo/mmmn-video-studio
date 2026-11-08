@@ -1,0 +1,63 @@
+name: Independently QA Published Windows Setup EXE
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/scripts/windows_published_release_acceptance.py'
+      - '.github/workflows/windows-published-release-acceptance.yml'
+permissions:
+  contents: read
+jobs:
+  installed-public-release:
+    runs-on: windows-latest
+    timeout-minutes: 25
+    env:
+      GH_TOKEN: ${{ github.token }}
+      NO_PROXY: 127.0.0.1,localhost
+      PYTHONIOENCODING: utf-8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Download EXACT publicly released setup.exe (NOT source or internal build artifact)
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force published | Out-Null
+          gh release download 'v0.14.0-rc.1' -R $env:GITHUB_REPOSITORY -D published -p 'MMMN-Video-Studio-Setup-0.14.0.exe*'
+          if ($LASTEXITCODE -ne 0) { throw 'Cannot download published installer' }
+          $setup='published/MMMN-Video-Studio-Setup-0.14.0.exe'
+          $sha='published/MMMN-Video-Studio-Setup-0.14.0.exe.sha256'
+          if (!(Test-Path $setup) -or !(Test-Path $sha)) { throw 'Released setup and checksum are required' }
+          $expected=(Get-Content $sha -Raw).Trim().Split(' ')[0].ToLowerInvariant()
+          $actual=(Get-FileHash $setup -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($actual -ne $expected -or $actual -ne 'd1b1908cd078d140713f923c33ccb5c2d4c8abe2f4042cfef982a3aaa21c462f') {
+            throw 'Public installer integrity mismatch: refusal to execute'
+          }
+          Write-Host "Direct public released installer checksum verified: $actual"
+      - name: Install published setup.exe silently into ephemeral Windows runner user profile
+        shell: pwsh
+        run: |
+          $p=Start-Process -FilePath (Resolve-Path published/MMMN-Video-Studio-Setup-0.14.0.exe) -ArgumentList '/S' -PassThru -Wait
+          if ($p.ExitCode -ne 0) { throw "Installer failed with exit $($p.ExitCode)" }
+          $exe=Join-Path $env:LOCALAPPDATA 'Programs/MMMN Video Studio/MMMN-Video-Studio.exe'
+          if (!(Test-Path $exe)) { throw "Published release did not install executable: $exe" }
+          "MMMN_RELEASE_INSTALLED_EXE=$exe" >> $env:GITHUB_ENV
+          & $exe --self-test
+          if ($LASTEXITCODE -ne 0) { throw 'Installed executable failed real FFmpeg self-test' }
+      - name: Independent real installed UI, narration upload, save/reload, and backup QA
+        shell: pwsh
+        run: |
+          python -m pip install playwright==1.56.0
+          if ($LASTEXITCODE -ne 0) { throw 'Cannot install UI test dependency' }
+          python .github/scripts/windows_published_release_acceptance.py
+          if ($LASTEXITCODE -ne 0) { throw 'Released installer GUI/media/backup independent QA failed' }
+      - name: Uninstall package from disposable Windows QA runner
+        if: always()
+        shell: pwsh
+        run: |
+          $uninstaller=Join-Path $env:LOCALAPPDATA 'Programs/MMMN Video Studio/Uninstall.exe'
+          if (Test-Path $uninstaller) {
+            $p=Start-Process -FilePath $uninstaller -ArgumentList '/S' -PassThru -Wait
+            if ($p.ExitCode -ne 0) { throw "Uninstaller exit: $($p.ExitCode)" }
+          }
