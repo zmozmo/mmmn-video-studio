@@ -9,7 +9,7 @@ permissions:
   contents: write
 jobs:
   verified-windows-binary:
-    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.head_sha == 'b867611a1ae65046f982b409f223aabb61ca9b3d' && github.event.workflow_run.repository.full_name == github.repository }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.head_sha == 'ae718d31086ab333fcf45fefb7faf523869a2a5d' && github.event.workflow_run.repository.full_name == github.repository }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
