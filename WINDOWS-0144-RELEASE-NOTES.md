@@ -34,4 +34,8 @@
 
 ## Limitations
 
+**Final extended Windows 0.14.4 QA:** [Exact published installer Run 42492649641 — PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42492649641). Verified two 45-second 1920×1080 three-scene H.264/AAC MP4 renders with **1,350 full-HD frames each**, 9-second three-scene cross-dissolve (**270 frames**), rejection of simultaneous export, safe cancellation without corrupting previous MP4, retry after cancel (**90 frames**), and SHA-256-verified full-media snapshot copy to a separate synthetic external-drive folder, simulated local snapshot loss, copy-back and verification. The 15-minute synthetic narration, 3-chapter merge and four platform export presets passed again. This simulation does not prove real USB hardware or hour-long encoding.
+
+## Limitations
+
 Windows native and published-binary acceptance tests passed on GitHub-hosted disposable Windows machines only. The user's own laptop was not tested or touched. Installer is unsigned and may raise SmartScreen warning. The app requires no paid AI API, subscription or online server to edit and render locally; there is no automatic Google Drive sync, external-drive backup copy, or mandatory Burmese transcription model. The user should separately copy a verified full backup to an external drive. No private real manuscripts, voice recordings or images were published.
