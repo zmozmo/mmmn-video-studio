@@ -1,4 +1,4 @@
-name: Independent Windows 0.14.4 Long-Form Offline Media QA
+name: Independent Windows 0.14.4 Long-Form and Four Presets QA
 on:
   workflow_dispatch:
   push:
@@ -49,7 +49,7 @@ jobs:
           "MMMN_RELEASE_INSTALLED_EXE=$exe" >> $env:GITHUB_ENV
           & $exe --self-test
           if ($LASTEXITCODE -ne 0) { throw "Installed FFmpeg smoke test failed" }
-      - name: Import 15min WAV, backup/restore, and combine 3 chapters offline
+      - name: 15min WAV, backup/restore, 3-chapter merge and all four MP4 aspect ratios
         shell: pwsh
         run: |
           python .github/scripts/windows_longform_stress_0144.py

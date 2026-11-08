@@ -137,6 +137,66 @@ def combine_book(app,ffprobe,hashes):
         assert sha(fixture.DATA/"exports"/name)==digest,"Source chapter MP4 changed"
     print(f"PASS: 3 chapter MP4s joined to {seconds:.3f}s, {frames} frames, H.264/AAC",flush=True)
 
+
+def verify_export_presets(app,ffprobe):
+    """Actually encode and inspect all four full-size social media export presets.
+
+    Exercise the packaged offline renderer through the running, installed
+    Windows application. A simple 1-second synthetic WAV + PNG is the only input.
+    """
+    audio_id="preset-audio-qa0144"
+    image_id="preset-image-qa0144"
+    app.upload(audio_id,"wav",fixture.sample_audio())
+    app.upload(image_id,"png",fixture.PNG)
+    presets={
+        "youtube":(1920,1080),
+        "tiktok":(1080,1920),
+        "facebook":(1080,1350),
+        "square":(1080,1080),
+    }
+    for index,(preset,dimensions) in enumerate(presets.items(),start=60):
+        params={
+            "chapterNumber":index,
+            "sourceVideoId":audio_id,
+            "sourceVideoExt":"wav",
+            "scenes":[{"assetId":image_id,"ext":"png","duration":1,
+                       "motion":"still"}],
+            "preset":preset,
+            "recordedSeconds":1,
+            "transitionMode":"cut",
+            "quality":"full",
+        }
+        job=app.api("start_render_job",params)
+        jid=job["id"]
+        deadline=time.monotonic()+160
+        while time.monotonic()<deadline:
+            state=app.api("get_render_job_status",{"id":jid})
+            if state["status"] in ("complete","failed","cancelled"):
+                break
+            time.sleep(.5)
+        else:
+            app.api("cancel_render_job",{"id":jid})
+            raise TimeoutError(f"Preset render timeout: {preset}")
+        assert state["status"]=="complete",f"{preset}: {state}"
+        out=Path(state["output"])
+        assert out.is_file() and out.stat().st_size>1024
+        proc=subprocess.run([str(ffprobe),"-v","error","-count_frames",
+            "-show_entries","stream=codec_type,codec_name,width,height,nb_read_frames:format=duration",
+            "-of","json",str(out)],capture_output=True,text=True,timeout=100,check=True)
+        info=json.loads(proc.stdout)
+        streams={x["codec_type"]:x for x in info["streams"]}
+        video=streams["video"]
+        assert (video["width"],video["height"])==dimensions,(
+            f"Wrong {preset} export resolution: {video}")
+        assert video["codec_name"]=="h264" and streams["audio"]["codec_name"]=="aac"
+        assert int(video["nb_read_frames"])==30,(
+            f"{preset}: 1 second at 30fps should have exactly 30 frames")
+        duration=float(info["format"]["duration"])
+        assert .7<=duration<=1.5, f"{preset} shortened/extended: {duration}"
+        print(f"PASS: {preset} FULL QUALITY {dimensions[0]}x{dimensions[1]} "
+              f"H.264/AAC, 30frames, {duration:.2f}s",flush=True)
+    print("PASS: all four public Windows full-quality MP4 export presets",flush=True)
+
 def main():
     exe=Path(os.environ["MMMN_RELEASE_INSTALLED_EXE"])
     assert exe.is_file(),"Published EXE not installed"
@@ -148,7 +208,8 @@ def main():
         backup_restore_long_wav(app,digest)
         ffprobe,hashes=make_chapter_mp4s(exe)
         combine_book(app,ffprobe,hashes)
-    print("WINDOWS 0.14.4 PUBLISHED-BINARY LONG-FORM OFFLINE QA PASS",flush=True)
+        verify_export_presets(app,ffprobe)
+    print("WINDOWS 0.14.4 PUBLISHED-BINARY LONGFORM + FOUR-PRESET QA PASS",flush=True)
 
 if __name__=="__main__":
     main()
