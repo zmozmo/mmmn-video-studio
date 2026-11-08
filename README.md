@@ -20,4 +20,6 @@ SHA-256: `db57d26241c19c9a2629f959245fa0ecb74c86d5a9bbfe04df8031cfe5da6830`
 
 **[Five-minute full-HD MP4 exported and independently inspected — PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42493062578).** 300.000s, 1920×1080, six scenes, 30fps / **9,000 frames**, H.264/AAC; hosted Windows runner encoded in **45.9s**. This is not an owner-laptop performance estimate.
 
+**[15-minute Full HD MP4 — Windows Runner PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42493702496):** exact already-published EXE encoded an uninterrupted 900-second, six-scene 1920×1080 H.264/AAC video, 30fps / **27,000 verified frames**. Encoder time 132 seconds on that runner; not a performance estimate for the owner's laptop. Earlier 5-minute MP4 SHA stayed unchanged. [Long-form receipt](downloads/WINDOWS-0144-LONGFORM-VERIFIED.txt).
+
 **Windows SmartScreen may warn (unsigned).** Owner's actual laptop remains untested, Android paused. No mandatory subscription or cloud API.
