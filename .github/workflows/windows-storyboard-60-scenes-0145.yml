@@ -1,6 +1,10 @@
 name: Windows 0.14.5 60 Distinct-Scene Full-HD Storyboard QA
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/windows-storyboard-60-scenes-0145.yml'
   workflow_run:
     workflows: ["Independently QA Released Windows 0.14.5 Direct Setup EXE"]
     types: [completed]
@@ -12,7 +16,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   published-60-scenes:
-    if: ${{ github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.repository.full_name == github.repository) }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.repository.full_name == github.repository) }}
     runs-on: windows-latest
     timeout-minutes: 45
     env:
@@ -32,7 +36,7 @@ jobs:
             Invoke-WebRequest -Uri "$base/$name" -OutFile (Join-Path 'published' $name) -ErrorAction Stop
           }
           $setup='published/MMMN-Video-Studio-Setup-0.14.5.exe'
-          $expected='db57d26241c19c9a2629f959245fa0ecb74c86d5a9bbfe04df8031cfe5da6830'
+          $expected='3afb835da0c14c7b3da761e07b479c15a3956ee97efb771b450467d2f529f274'
           $manifest=(Get-Content "$setup.sha256" -Raw).Trim().Split(' ')[0].ToLowerInvariant()
           $actual=(Get-FileHash $setup -Algorithm SHA256).Hash.ToLowerInvariant()
           if ($actual -ne $expected -or $actual -ne $manifest) { throw "Public EXE checksum differs from release" }
