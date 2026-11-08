@@ -221,14 +221,21 @@ def verify_full_hd_multi_scene_and_cancel(app,ffprobe):
     photo_id="long-hd-photo-qa0144"
     app.upload(audio_id,"wav",make_short_wav(45))
     app.upload(photo_id,"png",fixture.PNG)
+    available_audio={45:audio_id}
 
     def begin(chapter,seconds,transition):
+        # The renderer correctly rejects mismatched narration and video
+        # duration. Every distinct timeline must have matching source WAV.
+        if seconds not in available_audio:
+            unique_id=f"long-hd-audio-{seconds}-qa0144"
+            app.upload(unique_id,"wav",make_short_wav(seconds))
+            available_audio[seconds]=unique_id
         scenes=[
             {"assetId":photo_id,"ext":"png","duration":seconds/3,
              "motion":"still"} for _ in range(3)
         ]
         return app.api("start_render_job",{
-            "chapterNumber":chapter,"sourceVideoId":audio_id,
+            "chapterNumber":chapter,"sourceVideoId":available_audio[seconds],
             "sourceVideoExt":"wav","scenes":scenes,"preset":"youtube",
             "recordedSeconds":seconds,"transitionMode":transition,
             "quality":"full",
@@ -279,9 +286,9 @@ def verify_full_hd_multi_scene_and_cancel(app,ffprobe):
 
     # Begin 45s render and immediately request cancel. No stale active job or
     # partially-published final MP4 may be left behind.
-    current=begin(73,45,"cut")
+    current=begin(73,36,"cut")
     try:
-        begin(74,45,"cut")
+        begin(74,36,"cut")
     except HTTPError as exc:
         assert exc.code in (400,409,422),f"Concurrent render returned {exc.code}"
     else:
