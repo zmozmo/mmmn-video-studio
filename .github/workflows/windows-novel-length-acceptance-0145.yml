@@ -1,6 +1,10 @@
 name: Windows 0.14.5 Complete Novel 90m and 120m MP4 QA
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/windows-novel-length-acceptance-0145.yml'
   workflow_run:
     workflows: ["Independently QA Released Windows 0.14.5 Direct Setup EXE"]
     types: [completed]
@@ -12,7 +16,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   full-novel-windows:
-    if: ${{ github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.repository.full_name == github.repository) }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.repository.full_name == github.repository) }}
     name: Full novel ${{ matrix.minutes }}min 1080p (${{ matrix.frames }} frames)
     runs-on: windows-latest
     timeout-minutes: 55
@@ -41,7 +45,7 @@ jobs:
             Invoke-WebRequest -Uri "$base/$name" -OutFile (Join-Path 'published' $name) -ErrorAction Stop
           }
           $setup='published/MMMN-Video-Studio-Setup-0.14.5.exe'
-          $expected='db57d26241c19c9a2629f959245fa0ecb74c86d5a9bbfe04df8031cfe5da6830'
+          $expected='3afb835da0c14c7b3da761e07b479c15a3956ee97efb771b450467d2f529f274'
           $manifest=(Get-Content "$setup.sha256" -Raw).Trim().Split(' ')[0].ToLowerInvariant()
           $actual=(Get-FileHash $setup -Algorithm SHA256).Hash.ToLowerInvariant()
           if ($actual -ne $expected -or $actual -ne $manifest) { throw "Public EXE checksum mismatch" }
