@@ -1,5 +1,10 @@
 name: Independently QA Released Windows 0.14.2 Direct Setup EXE
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/scripts/windows_published_release_acceptance_0142.py'
+      - '.github/workflows/windows-published-release-acceptance-0142.yml'
   workflow_dispatch:
   workflow_run:
     workflows: ["Publish Verified Windows 0.14.2 Direct EXE"]

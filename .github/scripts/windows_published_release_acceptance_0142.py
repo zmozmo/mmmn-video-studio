@@ -185,6 +185,69 @@ def run():
                         else:raise AssertionError("UI backup SHA-256 verification never completed: "+str(dialogs))
                         print("PASS: user-facing full backup SHA-256 verification",flush=True)
 
+                        # Security: forged or missing localhost API tokens must never
+                        # allow untrusted callers to overwrite the saved manuscript.
+                        import urllib.error
+                        baseline_hash = hashlib.sha256(projectfile.read_bytes()).hexdigest()
+                        rogue = json.dumps(
+                            {'json': 'MMMN-UNAUTHORIZED-WRITE-REJECTION'},
+                            ensure_ascii=False).encode('utf-8')
+                        for token_headers in ({}, {'X-MM-Token': 'forged-qa-token'}):
+                            headers = {'Content-Type': 'application/json', **token_headers}
+                            request = urllib.request.Request(
+                                url + '__api/save_project_state', data=rogue,
+                                headers=headers, method='POST')
+                            try:
+                                with urllib.request.urlopen(request, timeout=10) as response:
+                                    raise AssertionError(
+                                        'Unauthenticated API write accepted: ' + str(response.status))
+                            except urllib.error.HTTPError as error:
+                                assert error.code in (400, 401, 403), (
+                                    'Unexpected unauthorized response: ' + str(error.code))
+                        assert hashlib.sha256(projectfile.read_bytes()).hexdigest() == baseline_hash, (
+                            'Unauthorized API request modified persistent manuscript')
+                        print('PASS: missing and forged API tokens rejected without data mutation', flush=True)
+
+                        # Integrity fault injection: corrupt one SYNTHETIC full-backup
+                        # media file, prove the backup is rejected, then put original
+                        # bytes back. Never mutate actual user files or snapshots.
+                        latest_snapshot = max(
+                            (p for p in snapshots if p.is_dir()),
+                            key=lambda p: p.stat().st_mtime)
+                        snapshot_media = [
+                            p for p in (latest_snapshot / 'media').rglob('*') if p.is_file()]
+                        assert snapshot_media, 'Full backup must contain copied synthetic media'
+                        copied_recording = snapshot_media[0]
+                        assert not copied_recording.is_symlink(), 'Backup must not contain media symlink'
+                        clean_bytes = copied_recording.read_bytes()
+                        source_hash = hashlib.sha256(stored[0].read_bytes()).hexdigest()
+                        project_hash = hashlib.sha256(projectfile.read_bytes()).hexdigest()
+                        try:
+                            copied_recording.write_bytes(clean_bytes + b'MMMN-QA-CORRUPTION')
+                            tampered = page.evaluate('''async (id) => {
+                                try {
+                                    const result = await window.__TAURI__.core.invoke('verify_local_backup', {id});
+                                    return {ok:true, result};
+                                } catch (error) {
+                                    return {ok:false, error:String(error)};
+                                }
+                            }''', latest_snapshot.name)
+                            assert not (
+                                tampered.get('ok') and
+                                isinstance(tampered.get('result'), dict) and
+                                tampered['result'].get('verified') is True), (
+                                'CORRUPTED BACKUP FALSELY VERIFIED: ' + repr(tampered))
+                            assert hashlib.sha256(projectfile.read_bytes()).hexdigest() == project_hash
+                            assert hashlib.sha256(stored[0].read_bytes()).hexdigest() == source_hash
+                        finally:
+                            copied_recording.write_bytes(clean_bytes)
+                        repaired = page.evaluate('''async (id) =>
+                            await window.__TAURI__.core.invoke('verify_local_backup', {id})''',
+                            latest_snapshot.name)
+                        assert repaired.get('verified') is True, (
+                            'Repaired full backup failed verification: ' + repr(repaired))
+                        print('PASS: corrupted full backup rejected, original recovered and reverified', flush=True)
+
                         # Only vetted local folders can be launched by user action.
                         for action in ("open-local-backups","open-local-project"):
                             with page.expect_response(lambda r: "/__api/open_local_folder" in r.url,timeout=15000) as opening:
