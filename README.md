@@ -1,10 +1,10 @@
 # MMMN Video Studio — Windows (Offline-first)
 
-**Latest Windows release candidate:** **0.14.0 RC1**, published **8 November 2026**.
+**Latest Windows release:** **0.14.0 (verified unsigned installer)**, published **8 November 2026**.
 
 ### Download the actual Windows installer
 
-**[MMMN-Video-Studio-Setup-0.14.0.exe — Direct download](https://github.com/zmozmo/mmmn-video-studio/releases/download/v0.14.0-rc.1/MMMN-Video-Studio-Setup-0.14.0.exe)**
+**[MMMN-Video-Studio-Setup-0.14.0.exe — Direct download](https://github.com/zmozmo/mmmn-video-studio/releases/download/v0.14.0/MMMN-Video-Studio-Setup-0.14.0.exe)**
 
 File size: 64,823,394 bytes. SHA-256:
 
@@ -12,7 +12,7 @@ File size: 64,823,394 bytes. SHA-256:
 d1b1908cd078d140713f923c33ccb5c2d4c8abe2f4042cfef982a3aaa21c462f
 ```
 
-[Release page](https://github.com/zmozmo/mmmn-video-studio/releases/tag/v0.14.0-rc.1) • [Verified Windows CI #10](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42442410316) • [Independent published-release acceptance tests](https://github.com/zmozmo/mmmn-video-studio/actions/workflows/windows-published-release-acceptance.yml)
+[Stable release page](https://github.com/zmozmo/mmmn-video-studio/releases/tag/v0.14.0) • [Verified Windows CI #10](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42442410316) • [Independent published-release acceptance tests](https://github.com/zmozmo/mmmn-video-studio/actions/workflows/windows-published-release-acceptance.yml)
 
 You **do not need to extract a ZIP, use VS Code, or run build scripts**. Download the EXE, close any old copy of the studio, and run the installer for the same Windows user account. For upgrades, run the newer installer without first uninstalling the previous version. For important projects, make a separate copy of your saved media and backups before upgrading.
 
@@ -32,8 +32,8 @@ The installer is **unsigned**. Windows SmartScreen may warn about an unknown pub
 
 - The Windows GitHub-hosted runner **compiled the installer**, installed the base version, upgraded it in place, rendered H.264 + AAC video, opened the real Edge UI, checked project/media SHA-256 hashes and verified uninstall retained test data. [Full CI evidence](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42442410316).
 - The setup EXE on the release page is the **same verified installer bytes**, not an untested rebuild.
-- A separate, independent workflow checks the **published download** by installing it on another clean Windows runner and exercising actual editor interactions.
-- This is an **unsigned release candidate**, not a code-signed production release or a guarantee that every laptop/codec/project will work. The user's Windows 11 device has not yet been tested.
+- A separate, independent workflow **PASSED** after downloading the public installer, installing it on another clean Windows runner, verifying the real Edge editor, saving/reloading chapter edits, importing a WAV narration, completing a full backup, checking its SHA-256, and proving no outbound requests. [Independent acceptance PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42446622034).
+- This is an **unsigned Windows release**, not a code-signed release or a guarantee that every laptop/codec/project will work. The user's Windows 11 device has not yet been tested.
 - Rendering is CPU-based and longer, high-resolution videos may take time, RAM and disk space.
 - Burmese automatic speech transcription requires separately installed **offline speech models** and is not an always-ready built-in feature. Your own narration audio import/export is independent of speech transcription.
 - Android development is on hold.
@@ -49,3 +49,4 @@ The Windows app uses a local HTTP UI and local filesystem data; no subscription/
 - [Windows installer upgrade laboratory](.github/workflows/windows-installer-upgrade-lab.yml)
 - [Verified direct release publishing](.github/workflows/publish-verified-windows-setup.yml)
 - [Independent published release acceptance](.github/workflows/windows-published-release-acceptance.yml)
+- [Promotion to stable only after published-download QA](.github/workflows/promote-published-windows-stable.yml)
