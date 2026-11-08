@@ -31,3 +31,24 @@ Repeated 15-minute WAV streaming, full backup/restore and three-chapter MP4
 merge in the same exact public installer test: PASS
 These four full-size video encodes are 1-second synthetic fixtures; not proof
 of hours-long 1080p editing or export on the user's Windows laptop.
+
+
+FINAL EXTENDED 0.14.4 PUBLIC EXE ACCEPTANCE — PASS
+Run: https://github.com/zmozmo/mmmn-video-studio/actions/runs/42492649641
+Original EXE SHA-256 unchanged: db57d26241c19c9a2629f959245fa0ecb74c86d5a9bbfe04df8031cfe5da6830
+- 15-minute WAV streamed 28,800,044 bytes with SHA-256 chunks: PASS
+- Full-media snapshot verified and restored, unchanged WAV/manuscript: PASS
+- Copy snapshot into separate simulated external-drive folder: PASS
+- Remove synthetic local snapshot, copy back and verify SHA-256: PASS
+- Encode 3 chapter H.264/AAC MP4s and merge 6.023s/180 frames: PASS
+- Full-size YouTube, TikTok, Facebook, Square 1s/30frames MP4s: PASS
+- 45-second FULL 1920x1080 three-scene H.264/AAC: 1,350 frames PASS
+- Repeat same 45-second full-HD render/cache and preserve original MP4: PASS
+- 9-second cross-dissolve 1920x1080: 270 frames PASS
+- Reject second concurrent render; cancel first; prior MP4 unchanged: PASS
+- New 3-second 1080p MP4 after cancel: 90 frames PASS
+- Uninstall on disposable Windows runner: PASS
+
+Real hardware external USB and user's own Windows laptop are NOT tested.
+An actual 15-minute/1-hour VIDEO encode is NOT certified here.
+Code signing is not present. No private media ever uploaded.
