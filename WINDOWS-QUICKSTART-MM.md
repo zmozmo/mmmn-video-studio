@@ -57,7 +57,7 @@ Chapter MP4 နှစ်ခု သို့မဟုတ် ထို့ထက်
 
 - Google Drive ကို အလိုအလျောက် ချိတ်ဆက်/Sync မလုပ်ပါ။ မူရင်းဝတ္ထုကို Drive ပေါ်မှာ ပြောင်းလဲမပေးပါ။
 - မြန်မာအသံမှ စာသားပြောင်းရာမှာ Offline Speech Model သီးခြားလိုနိုင်ပြီး အမှားမရှိကြောင်း မအာမခံပါ။
-- GitHub Windows Runner မှာ **၄၅ စက္ကန့် Full HD Video**၊ **၁၅ မိနစ်စာ WAV Import**၊ **Backup/Restore**၊ **Cross-dissolve**၊ **Cancel/Retry** စမ်းသပ်ထားပါတယ်။ နာရီအတော်ကြာ Video Export ကို ကိုယ်ပိုင် Laptop ပေါ်မှာ မစမ်းရသေးပါ။
+- GitHub Windows Runner မှာ **၅ မိနစ်နဲ့ ၁၅ မိနစ်အပြည့် 1920×1080 Full HD MP4** ထုတ်စမ်းပြီး PASS ဖြစ်ပါတယ်။ ၁၅ မိနစ် MP4 မှာ **27,000 frames** ပါဝင်ကြောင်း စစ်ပြီးပါပြီ။ [Windows စမ်းသပ်မှု အထောက်အထား](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42493702496)။ ကိုယ်ပိုင် Laptop မှာတော့ မစမ်းရသေးပါ။
 - Installer Digital Signature မရှိသေးပါ။ Windows SmartScreen က Warning ပြနိုင်ပါတယ်။
 - ကိုယ်ပိုင်ဝတ္ထုမူရင်း၊ အသံ၊ ဓာတ်ပုံ၊ Password တွေကို Public GitHub Repository ထဲ မတင်ပါနဲ့။
 
