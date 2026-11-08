@@ -47,7 +47,9 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git switch --orphan windows-binaries-0141
-          git rm -rf . >/dev/null
+          # git switch --orphan already clears the index; git rm . then
+          # errors with "pathspec . did not match any files" on new Git.
+          git status --short
           mkdir -p downloads
           cp "$RUNNER_TEMP/verified/MMMN-Video-Studio-Setup-0.14.1.exe" downloads/
           cp "$RUNNER_TEMP/verified/MMMN-Video-Studio-Setup-0.14.1.exe.sha256" downloads/
