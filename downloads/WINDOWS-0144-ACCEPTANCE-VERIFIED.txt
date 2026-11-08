@@ -1,0 +1,22 @@
+MMMN VIDEO STUDIO WINDOWS 0.14.4 — VERIFIED PUBLIC EXE ACCEPTANCE
+Date: 2026-11-08 (UTC)
+Status: PASS — HOSTED WINDOWS RUNNER
+Filename: MMMN-Video-Studio-Setup-0.14.4.exe
+Size: 64855430 bytes
+SHA-256: db57d26241c19c9a2629f959245fa0ecb74c86d5a9bbfe04df8031cfe5da6830
+Build source commit: 7f7bc6bbfe1b85fbc774a28f4e259621fa82c60d
+Native Windows build/upgrade/render/uninstall: https://github.com/zmozmo/mmmn-video-studio/actions/runs/42478959788
+Exact pre-validated binary publication: https://github.com/zmozmo/mmmn-video-studio/actions/runs/42479446166
+Independent downloaded public EXE Windows QA: https://github.com/zmozmo/mmmn-video-studio/actions/runs/42479467429
+
+Published byte-for-byte exe downloaded by separate Windows runner with SHA-256
+verification; real 0.14.0 installed, synthetic WAV/media/manuscript and complete
+snapshot created; 0.14.4 installed over it; original SHA-256 metadata and media
+verified unchanged; real Edge UI, WAV import, manuscript save/reload, full
+backup/restore, deliberate backup corruption refusal, missing/forged API token
+rejection, offline flow and uninstall all PASS.
+
+Python tests recorded: 129. New atomic storage regression cases: 9.
+Unsigned installer, not yet tested on user's own Windows laptop. Not a
+certification of every codec or long-form workflow. All media synthetic;
+no personal data was added to this public repository.
