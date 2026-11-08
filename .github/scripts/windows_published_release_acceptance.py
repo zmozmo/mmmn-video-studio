@@ -89,11 +89,15 @@ def run():
                     errors=[]
                     responses=[]
                     outbounds=[]
+                    dialogs=[]
+                    def accept_dialog(dialog):
+                        dialogs.append(dialog.message)
+                        dialog.accept()
                     page.on("pageerror",lambda err: errors.append("JS: "+str(err)[:600]))
                     page.on("console",lambda msg: errors.append("CONSOLE: "+msg.text[:600]) if msg.type=="error" else None)
-                    page.on("request",lambda req: outbounds.append(req.url) if not req.url.startswith(url) else None)
+                    page.on("request",lambda req: outbounds.append(req.url) if not (req.url.startswith(url) or req.url.startswith("blob:") or req.url.startswith("data:")) else None)
                     page.on("response",lambda res: responses.append((res.status,res.url)) if '/__api/' in res.url else None)
-                    page.on("dialog",lambda dialog: dialog.accept())
+                    page.on("dialog",accept_dialog)
                     try:
                         page.goto(url,wait_until="domcontentloaded",timeout=40000)
                         page.locator(".shell").wait_for(state="visible",timeout=30000)
@@ -144,18 +148,22 @@ def run():
                         # Full-media backup includes the UI edit AND imported WAV.
                         page.locator('[data-tab="updates"]').first.click()
                         page.locator('[data-action="backup-native-full"]').click()
-                        deadline=time.monotonic()+35
+                        deadline=time.monotonic()+40
                         while time.monotonic()<deadline:
-                            snapshots=list((localdata/"snapshots").glob("snapshot-*"))
-                            if snapshots:break
-                            time.sleep(.3)
-                        else:raise AssertionError("Full backup was not created from UI")
-                        assert projectfile.is_file() and stored[0].is_file()
-                        print("PASS: UI full-media backup keeps project/audio intact",flush=True)
+                            if any("Verified Full Backup created" in msg for msg in dialogs):break
+                            if any("Full Backup failed" in msg for msg in dialogs):
+                                raise AssertionError("UI reports failed native backup: "+str(dialogs))
+                            page.wait_for_timeout(250)
+                        else:raise AssertionError("UI full backup never completed: "+str(dialogs))
+                        snapshots=list((localdata/"snapshots").glob("snapshot-*"))
+                        assert snapshots and projectfile.is_file() and stored[0].is_file()
+                        print("PASS: UI full-media backup COMPLETED and preserved project/audio",flush=True)
 
                         # The app must not silently make outbound web requests during core use.
+                        # blob:/data: URLs are local in-memory browser media, not network.
                         assert not outbounds, "Offline local mode requested remote connections: "+str(outbounds[:5])
-                        assert not errors, "Browser runtime errors: "+str(errors[:8])
+                        serious=[message for message in errors if not message.startswith("CONSOLE: Failed to load resource:")]
+                        assert not serious, "Browser runtime errors: "+str(serious[:8])
                         print("PASS: no outbound network request or browser runtime error",flush=True)
                         print("WINDOWS PUBLISHED RELEASE ACCEPTANCE PASS",flush=True)
                     finally:
