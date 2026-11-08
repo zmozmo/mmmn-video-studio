@@ -1,4 +1,4 @@
-"""Real 0.14.0 -> 0.14.1 Windows in-place upgrade acceptance.
+"""Real 0.14.0 -> 0.14.2 Windows in-place upgrade acceptance.
 
 Creates only synthetic data in an isolated GitHub runner directory.
 Before: installs/runs REAL old Windows executable, imports WAV and PNG through
@@ -132,7 +132,7 @@ def after(exe):
     with Session(exe) as app:
         for relative,expected in witness["files"].items():
             path=DATA/relative
-            if sha(path)!=expected:raise AssertionError("0.14.1 altered original project/media/backup bytes: "+relative)
+            if sha(path)!=expected:raise AssertionError("0.14.2 altered original project/media/backup bytes: "+relative)
         source=app.api("load_project_state")
         project=json.loads(source)
         assert project["title"]=="MMMN SYNTHETIC 0.14.0 UPGRADE DATA"
@@ -143,7 +143,7 @@ def after(exe):
         assert tracker.get("previousRevision")==witness["oldRevision"],tracker
         checkpoints=list((DATA/"preupgrade-metadata").glob("preupgrade-*.json"))
         assert checkpoints and any(sha(p)==witness["files"]["project-state.json"] for p in checkpoints)
-        print("PASS: Installed 0.14.0 -> Installed 0.14.1 in-place update retained 7 original file hashes, manuscript/storyboard/manual lock, verified snapshot and PREUPGRADE METADATA",flush=True)
+        print("PASS: Installed 0.14.0 -> Installed 0.14.2 in-place update retained 7 original file hashes, manuscript/storyboard/manual lock, verified snapshot and PREUPGRADE METADATA",flush=True)
 
 if __name__=="__main__":
     parser=argparse.ArgumentParser()
