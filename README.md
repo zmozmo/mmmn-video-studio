@@ -22,7 +22,7 @@ There is no requirement for VS Code, CMD, Python/Node.js installation, source ZI
 - Create **verified full-media local backups**, verify via SHA-256, restore after an accidental edit, open Project/Backup/MP4 folders directly in Windows Explorer and keep existing user files across in-place installer upgrades/uninstalls.
 - New in **0.14.4**: unique exclusive project-save staging files with failure cleanup, project-recovery symlink protection, and collision-safe media finalization. Old trial labels and obsolete ZIP/CMD backup instructions corrected. Nine new regression tests.
 
-[Full 0.14.4 release notes](WINDOWS-0144-RELEASE-NOTES.md) · [0.14.3 notes](WINDOWS-0143-RELEASE-NOTES.md)
+[မြန်မာလို Windows စတင်အသုံးပြုနည်း](WINDOWS-QUICKSTART-MM.md) · [0.14.4 release notes](WINDOWS-0144-RELEASE-NOTES.md) · [Release readiness](WINDOWS-RELEASE-READINESS.md) · [0.14.3 notes](WINDOWS-0143-RELEASE-NOTES.md)
 
 ## Exact native and independently downloaded Windows acceptance
 
