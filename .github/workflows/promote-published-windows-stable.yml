@@ -1,0 +1,87 @@
+name: Promote Independently Verified Windows 0.14.0 Installer
+on:
+  workflow_run:
+    workflows: ["Independently QA Published Windows Setup EXE"]
+    types: [completed]
+    branches: [main]
+permissions:
+  actions: read
+  contents: write
+jobs:
+  promote-unsigned-windows-stable:
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.repository.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPOSITORY: ${{ github.repository }}
+      ACCEPTANCE_RUN: ${{ github.event.workflow_run.id }}
+      EXPECTED_SHA: d1b1908cd078d140713f923c33ccb5c2d4c8abe2f4042cfef982a3aaa21c462f
+    steps:
+      - name: Fetch the EXACT publicly QA-tested release files (no repackaging or rebuild)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p verified
+          gh release download v0.14.0-rc.1 -R "$REPOSITORY" -D verified \
+            -p 'MMMN-Video-Studio-Setup-0.14.0.exe' \
+            -p 'MMMN-Video-Studio-Setup-0.14.0.exe.sha256' \
+            -p 'RELEASE-EVIDENCE-VERIFIED.json'
+          test -s verified/MMMN-Video-Studio-Setup-0.14.0.exe
+          test -s verified/MMMN-Video-Studio-Setup-0.14.0.exe.sha256
+          test -s verified/RELEASE-EVIDENCE-VERIFIED.json
+      - name: Independently compare the public installer with pinned SHA and Windows CI evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib,json,os,pathlib
+          p=pathlib.Path('verified')
+          setup=p/'MMMN-Video-Studio-Setup-0.14.0.exe'
+          with setup.open('rb') as f:
+              actual=hashlib.file_digest(f,'sha256').hexdigest()
+          expected=os.environ['EXPECTED_SHA']
+          declared=(p/'MMMN-Video-Studio-Setup-0.14.0.exe.sha256').read_text().split()[0].lower()
+          evidence=json.loads((p/'RELEASE-EVIDENCE-VERIFIED.json').read_text())
+          if actual!=expected or declared!=expected or evidence.get('sha256')!=expected:
+              raise SystemExit('Published binary digest does not match verified Windows build')
+          if evidence.get('status')!='PASS' or evidence.get('windows_install_upgrade_render_uninstall')!='VERIFIED':
+              raise SystemExit('Native Windows installer gate did not pass')
+          if not 40_000_000 < setup.stat().st_size < 500_000_000:
+              raise SystemExit('Published installer size outside expected range')
+          print('Exact tested unsigned Windows installer verified:',setup.stat().st_size,actual)
+          PY
+      - name: Promote same EXE bytes to Windows stable version, keeping unsigned publisher warning explicit
+        shell: bash
+        run: |
+          set -euo pipefail
+          if gh release view v0.14.0 -R "$REPOSITORY" >/dev/null 2>&1; then
+            echo 'Stable release already exists; no overwrite permitted'
+            exit 1
+          fi
+          cat > verified/STABLE-NOTES.md <<EOF
+          # MMMN Video Studio Windows 0.14.0 — Verified Unsigned Installer
+
+          **Direct Windows setup.exe**. No ZIP extraction, VS Code or command-line build tools required.
+
+          This EXACT setup.exe was compiled and tested on a hosted Windows runner and independently downloaded from its public GitHub pre-release URL, installed and exercised through Edge before promotion. The file has NOT been rebuilt or modified for this release.
+
+          Windows native install + in-place upgrade + H.264/AAC MP4 render + actual Edge UI + uninstall + project/media hash checks:
+          https://github.com/$REPOSITORY/actions/runs/42442410316
+
+          Independent published-download Windows user journey (actual GUI, chapter text save/reload, WAV narration import, native media preservation and full backup):
+          https://github.com/$REPOSITORY/actions/runs/$ACCEPTANCE_RUN
+
+          **Unsigned installer.** Windows SmartScreen may show unknown publisher; SHA-256 is provided. This is tested on GitHub-hosted Windows, not on every user's Windows 11 laptop. Do not disable antivirus protections globally.
+
+          The public installer includes only synthetic demo content. User manuscripts, private Drive metadata and recordings are not embedded. Offline text/image/narration editing and local MP4 rendering do not require a subscription.
+          EOF
+          gh release create v0.14.0 \
+            verified/MMMN-Video-Studio-Setup-0.14.0.exe \
+            verified/MMMN-Video-Studio-Setup-0.14.0.exe.sha256 \
+            verified/RELEASE-EVIDENCE-VERIFIED.json \
+            --repo "$REPOSITORY" --target 6eaecfdf1600e06cdbab568faad42d768b703606 \
+            --title "MMMN Video Studio Windows 0.14.0 — Verified Unsigned Setup" \
+            --notes-file verified/STABLE-NOTES.md
+          echo "Stable direct Windows installer:"
+          echo "https://github.com/$REPOSITORY/releases/download/v0.14.0/MMMN-Video-Studio-Setup-0.14.0.exe"
