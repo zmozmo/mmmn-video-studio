@@ -65,3 +65,17 @@ export presets, 45-second repeated render, dissolve and cancel/retry also PASS.
 CAUTION: Hosted runner timing cannot predict user's laptop speed.
 No physical USB hardware or personal source files were used. This does not
 certify hour-long MP4 encoding or every third-party codec.
+
+FINAL 15-MINUTE CONTINUOUS FULL HD MP4 ENCODE QA — PASS
+RUN 42493702496: https://github.com/zmozmo/mmmn-video-studio/actions/runs/42493702496
+Original published EXE 0.14.4 SHA-256: db57d26241c19c9a2629f959245fa0ecb74c86d5a9bbfe04df8031cfe5da6830
+True encoded video duration: 900.000 seconds (15:00)
+Resolution: 1920 x 1080, 30 fps; video H.264; audio AAC
+FFprobe verified frames: 27,000, with 6 synthetic scenes
+Encoding elapsed on disposable GitHub Windows runner: 132.0 seconds
+Previously generated five-minute MP4 remained byte-identical.
+Additional PASS: four social presets, long WAV import, 3-chapter merge,
+synthetic external-folder copy-back backup, cross dissolve, cancel/retry,
+installation and uninstallation.
+No personal recording/manuscript/photo uploaded. This is NOT a test on
+owner's laptop, real external USB drive or hour-long complex novel rendering.
