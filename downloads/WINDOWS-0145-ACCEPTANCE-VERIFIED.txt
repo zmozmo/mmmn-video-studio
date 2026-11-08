@@ -1,0 +1,57 @@
+MMMN VIDEO STUDIO WINDOWS 0.14.5 — INDEPENDENT PUBLISHED EXE ACCEPTANCE
+Date: 2026-11-08 UTC
+Status: PASS — Hosted disposable Windows x64 runners; owner's own laptop NOT tested
+Release file: MMMN-Video-Studio-Setup-0.14.5.exe
+Release size: 64844005 bytes
+SHA-256: 3afb835da0c14c7b3da761e07b479c15a3956ee97efb771b450467d2f529f274
+Binary: https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0145/downloads/MMMN-Video-Studio-Setup-0.14.5.exe
+
+GATE 1: Native Windows build, atomic-save retained, 7 long-video
+frame-check regressions, real install/update, media/backup integrity,
+H.264/AAC, uninstall:
+PASS https://github.com/zmozmo/mmmn-video-studio/actions/runs/42498880529
+
+GATE 2: Publish EXACT already-tested EXE bytes, not rebuilt:
+PASS https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499285203
+
+GATE 3: Independent separate runner downloads exact published EXE,
+real legacy 0.14.0 to 0.14.5 upgrade, Edge UI, WAV upload,
+save/reload, full backup/restore, local API authentication and uninstall:
+PASS https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499308041
+
+GATE 4: Entire 90-minute novel-style offline MP4:
+PASS https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499519584
+- Synthetic narration 172800044 bytes, streamed with per-chunk SHA256
+- Continuous VIDEO duration exactly 5400.000 seconds
+- 1920x1080 at 30fps, H.264 video and AAC audio
+- 162000 actual counted video frames; no missing/short final movie
+- Source synthetic WAV, verified snapshot, project and resulting MP4
+  remain intact after restoration
+- Hosted runner full encode elapsed 641.9s — not a device benchmark
+
+GATE 5: Two-hour resilience margin, not the owner's stated novel length:
+PASS https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499519584
+- Synthetic narration 230400044 bytes; verified streamed upload
+- Continuous VIDEO exactly 7200.000 seconds
+- 1920x1080 H.264/AAC 30fps, 216000 counted video frames
+- Full backup/restore verified, original WAV and MP4 unchanged
+- Hosted runner full encode elapsed 853.7s
+
+GATE 6: Real complex storyboard edit/render:
+PASS https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499523807
+- 60 genuinely different synthetic PNG scene assets
+- 59 cross-dissolve transitions
+- 900.000-second 1920x1080 H.264/AAC 30fps video
+- 27000 counted frames, full-media 61-file snapshot verified
+- Hosted runner duration 763.6s
+
+ROOT CAUSE REPAIRED: 0.14.4 used fixed 180-second FFprobe
+-count_frames timeout and failed the final frame verification stage
+for 90/120-minute MP4. 0.14.5 scales the verification allowance by
+duration WITHOUT removing FFprobe frame counting or media integrity
+checks. 0.14.4 should not be used for one-piece full-novel MP4 output.
+
+DISCLAIMERS: All test media are synthetic, never real personal audio,
+images or novels. User's own laptop was not accessed or tested. This
+does not establish performance under every hardware/codec condition,
+real USB-drive behavior, or code signing. Installer is unsigned.
