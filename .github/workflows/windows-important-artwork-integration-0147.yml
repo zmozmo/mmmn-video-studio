@@ -7,7 +7,7 @@ on:
       - '.github/scripts/upgrade_windows_0147.py'
       - 'web/major-artwork-brief.mjs'
       - 'tests/major-artwork-brief.test.mjs'
-      - '.github/workflows/windows-major-scene-integration-0147.yml'
+      - '.github/workflows/windows-important-artwork-integration-0147.yml'
       - 'web/major-scene.mjs'
       - 'tests/major-scene.test.mjs'
 permissions:
