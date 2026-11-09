@@ -1,16 +1,16 @@
 # MMMN Video Studio — Windows Offline-first
 
-**Latest Windows release: 0.14.7 (unsigned; audio-first optional SRT + minimal image brief, hosted Windows QA PASS)** · 9 November 2026  
+**Latest Windows release: 0.14.9 (unsigned; Burmese ASR manuscript mismatch protection, full hosted Windows QA PASS)** · 9 November 2026  
 **Android: paused** · **Personal laptop: deliberately not tested**
 
 ## One-click Windows x64 Installer (direct EXE, no ZIP)
 
-**[MMMN Video Studio 0.14.7 Windows setup.exe](https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0147/downloads/MMMN-Video-Studio-Setup-0.14.7.exe)**
+**[MMMN Video Studio 0.14.9 Windows setup.exe](https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0149/downloads/MMMN-Video-Studio-Setup-0.14.9.exe)**
 
-- Filename: `MMMN-Video-Studio-Setup-0.14.7.exe`
-- Size: **64,839,519 bytes**
-- SHA-256: `ca8b984722c6da971008a457c3d4b0dc734142edf0858d940f2c1bdb03c2f4cb`
-- [Published direct executable and independent acceptance record](https://github.com/zmozmo/mmmn-video-studio/tree/windows-binaries-0147/downloads)
+- Filename: `MMMN-Video-Studio-Setup-0.14.9.exe`
+- Size: **64,824,927 bytes**
+- SHA-256: `28d3f9b9d886986eeb3ebb8f908b22206e6debe22179c767f4ec733ca9d6ee1b`
+- [Published direct executable and independent acceptance record](https://github.com/zmozmo/mmmn-video-studio/tree/windows-binaries-0149/downloads)
 
 There is no requirement for VS Code, CMD, Python/Node.js installation, source ZIP or a paid video API to use the installed application. **Unsigned**: Windows SmartScreen may display an unknown-publisher warning; check the exact checksum. The user's actual Windows 11 laptop has not been tested yet.
 
@@ -23,14 +23,21 @@ There is no requirement for VS Code, CMD, Python/Node.js installation, source ZI
 - New in **0.14.4**: unique exclusive project-save staging files with failure cleanup, project-recovery symlink protection, and collision-safe media finalization. Old trial labels and obsolete ZIP/CMD backup instructions corrected. Nine new regression tests.
 - New in **0.14.5**: repair the hard-coded 180-second FFprobe full-frame verification timeout that prevented 90/120-minute video exports in 0.14.4. Frame-by-frame inspection stays enabled with a bounded duration-scaled check. The exact released 0.14.5 EXE produced a continuous **90-minute 1920×1080 H.264/AAC MP4 (162,000 frames)**; full local backup/restore and output SHA protection also passed on a disposable Windows runner.
 - New in **0.14.7**: **🖼 Important-scenes-only artwork brief** exports a private local Markdown checklist of only significant scene pictures, excluding technical same-image encoder segments. **🎧 Audio-first Smart Draft** can optionally call a separately installed local whisper.cpp multilingual model to generate unapproved Myanmar SRT before major-scene planning; if unavailable, clearly falls back to pause/text-length estimates. The **installer does not bundle an ASR model or generate artwork**.
+- New in **0.14.8**: cancellable asynchronous optional local speech transcription with safe FFmpeg/Whisper subprocess cleanup; preserve original voice and corrected SRT.
+- New in **0.14.9**: reject **grossly mismatched** generated Burmese SRT relative to the original novel before its timestamps can alter picture timing; even matched transcripts still require human review. This is a local deterministic guard, **not guaranteed semantic understanding**.
 - New in **0.14.6**: **🎬 Major-only Auto Draft** suggests background changes only for major visual transitions, NOT each rain word, minor character entrance or dialogue. Keeps pictures stable, honors manual locks, uses existing SRT or approximate offline pause timing, and divides 90/120-minute visually unchanged passages into <=3600-second *technical* segments with the same photo. **Not a full Burmese semantic AI or automatic image generator.**
 
-[မြန်မာလို Windows စတင်အသုံးပြုနည်း](WINDOWS-QUICKSTART-MM.md) · [0.14.7 release notes](WINDOWS-0147-RELEASE-NOTES.md) · [0.14.6 notes](WINDOWS-0146-RELEASE-NOTES.md) · [0.14.5 notes](WINDOWS-0145-RELEASE-NOTES.md) · [Release readiness](WINDOWS-RELEASE-READINESS.md) · [0.14.3 notes](WINDOWS-0143-RELEASE-NOTES.md)
+[မြန်မာလို Windows စတင်အသုံးပြုနည်း](WINDOWS-QUICKSTART-MM.md) · [0.14.9 release notes](WINDOWS-0149-RELEASE-NOTES.md) · [0.14.7 release notes](WINDOWS-0147-RELEASE-NOTES.md) · [0.14.6 notes](WINDOWS-0146-RELEASE-NOTES.md) · [0.14.5 notes](WINDOWS-0145-RELEASE-NOTES.md) · [Release readiness](WINDOWS-RELEASE-READINESS.md) · [0.14.3 notes](WINDOWS-0143-RELEASE-NOTES.md)
 
 ## Exact native and independently downloaded Windows acceptance
 
 | Gate | Outcome | Evidence |
 | --- | --- | --- |
+| **0.14.9 published EXE real Windows install/upgrade, Edge, data SHA, backup, security and uninstall** | **PASS** | [42647941174](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42647941174) |
+| **0.14.9 installed Edge: wrong Burmese SRT rejected, matching SRT requires review** | **PASS (synthetic SRT)** | [42647519009](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42647519009) |
+| 0.14.9 native build and in-place version upgrade | **PASS** | [42629403389](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42629403389) |
+| 0.14.9 exact pretested installer publication | **PASS** | [42630331371](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42630331371) |
+| **0.14.7 exact public EXE 90-minute Full HD same-image encode, 162,000 frames** | **PASS** | [42598420189](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42598420189) |
 | **0.14.7 12 minimal-artwork + 21 major-scene tests** | **PASS** | [42594598985](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42594598985) |
 | 0.14.7 Windows installer native Build, in-place upgrade, offline MP4 and data safety | **PASS** | [42595044624](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42595044624) |
 | 0.14.7 exact verified installer publication | **PASS** | [42595856442](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42595856442) |
@@ -69,7 +76,7 @@ From the installed Windows app, open **Updates / Storage → Create + Verify Ful
 
 ## Development and privacy
 
-The `public-safe-windows-source.zip` stored in this public repo is a pinned audited baseline used **by CI only**; the user does not need to download it. Windows patch scripts apply sequentially (0.14.1 → 0.14.2 → 0.14.3 → 0.14.4 → 0.14.5 → 0.14.6 → 0.14.7) on disposable GitHub Windows runners. Any private manuscript, personal images, narration, backups, secrets and personal Google Drive links must **never** be added to this public repo.
+The `public-safe-windows-source.zip` stored in this public repo is a pinned audited baseline used **by CI only**; the user does not need to download it. Windows patch scripts apply sequentially (0.14.1 → 0.14.2 → 0.14.3 → 0.14.4 → 0.14.5 → 0.14.6 → 0.14.7 → 0.14.8 → 0.14.9) on disposable GitHub Windows runners. Any private manuscript, personal images, narration, backups, secrets and personal Google Drive links must **never** be added to this public repo.
 
 - [0.14.6 conservative scene planner](web/major-scene.mjs) · [requirements](specs/0146-major-scenes.md) · [Windows UI patch](.github/scripts/upgrade_windows_0146.py)
 - [0.14.5 long-video verification fix](.github/scripts/upgrade_windows_0145.py)
