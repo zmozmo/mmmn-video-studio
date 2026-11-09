@@ -116,3 +116,35 @@ test('output explicitly remains unapproved and does not claim semantic AI/transc
   assert.equal(out.report.offline,true);
   assert.equal(out.report.reviewRequired,true);
 });
+
+test('90-minute quiet novel keeps one image through renderer-safe technical splits',()=>{
+  const scenes=mk(Array(180).fill('တိတ်ဆိတ်စွာ စကားပြောဆိုနေကြသည်။'),30);
+  const out=compact(scenes);
+  assert.equal(out.report.narrationSeconds,5400);
+  assert.equal(out.report.majorScenes,1);
+  assert.equal(out.report.renderSegments,2);
+  assert.equal(out.report.technicalSameImageContinuations,1);
+  assert.ok(out.scenes.every(s=>s.duration<=3600));
+  assert.deepEqual(out.scenes.map(s=>s.assetId),['photo-0','photo-0']);
+  assert.equal(out.scenes.reduce((n,s)=>n+s.duration,0),5400);
+});
+test('120-minute quiet novel has no automatic background rotation',()=>{
+  const scenes=mk(Array(240).fill('နေရာမပြောင်းဘဲ စကားပြောဆိုကြသည်။'),30);
+  const out=compact(scenes);
+  assert.equal(out.report.narrationSeconds,7200);
+  assert.equal(out.report.majorScenes,1);
+  assert.deepEqual(out.scenes.map(s=>s.duration),[3600,3600]);
+  assert.equal(out.scenes[0].assetId,out.scenes[1].assetId);
+});
+test('major setting change AFTER technical continuation is not blocked by false cooldown',()=>{
+  const a=mk(Array(121).fill('အခြေအနေ မပြောင်းလဲသေးပါ။'),30);
+  a[120].text='သင်္ချိုင်းထဲသို့ ဝင်ရောက်သွားကြသည်။';
+  const out=compact(a);
+  assert.equal(out.report.narrationSeconds,3630);
+  assert.equal(out.scenes.at(-1).majorSceneKind,'location-change');
+  assert.equal(out.scenes.at(-1).start,3600);
+  assert.equal(out.report.majorScenes,2);
+});
+test('one input scene over native 3600-second max fails closed',()=>{
+  assert.throws(()=>compact([{id:'unsafe',text:'တိတ်ဆိတ်',start:0,duration:4000}]),/Unsafe/);
+});
