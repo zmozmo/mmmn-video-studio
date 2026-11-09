@@ -1,6 +1,12 @@
 name: Independently QA Released Windows 0.14.9 Direct Setup EXE
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/windows-published-release-acceptance-0149.yml'
+      - '.github/scripts/windows_burmese_asr_guard_click_0149.py'
+      - '.github/scripts/windows_published_release_acceptance_0149.py'
   workflow_run:
     workflows: ["Publish Verified Windows 0.14.9 Direct EXE"]
     types: [completed]
@@ -9,7 +15,7 @@ permissions:
   contents: read
 jobs:
   installed-public-release:
-    if: ${{ github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.repository.full_name == github.repository) }}
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'push' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.repository.full_name == github.repository) }}
     runs-on: windows-latest
     timeout-minutes: 25
     env:
