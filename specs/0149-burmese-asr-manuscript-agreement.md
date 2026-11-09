@@ -33,8 +33,8 @@ The previously verified 0.14.6–0.14.8 Smart Scene planner takes a timestamped 
 - [0.14.9 source patch chain + inherited audio cancellation/backup tests — PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42629403329)
 - [0.14.9 Windows build, old-to-new installer upgrade, real local MP4 — PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42629403389)
 - [0.14.9 exact tested installer publication — PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42630331371)
-- [Real installed Edge rejection of an incorrect Burmese ASR sample — PASS within dedicated QA](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42631826807)
-- [Full two-case real Edge acceptance test](https://github.com/zmozmo/mmmn-video-studio/actions/workflows/windows-asr-manuscript-guard-click-0149.yml) — final positive-case status must be checked before recording a complete PASS.
+- [Actual installed Edge rejection of incorrect SRT **and** acceptance of matching review-only SRT, verified native project reload — PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42647519009).
+- [Exact public 0.14.9 Setup.exe independent Windows install/upgrade, Edge UI, backup/security, uninstall, and two-case speech acceptance — PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42647941174).
 - [Real public Burmese sample with official Whisper.cpp ggml-base: **100% observed character error** (single clip)](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42601243930).
 - [Burmese-specific 23.8M CPU Conformer model publisher's public sample: **0% observed character error**, 2.9s CPU; research only, NOT bundled](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42630539897).
 
