@@ -55,7 +55,7 @@ jobs:
           python .github/scripts/upgrade_windows_0148.py
           python .github/scripts/upgrade_windows_0149.py
           python -m py_compile portable/studio_server.py
-          python -m unittest discover -s tests -p windows_speech_async_0149_test.py -v
+          python -m unittest discover -s tests -p windows_speech_async_0148_test.py -v
           node --check web/app.js
           node --check web/burmese-transcript-agreement.mjs
           node --test tests/burmese-transcript-agreement.test.mjs
