@@ -44,6 +44,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -qq --no-install-recommends ffmpeg
           python -m pip install --quiet torch torchaudio --index-url https://download.pytorch.org/whl/cpu
           python -m pip install --quiet -r "$RUNNER_TEMP/public-burmese-model/requirements.txt"
       - name: Evaluate actual model on one public Burmese sample and report observed error
