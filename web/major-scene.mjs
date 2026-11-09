@@ -11,6 +11,7 @@
  */
 
 const has = (s, re) => re.test(s);
+const MAX_RENDER_SCENE_SECONDS=3600; // native per-scene encoding safety limit
 const protect = s => Boolean(s?.visualLocked || s?.manualLocked ||
   s?.alignment === 'manual-locked' ||
   s?.imageMatchStatus === 'manual-confirmed' ||
@@ -75,7 +76,8 @@ function validateScenes(scenes) {
   scenes.forEach((s, i) => {
     const start=Number(s?.start),duration=Number(s?.duration);
     if (!Number.isFinite(start) || !Number.isFinite(duration) ||
-        duration < .25 || Math.abs(start-expectedStart)>.6)
+        duration < .25 || duration>MAX_RENDER_SCENE_SECONDS ||
+        Math.abs(start-expectedStart)>.6)
       throw Error('Unsafe or discontinuous original scene timeline at index '+i);
     expectedStart += duration;
   });
@@ -92,6 +94,7 @@ function validateScenes(scenes) {
  * - Keep the full original audio timeline (no cuts, no speed changes).
  * - Never automatically approve images, captions, or SRT.
  * - No maximum time limit forces an unnecessary background switch.
+ * - 3600s renderer-safe technical segments preserve the exact same picture.
  */
 export function consolidateMajorScenes(scenes, options = {}) {
   const total=validateScenes(scenes);
@@ -99,7 +102,7 @@ export function consolidateMajorScenes(scenes, options = {}) {
   const threshold=7;
   const result=[];
   const decisions=[];
-  let held=0,locked=0,major=0;
+  let held=0,locked=0,major=0,technical=0,lastVisibleChangeStart=0;
   for(let i=0;i<scenes.length;i++){
     const src=scenes[i];
     const beat=detectMajorVisualBeat(src.text,scenes[i-1]?.text,src);
@@ -111,7 +114,7 @@ export function consolidateMajorScenes(scenes, options = {}) {
     }
     const previous=result[result.length-1];
     const isLocked=protect(src)||protect(previous);
-    const since=Number(src.start)-Number(previous.start);
+    const since=Number(src.start)-lastVisibleChangeStart;
     const allowsSwitch=beat.score>=threshold && (since>=minHold ||
       (beat.score>=9 && since>=20));
     if(isLocked || allowsSwitch) {
@@ -121,8 +124,23 @@ export function consolidateMajorScenes(scenes, options = {}) {
         next.majorSceneKind=beat.kind;
       }
       result.push(next);
+      lastVisibleChangeStart=Number(src.start);
       decisions.push({id:src.id,start:src.start,action:isLocked?'preserve-manual':'new-major-background',
         reason:isLocked?'manually locked timing/image':beat.reason,score:beat.score});
+    } else if(Number(previous.duration)+Number(src.duration)>MAX_RENDER_SCENE_SECONDS) {
+      // Keep one visible photo for the entire passage while creating another
+      // internal encoder segment. No invented image or artificial slideshow.
+      next.assetId=previous.assetId ?? null;
+      next.motion=previous.motion;
+      next.imageRequirementId=previous.imageRequirementId ?? null;
+      next.imageRequirementText=previous.imageRequirementText || '';
+      next.imageMatchStatus=previous.imageMatchStatus;
+      next.technicalContinuation=true;
+      next.majorSceneReason='same picture; renderer-safe continuation';
+      result.push(next);
+      technical++;held++;
+      decisions.push({id:src.id,start:src.start,action:'continue-same-image',
+        reason:'renderer technical split; visual background unchanged',score:0});
     } else {
       // Current shot and original visual choice remain as the background.
       // Unconfirmed alternate assets must not trigger surprise switches.
@@ -150,7 +168,8 @@ export function consolidateMajorScenes(scenes, options = {}) {
       throw Error('A confirmed/manual scene decision would be changed.');
   }
   return {scenes:result,report:{
-    originalScenes:scenes.length,majorScenes:result.length,
+    originalScenes:scenes.length,majorScenes:result.length-technical,
+    renderSegments:result.length,technicalSameImageContinuations:technical,
     heldBoundaries:held,majorSwitches:major,manualBoundariesProtected:locked,
     minimumHoldSeconds:minHold,
     narrationSeconds:+total.toFixed(3),
