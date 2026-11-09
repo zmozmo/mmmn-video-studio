@@ -38,9 +38,12 @@ def main():
  with fixture.Session(exe) as app, sync_playwright() as tool:
   browser=tool.chromium.launch(channel="msedge",headless=True,
     args=["--disable-background-networking","--disable-gpu"])
+  # Preserve one genuine browser profile across both cases; browser.new_page()
+  # silently creates a fresh isolated context with no previous localStorage.
+  context=browser.new_context()
   try:
    for bad in (True,False):
-    page=browser.new_page()
+    page=context.new_page()
     dialogs=[];errors=[]
     page.on("dialog",lambda dialog:(dialogs.append(dialog.message),dialog.accept()))
     page.on("pageerror",lambda error:errors.append(str(error)))
