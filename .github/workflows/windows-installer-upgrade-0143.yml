@@ -1,20 +1,7 @@
+# Historical Windows installer acceptance. Only run manually; avoid rebuilding stale releases on new feature changes.
 name: MMMN Windows 0.14.3 Concurrent-Import Safe Installer Laboratory
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/windows-installer-upgrade-0143.yml'
-      - '.github/scripts/upgrade_windows_0143.py'
-      - 'portable/**'
-      - 'renderer/**'
-      - 'web/**'
-      - 'tests/**'
-      - 'scripts/**'
-      - 'windows-installer/**'
-      - 'TRIAL-REVISION.txt'
-      - 'version.txt'
-      - 'package.json'
 concurrency:
   group: mmmn-windows-installer-0143-${{ github.ref }}
   cancel-in-progress: false
