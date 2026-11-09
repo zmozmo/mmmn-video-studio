@@ -34,6 +34,7 @@ There is no requirement for VS Code, CMD, Python/Node.js installation, source ZI
 | 0.14.6 complete patch chain, native Windows build/install/in-place upgrade and offline MP4 | **PASS** | [42555073944](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555073944) |
 | Exact tested Windows 0.14.6 EXE publication | **PASS** | [42555724317](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555724317) |
 | 0.14.6 published EXE independent Edge UI, real major-scene module, save, backup/security/uninstall | **PASS** | [42555752046](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555752046) |
+| 0.14.6 actual Smart Scene UI button click, confirm, 4 narrative beats→2 major backgrounds, preserve 320s and save/reload | **PASS** | [42556697904](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42556697904) |
 | Latest Windows 0.14.5 build, install, in-place upgrade, media and recovery | **PASS** | [Run 42498880529](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42498880529) |
 | 0.14.5 exact byte-for-byte setup.exe publication | **PASS** | [Run 42499285203](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499285203) |
 | 0.14.5 independent public-EXE install, UI, backup, security and uninstall | **PASS** | [Run 42499308041](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499308041) |
