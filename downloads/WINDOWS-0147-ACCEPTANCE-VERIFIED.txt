@@ -1,0 +1,52 @@
+MMMN VIDEO STUDIO 0.14.7 — VERIFIED PUBLIC WINDOWS SETUP.EXE
+Date: 2026-11-09 UTC
+Binary name: MMMN-Video-Studio-Setup-0.14.7.exe
+Size: 64839519 bytes
+SHA-256: ca8b984722c6da971008a457c3d4b0dc734142edf0858d940f2c1bdb03c2f4cb
+Official binary: https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0147/downloads/MMMN-Video-Studio-Setup-0.14.7.exe
+Unsigned Windows 11 x64 installer. No real user data included.
+
+TEST RESULTS:
+PASS — Windows full build, install, upgrade without uninstall, FFmpeg MP4, storage:
+https://github.com/zmozmo/mmmn-video-studio/actions/runs/42595044624
+
+PASS — Publish EXACT pretested setup bytes:
+https://github.com/zmozmo/mmmn-video-studio/actions/runs/42595856442
+
+PASS — Independent public-EXE download SHA, Windows install, 0.14.0 -> 0.14.7
+in-place upgrade, real Microsoft Edge UI, WAV import and SHA, full
+backup/restore, API token security, symlink/path checks, offline network
+behavior and uninstall:
+https://github.com/zmozmo/mmmn-video-studio/actions/runs/42595895083
+
+PASS — 21 conservative major visual beat tests and 12 artwork-brief tests:
+https://github.com/zmozmo/mmmn-video-studio/actions/runs/42594598985
+
+PASS — Real Edge click, conservative scene planning: 4 narrative beats
+collapsed to 2 picture scenes. Only-important-artwork Markdown brief
+downloaded, 2 key photos requested, 320s narration unchanged, persisted
+project and browser reload:
+https://github.com/zmozmo/mmmn-video-studio/actions/runs/42596100140
+
+PASS (SYNTHETIC MOCK ONLY) — Real installed 0.14.7 Edge Audio-first UI
+detects simulated local whisper multilingual model, asks for consent,
+accepts 40 test SRT cues, creates a two-picture major-scene timeline
+with unchanged 320s and retains scenes/SRT after reload. This DOES NOT
+prove real Burmese speech transcription accuracy or word timing:
+https://github.com/zmozmo/mmmn-video-studio/actions/runs/42596129789
+
+PREVIOUS RELEASE PROOF:
+Windows 0.14.6 EXACT released EXE encoded one continuous 90-minute
+Full HD H264/AAC MP4 with ONE visible background (two same-photo
+3600/1800s internal segments), 162000 counted frames at 30fps and
+original synthetic WAV SHA unchanged:
+https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555826576
+This exact 90-minute full encode was NOT repeated on 0.14.7.
+
+CURRENT NON-COMPLETIONS:
+- No genuine Myanmar narration and installed real ASR model used in QA.
+- whisper.cpp CLI and multilingual ggml model are NOT bundled in setup.exe.
+- Real user's HP Windows laptop NOT tested.
+- No automatic source-image generation or Google Drive image fetch.
+- No digital signature; Windows SmartScreen may warn.
+- More codecs and laptop thermal/storage limits not exhaustively tested.
