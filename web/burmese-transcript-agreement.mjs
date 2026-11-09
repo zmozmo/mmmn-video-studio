@@ -42,7 +42,7 @@ export function assessBurmeseTranscript(manuscript, cues){
       observedOverlap:null,autoAccepted:false,reviewRequired:true};
   }
   const bookGrams=grams(book),speechGrams=grams(spoken);
-  if(bookGrams.size===0||speechGrams.size<8)
+  if(bookGrams.size===0||speechGrams.size<12)
     return {status:'insufficient',reason:'insufficient distinct Myanmar syllable sequences',
       observedOverlap:null,autoAccepted:false,reviewRequired:true};
   let shared=0;
