@@ -1,16 +1,16 @@
 # MMMN Video Studio — Windows Offline-first
 
-**Latest Windows release: 0.14.5 (unsigned; 90-minute novel acceptance PASS)** · 8 November 2026  
+**Latest Windows release: 0.14.6 (unsigned; offline Major Scene Draft and native QA PASS)** · 9 November 2026  
 **Android: paused** · **Personal laptop: deliberately not tested**
 
 ## One-click Windows x64 Installer (direct EXE, no ZIP)
 
-**[MMMN Video Studio 0.14.5 Windows setup.exe](https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0145/downloads/MMMN-Video-Studio-Setup-0.14.5.exe)**
+**[MMMN Video Studio 0.14.6 Windows setup.exe](https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0146/downloads/MMMN-Video-Studio-Setup-0.14.6.exe)**
 
-- Filename: `MMMN-Video-Studio-Setup-0.14.5.exe`
-- Size: **64,844,005 bytes**
-- SHA-256: `3afb835da0c14c7b3da761e07b479c15a3956ee97efb771b450467d2f529f274`
-- [Published direct executable and independent acceptance record](https://github.com/zmozmo/mmmn-video-studio/tree/windows-binaries-0145/downloads)
+- Filename: `MMMN-Video-Studio-Setup-0.14.6.exe`
+- Size: **64,837,468 bytes**
+- SHA-256: `b94b7e9a9f7e5dd373b38216dc2dcc7fa392bb56fd42b981f4f38c2d4a05814f`
+- [Published direct executable and independent acceptance record](https://github.com/zmozmo/mmmn-video-studio/tree/windows-binaries-0146/downloads)
 
 There is no requirement for VS Code, CMD, Python/Node.js installation, source ZIP or a paid video API to use the installed application. **Unsigned**: Windows SmartScreen may display an unknown-publisher warning; check the exact checksum. The user's actual Windows 11 laptop has not been tested yet.
 
@@ -22,13 +22,18 @@ There is no requirement for VS Code, CMD, Python/Node.js installation, source ZI
 - Create **verified full-media local backups**, verify via SHA-256, restore after an accidental edit, open Project/Backup/MP4 folders directly in Windows Explorer and keep existing user files across in-place installer upgrades/uninstalls.
 - New in **0.14.4**: unique exclusive project-save staging files with failure cleanup, project-recovery symlink protection, and collision-safe media finalization. Old trial labels and obsolete ZIP/CMD backup instructions corrected. Nine new regression tests.
 - New in **0.14.5**: repair the hard-coded 180-second FFprobe full-frame verification timeout that prevented 90/120-minute video exports in 0.14.4. Frame-by-frame inspection stays enabled with a bounded duration-scaled check. The exact released 0.14.5 EXE produced a continuous **90-minute 1920×1080 H.264/AAC MP4 (162,000 frames)**; full local backup/restore and output SHA protection also passed on a disposable Windows runner.
+- New in **0.14.6**: **🎬 Major-only Auto Draft** suggests background changes only for major visual transitions, NOT each rain word, minor character entrance or dialogue. Keeps pictures stable, honors manual locks, uses existing SRT or approximate offline pause timing, and divides 90/120-minute visually unchanged passages into <=3600-second *technical* segments with the same photo. **Not a full Burmese semantic AI or automatic image generator.**
 
-[မြန်မာလို Windows စတင်အသုံးပြုနည်း](WINDOWS-QUICKSTART-MM.md) · [0.14.5 release notes](WINDOWS-0145-RELEASE-NOTES.md) · [Release readiness](WINDOWS-RELEASE-READINESS.md) · [0.14.3 notes](WINDOWS-0143-RELEASE-NOTES.md)
+[မြန်မာလို Windows စတင်အသုံးပြုနည်း](WINDOWS-QUICKSTART-MM.md) · [0.14.6 release notes](WINDOWS-0146-RELEASE-NOTES.md) · [0.14.5 notes](WINDOWS-0145-RELEASE-NOTES.md) · [Release readiness](WINDOWS-RELEASE-READINESS.md) · [0.14.3 notes](WINDOWS-0143-RELEASE-NOTES.md)
 
 ## Exact native and independently downloaded Windows acceptance
 
 | Gate | Outcome | Evidence |
 | --- | --- | --- |
+| **0.14.6 21 conservative Major Scene tests, manual-locks and 90/120m same-image bounds** | **PASS** | [42555074044](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555074044) |
+| 0.14.6 complete patch chain, native Windows build/install/in-place upgrade and offline MP4 | **PASS** | [42555073944](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555073944) |
+| Exact tested Windows 0.14.6 EXE publication | **PASS** | [42555724317](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555724317) |
+| 0.14.6 published EXE independent Edge UI, real major-scene module, save, backup/security/uninstall | **PASS** | [42555752046](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555752046) |
 | Latest Windows 0.14.5 build, install, in-place upgrade, media and recovery | **PASS** | [Run 42498880529](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42498880529) |
 | 0.14.5 exact byte-for-byte setup.exe publication | **PASS** | [Run 42499285203](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499285203) |
 | 0.14.5 independent public-EXE install, UI, backup, security and uninstall | **PASS** | [Run 42499308041](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499308041) |
@@ -55,8 +60,9 @@ From the installed Windows app, open **Updates / Storage → Create + Verify Ful
 
 ## Development and privacy
 
-The `public-safe-windows-source.zip` stored in this public repo is a pinned audited baseline used **by CI only**; the user does not need to download it. Windows patch scripts apply sequentially (0.14.1 → 0.14.2 → 0.14.3 → 0.14.4 → 0.14.5) on disposable GitHub Windows runners. Any private manuscript, personal images, narration, backups, secrets and personal Google Drive links must **never** be added to this public repo.
+The `public-safe-windows-source.zip` stored in this public repo is a pinned audited baseline used **by CI only**; the user does not need to download it. Windows patch scripts apply sequentially (0.14.1 → 0.14.2 → 0.14.3 → 0.14.4 → 0.14.5 → 0.14.6) on disposable GitHub Windows runners. Any private manuscript, personal images, narration, backups, secrets and personal Google Drive links must **never** be added to this public repo.
 
+- [0.14.6 conservative scene planner](web/major-scene.mjs) · [requirements](specs/0146-major-scenes.md) · [Windows UI patch](.github/scripts/upgrade_windows_0146.py)
 - [0.14.5 long-video verification fix](.github/scripts/upgrade_windows_0145.py)
 - [0.14.5 Windows installer and upgrade QA](.github/workflows/windows-installer-upgrade-0145.yml)
 - [0.14.5 published-EXE 90/120-minute QA](.github/workflows/windows-novel-length-acceptance-0145.yml)
