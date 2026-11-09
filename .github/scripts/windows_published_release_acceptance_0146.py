@@ -154,6 +154,27 @@ def run():
                         assert major_button.count()>=1, "Major-only scene selector not installed"
                         assert major_button.first.is_visible()
                         print("PASS: installed native Edge UI exposes conservative Major Scene Auto Draft",flush=True)
+                        verify_major=page.evaluate("""async () => {
+                            const {consolidateMajorScenes}=await import('./major-scene.mjs');
+                            const scenes=[
+                              {id:'s0',text:'သူတို့ စကားပြောနေကြသည်။',start:0,duration:80,assetId:'a'},
+                              {id:'s1',text:'မိုးရွာနေသည်။',start:80,duration:80,assetId:'b'},
+                              {id:'s2',text:'မိုးသည်းထန်၍ ညနေမှောင်မိုက်လာသည်။',start:160,duration:80,assetId:'c'},
+                              {id:'s3',text:'မိန်းကလေးတစ်ယောက် ပေါ်လာသည်။',start:240,duration:80,assetId:'d'}
+                            ];
+                            const result=consolidateMajorScenes(scenes);
+                            return {count:result.scenes.length,
+                              starts:result.scenes.map(s=>s.start),
+                              assets:result.scenes.map(s=>s.assetId),
+                              duration:result.report.narrationSeconds,
+                              reviewRequired:result.report.reviewRequired};
+                        }""")
+                        assert verify_major == {
+                            "count":2,"starts":[0,160],"assets":["a","c"],
+                            "duration":320,"reviewRequired":True
+                        },verify_major
+                        print("PASS: actual installed Edge imports conservative module; rain/girl held, dark severe storm switches once; 320s unchanged",flush=True)
+
                         page.locator("#audio-input").set_input_files(str(audio))
                         expect_file_contains(projectfile,"synthetic-narration.wav")
                         project=json.loads(projectfile.read_text(encoding="utf-8"))
