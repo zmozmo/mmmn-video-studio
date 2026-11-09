@@ -40,9 +40,15 @@ Windows runner. Real Edge UI test:
 Prior Windows 0.14.5 engine confirmed genuine 90-minute/120-minute H264/AAC
 1080p MP4 with 162000/216000 frames and snapshots preserved:
 https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499519584
-The current 0.14.6 90-minute SAME-PHOTO continuous video verification is a
-distinct acceptance: https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555826576
-DO NOT claim this additional test passed until its run completes successfully.
+Windows 0.14.6 SAME-PHOTO 90-MINUTE FULL-HD MP4 ACCEPTANCE: PASS
+https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555826576
+- Exact public EXE downloaded, checksum verified and silently installed on a new disposable Windows runner
+- Native JS Major-only planner selected ONE visible picture for complete 5400 seconds
+- Two internal 3600s/1800s technical encoder segments reused the same picture
+- Continuous 1920x1080 H.264/AAC MP4, duration exactly 5400.000s
+- Actual counted 162000 decoded frames at 30fps; original synthetic WAV SHA unchanged
+- Hosted Windows elapsed 1944.3s (NOT user's computer performance)
+- No private user media or voice ever uploaded
 
 Additional published 0.14.6 installed UI actual button click:
   PASS https://github.com/zmozmo/mmmn-video-studio/actions/runs/42556697904

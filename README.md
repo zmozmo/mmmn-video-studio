@@ -23,7 +23,7 @@
 
 **Limitations:** This is a deterministic offline *reviewable suggestion* system, not guaranteed full Burmese semantic AI/audio understanding, and it does not create new photographs or automatically connect to Google Drive. Compatible offline ASR model and transcript proofreading may be needed for better word-level timing.
 
-**Prior video-engine evidence:** Windows **0.14.5** actually encoded continuous 90 and 120-minute 1080p H.264/AAC videos with all frames and backups verified. [Run 42499519584](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499519584). Windows 0.14.6 retains the same encoder. Its extra one-picture 90-minute end-to-end test is [tracked separately](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555826576).
+**Prior video-engine evidence:** Windows **0.14.5** actually encoded continuous 90 and 120-minute 1080p H.264/AAC videos with all frames and backups verified. [Run 42499519584](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499519584). Windows 0.14.6 retained the encoder and its extra **one-picture 90-minute end-to-end test PASSed**, producing 5,400.000 seconds of Full HD H.264/AAC, 162,000 counted frames and an unchanged original synthetic WAV SHA. [Exact released 0.14.6 EXE QA run 42555826576](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555826576).
 
 The owner's physical laptop has not been tested. The executable is **not code-signed**; Windows SmartScreen may warn. All test media was synthetic; never upload unpublished manuscripts, original voice or other private content to public GitHub.
 
