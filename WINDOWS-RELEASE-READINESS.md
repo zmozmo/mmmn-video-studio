@@ -1,20 +1,27 @@
-# MMMN Video Studio — Windows 0.14.6 Release Readiness
+# MMMN Video Studio — Windows 0.14.7 Release Readiness
 
 **Decision: GitHub-hosted Windows release gates PASS; ready for owner-controlled first-device acceptance.**  
 Date: 9 November 2026 · Android paused · No download or local user-machine action has been performed by ChatGPT.
 
 ## Downloadable Windows release
 
-- Direct, unsigned Windows x64 setup: https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0146/downloads/MMMN-Video-Studio-Setup-0.14.6.exe
-- Filename: `MMMN-Video-Studio-Setup-0.14.6.exe`
-- Size: **64,837,468 bytes**
-- SHA-256: `b94b7e9a9f7e5dd373b38216dc2dcc7fa392bb56fd42b981f4f38c2d4a05814f`
+- Direct, unsigned Windows x64 setup: https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0147/downloads/MMMN-Video-Studio-Setup-0.14.7.exe
+- Filename: `MMMN-Video-Studio-Setup-0.14.7.exe`
+- Size: **64,839,519 bytes**
+- SHA-256: `ca8b984722c6da971008a457c3d4b0dc734142edf0858d940f2c1bdb03c2f4cb`
 - No source ZIP, Python, CMD, VS Code or paid API required for installation or core editing and MP4 export.
 
 ## Automated gates already passed
 
 | Independent gate | GitHub run | Evidence |
 | --- | --- | --- |
+| 0.14.7 12 important-photo brief / 21 conservative-major-scene tests | [42594598985](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42594598985) | PASS |
+| 0.14.7 full pinned source patch chain and original storage/renderer tests | [42594925798](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42594925798) | PASS |
+| 0.14.7 Windows native installer build/install/in-place upgrade/offline MP4 | [42595044624](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42595044624) | PASS |
+| 0.14.7 publish exact pretested EXE bytes | [42595856442](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42595856442) | PASS |
+| 0.14.7 independent released EXE Edge UI, security, full backup/recovery and uninstall | [42595895083](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42595895083) | PASS |
+| **0.14.7 actual local artwork-brief download of ONLY two important scenes** | [42596100140](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42596100140) | PASS |
+| 0.14.7 audio-first UI flow with **synthetic mock** local model SRT (not real ASR quality) | [42596129789](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42596129789) | PASS (mock) |
 | 0.14.6: 21 conservative Major Scene tests + manual lock + 90/120min static photo bounds | [42555074044](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555074044) | PASS |
 | 0.14.6: complete patch chain source preflight & preserved 0.14.4–0.14.5 regression tests | [42555074115](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555074115) | PASS |
 | 0.14.6: built installer, real in-place upgrade, recovered original source/backup, offline MP4 | [42555073944](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555073944) | PASS |
@@ -36,6 +43,13 @@ Date: 9 November 2026 · Android paused · No download or local user-machine act
 | Exact published EXE: continuous 15-minute 1080p MP4, 27,000 frames, prior MP4 preserved | [42493702496](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42493702496) | PASS |
 
 The native build includes 129 Python tests plus the JavaScript suite. Long-form QA verified 28,800,044 WAV bytes and a 6.023-second / 180-frame chapter-concatenation output. These are distinct workloads. **A 15-minute recording import is not the same as a 15-minute video render.** All four platform presets were exercised with 1-second full-resolution synthetic exports, not an hour-long final MP4.
+
+## Windows 0.14.7 Important-Artwork and Optional Narration-First
+
+- The main release includes a **local-only Markdown creation brief** listing only the significant picture beats from the reviewed major-only storyboard. A 90-minute one-picture video does not require extra pictures for internal 3,600-second technical encoder segments.
+- The Audio-first button may use **a compatible, separately installed** whisper.cpp CLI + multilingual model, with user consent, to propose Myanmar SRT. If unavailable, the app uses its existing offline pause/estimated timing. This install **does NOT include an ASR model** and **real Burmese recognition quality remains unverified**.
+- Rejected or unapproved drafts do not overwrite original narration/media. Image sourcing/generation and Google Drive auto sync are not provided.
+- The 0.14.7 Windows installer is built/independently tested, but its final **90-minute full MP4** has not been separately rerun; the exact 0.14.6 installer passed that long-form same-image test [here](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555826576).
 
 ## Windows 0.14.6 Major Scene feature
 
@@ -67,4 +81,4 @@ The complete narrated MMMN novel lasts **no more than 90 minutes**. A six-to-eig
 
 No development environment required. Keep source files private. Launch the exact verified installer from the direct link and check basic UI, a **synthetic/non-sensitive** manuscript, one short WAV, a scene image, an offline MP4 and the verified backup location. For real novels, confirm an independent external-drive backup first. Never upload original unpublished manuscripts, personal voice recordings, account credentials or photo collections to this public GitHub repository.
 
-**Release status: verified Windows 0.14.6 native build and independent public binary/GUI checks. The extra single-picture 90-minute native export has a separately tracked acceptance test. Owner device acceptance still pending.**
+**Release status: Windows 0.14.7 native installer, independent public binary/GUI, minimal photo brief and optional synthetic transcription UI all PASS. The exact 0.14.6 release proved a 90-minute unchanged-background MP4; no separate 90-minute full encode was performed on 0.14.7. Owner laptop acceptance and real Burmese ASR quality remain pending.**
