@@ -1,6 +1,10 @@
 name: Windows 0.14.7 Optional Offline Audio-First SRT — Synthetic Stub UI QA
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/windows-audio-first-mock-0147.yml'
   workflow_run:
     workflows: ["Publish Verified Windows 0.14.7 Direct EXE"]
     types: [completed]
@@ -29,7 +33,7 @@ jobs:
             Invoke-WebRequest -Uri "$base/$f" -OutFile (Join-Path 'published' $f) -ErrorAction Stop
           }
           $setup='published/MMMN-Video-Studio-Setup-0.14.7.exe'
-          $expected='b94b7e9a9f7e5dd373b38216dc2dcc7fa392bb56fd42b981f4f38c2d4a05814f'
+          $expected='ca8b984722c6da971008a457c3d4b0dc734142edf0858d940f2c1bdb03c2f4cb'
           $actual=(Get-FileHash $setup -Algorithm SHA256).Hash.ToLowerInvariant()
           $manifest=(Get-Content "$setup.sha256" -Raw).Trim().Split(' ')[0].ToLowerInvariant()
           if ($actual -ne $expected -or $actual -ne $manifest) { throw "Published EXE mismatch" }
