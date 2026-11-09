@@ -23,6 +23,20 @@ if not module.is_file() or 'assessBurmeseTranscript' not in module.read_text(enc
 if not tests.is_file() or "wrong Burmese narration" not in tests.read_text(encoding='utf-8'):
     raise ValueError('Missing real anti-hallucination regression test suite')
 
+# The 0.14.8 regression test safely mocks Studio._run_speech_step()
+# (without launching a fake Windows shell script). Its production subprocess
+# must use the same cancellable wrapper for BOTH legacy and async calls.
+# Only the async branch supplies a cancellation event; legacy still has a
+# hard timeout. Keep the tested Python behavior in sync with the fixture.
+replace('portable/studio_server.py',
+ """audio=(subprocess.run(audio_cmd,capture_output=True,text=True,timeout=7200)
+                       if _cancel is None else self._run_speech_step(audio_cmd,7200,_cancel))""",
+ "audio=self._run_speech_step(audio_cmd,7200,_cancel)")
+replace('portable/studio_server.py',
+ """done=(subprocess.run(cmd,capture_output=True,text=True,timeout=24*3600)
+                      if _cancel is None else self._run_speech_step(cmd,24*3600,_cancel))""",
+ "done=self._run_speech_step(cmd,24*3600,_cancel)")
+
 replace('web/app.js',
  "import {buildMajorArtworkBrief} from './major-artwork-brief.mjs';",
  "import {buildMajorArtworkBrief} from './major-artwork-brief.mjs';\n"
