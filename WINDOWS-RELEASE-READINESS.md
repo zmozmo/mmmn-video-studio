@@ -1,20 +1,25 @@
-# MMMN Video Studio — Windows 0.14.5 Release Readiness
+# MMMN Video Studio — Windows 0.14.6 Release Readiness
 
 **Decision: GitHub-hosted Windows release gates PASS; ready for owner-controlled first-device acceptance.**  
-Date: 8 November 2026 · Android paused · No download or local user-machine action has been performed by ChatGPT.
+Date: 9 November 2026 · Android paused · No download or local user-machine action has been performed by ChatGPT.
 
 ## Downloadable Windows release
 
-- Direct, unsigned Windows x64 setup: https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0145/downloads/MMMN-Video-Studio-Setup-0.14.5.exe
-- Filename: `MMMN-Video-Studio-Setup-0.14.5.exe`
-- Size: **64,844,005 bytes**
-- SHA-256: `3afb835da0c14c7b3da761e07b479c15a3956ee97efb771b450467d2f529f274`
+- Direct, unsigned Windows x64 setup: https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0146/downloads/MMMN-Video-Studio-Setup-0.14.6.exe
+- Filename: `MMMN-Video-Studio-Setup-0.14.6.exe`
+- Size: **64,837,468 bytes**
+- SHA-256: `b94b7e9a9f7e5dd373b38216dc2dcc7fa392bb56fd42b981f4f38c2d4a05814f`
 - No source ZIP, Python, CMD, VS Code or paid API required for installation or core editing and MP4 export.
 
 ## Automated gates already passed
 
 | Independent gate | GitHub run | Evidence |
 | --- | --- | --- |
+| 0.14.6: 21 conservative Major Scene tests + manual lock + 90/120min static photo bounds | [42555074044](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555074044) | PASS |
+| 0.14.6: complete patch chain source preflight & preserved 0.14.4–0.14.5 regression tests | [42555074115](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555074115) | PASS |
+| 0.14.6: built installer, real in-place upgrade, recovered original source/backup, offline MP4 | [42555073944](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555073944) | PASS |
+| 0.14.6: published exact pretested installer bytes | [42555724317](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555724317) | PASS |
+| 0.14.6: independent downloaded EXE; real Edge major scene UI, accurate no-change on rain/girl, change on severe dark storm, backup and security | [42555752046](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555752046) | PASS |
 | Windows 0.14.5 source patch, native Build A/B, upgrade, original data safety, offline MP4 | [42498880529](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42498880529) | PASS |
 | Windows 0.14.5 exact tested EXE published without rebuild | [42499285203](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499285203) | PASS |
 | 0.14.5 downloaded public EXE independent upgrade/UI/backup/security/uninstall | [42499308041](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499308041) | PASS |
@@ -31,6 +36,12 @@ Date: 8 November 2026 · Android paused · No download or local user-machine act
 | Exact published EXE: continuous 15-minute 1080p MP4, 27,000 frames, prior MP4 preserved | [42493702496](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42493702496) | PASS |
 
 The native build includes 129 Python tests plus the JavaScript suite. Long-form QA verified 28,800,044 WAV bytes and a 6.023-second / 180-frame chapter-concatenation output. These are distinct workloads. **A 15-minute recording import is not the same as a 15-minute video render.** All four platform presets were exercised with 1-second full-resolution synthetic exports, not an hour-long final MP4.
+
+## Windows 0.14.6 Major Scene feature
+
+The latest installed app includes a **Major-only Auto Draft** option, automatically combining small storyboard beats when there is no important visual shift, while protecting manually confirmed picture choices and timing. Source implementation: [offline conservative scene planner](web/major-scene.mjs). This is **not full Burmese semantic speech recognition**; it uses manuscript/SRT text evidence and optional FFmpeg pause hints. Manual Review remains required. For long quiet narration, technical FFmpeg segments can share one unchanged image, avoiding a fixed-interval slideshow and the native 3600-second per-scene limit.
+
+**Additional pending release test:** one actual continuous **90-minute Full HD MP4 with the same unchanged background across two technical scenes**, on the exact published 0.14.6 EXE. [Live QA run 42555826576](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555826576) — record PASS only after final success. Previously 90-minute and 120-minute full-HD H.264/AAC exports were verified on the immediately preceding **0.14.5** release.
 
 ## Actual novel-length acceptance target (owner clarification, 2026-11-08)
 
@@ -56,4 +67,4 @@ The complete narrated MMMN novel lasts **no more than 90 minutes**. A six-to-eig
 
 No development environment required. Keep source files private. Launch the exact verified installer from the direct link and check basic UI, a **synthetic/non-sensitive** manuscript, one short WAV, a scene image, an offline MP4 and the verified backup location. For real novels, confirm an independent external-drive backup first. Never upload original unpublished manuscripts, personal voice recordings, account credentials or photo collections to this public GitHub repository.
 
-**Release status: verified hosted-Windows build; owner device acceptance still pending.**
+**Release status: verified Windows 0.14.6 native build and independent public binary/GUI checks. The extra single-picture 90-minute native export has a separately tracked acceptance test. Owner device acceptance still pending.**
