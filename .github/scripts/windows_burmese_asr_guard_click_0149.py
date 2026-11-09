@@ -45,8 +45,15 @@ def main():
     page.on("dialog",lambda dialog:(dialogs.append(dialog.message),dialog.accept()))
     page.on("pageerror",lambda error:errors.append(str(error)))
     try:
-     page.goto(app.url,wait_until="domcontentloaded",timeout=45000)
-     page.locator(".shell").wait_for(state="visible",timeout=30000)
+     for attempt in range(3):
+      try:
+       page.goto(app.url,wait_until="domcontentloaded",timeout=45000)
+       page.locator(".shell").wait_for(state="visible",timeout=15000)
+       break
+      except Exception as exc:
+       print("Edge startup retry",attempt+1,str(exc)[:180],flush=True)
+       if attempt==2:raise
+       time.sleep(1)
      project=page.evaluate("""() => JSON.parse(localStorage.getItem('mmmn-studio-state'))""")
      assert project and project["chapters"]
      c=project["chapters"][0]
@@ -98,7 +105,7 @@ def main():
      assert button.first.is_visible()
      button.first.click()
      for _ in range(80):
-      result=json.loads(app.api("load_project_state"))["chapters"][0]
+      result=page.evaluate("""() => JSON.parse(localStorage.getItem('mmmn-studio-state')||'{}').chapters?.[0]||{}""")
       if result.get("scenePolicy")=="major-only-conservative":break
       time.sleep(.3)
      else:
@@ -126,6 +133,24 @@ def main():
      assert result["recordedSeconds"]==320
      assert len(result["scenes"])>=1
      assert not errors,errors
+     # Browser UI state can be ahead of its authenticated native file.
+     # A success requires real disk persistence without test-side saving.
+     persisted=False
+     for _ in range(50):
+      try:
+       disk=json.loads(app.api("load_project_state"))["chapters"][0]
+       if disk.get("scenePolicy")=="major-only-conservative" and (
+             disk.get("subtitleCues") or [])==(result.get("subtitleCues") or []):
+        persisted=True
+        break
+      except Exception:pass
+      time.sleep(.2)
+     if not persisted:
+      diagnostics=page.evaluate("""() => ({
+        native:window.__qa_native_commands||[],
+        errors:window.__qa_native_errors||[]
+      })""")
+      raise AssertionError("UI changed but native disk did not persist: "+str(diagnostics))
      page.reload(wait_until="domcontentloaded")
      page.locator(".shell").wait_for(state="visible",timeout=30000)
      reread=json.loads(app.api("load_project_state"))["chapters"][0]
