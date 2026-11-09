@@ -1,0 +1,24 @@
+name: MMMN Windows Major-Scene Logic — Conservative Offline QA
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'web/major-scene.mjs'
+      - 'tests/major-scene.test.mjs'
+      - '.github/workflows/windows-major-scenes-unit-qa.yml'
+permissions:
+  contents: read
+jobs:
+  deterministic-major-scene:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check offline scene planner JavaScript syntax
+        run: node --check web/major-scene.mjs
+      - name: Verify 17 major-only scene and manual-lock invariants
+        run: node --test tests/major-scene.test.mjs
