@@ -1,0 +1,61 @@
+name: Windows 0.14.9 Wrong-Burmese-ASR Rejection — Real Edge QA
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/windows-asr-manuscript-guard-click-0149.yml'
+      - '.github/scripts/windows_burmese_asr_guard_click_0149.py'
+permissions:
+  contents: read
+jobs:
+  click-and-save-real-ui:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    env:
+      PYTHONIOENCODING: utf-8
+      NO_PROXY: 127.0.0.1,localhost
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Download exact published Windows installer and checksum
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force published | Out-Null
+          $base="https://raw.githubusercontent.com/$env:GITHUB_REPOSITORY/windows-binaries-0149/downloads"
+          foreach ($f in @('MMMN-Video-Studio-Setup-0.14.9.exe','MMMN-Video-Studio-Setup-0.14.9.exe.sha256')) {
+            Invoke-WebRequest -Uri "$base/$f" -OutFile (Join-Path 'published' $f) -ErrorAction Stop
+          }
+          $setup='published/MMMN-Video-Studio-Setup-0.14.9.exe'
+          $expected='28d3f9b9d886986eeb3ebb8f908b22206e6debe22179c767f4ec733ca9d6ee1b'
+          $actual=(Get-FileHash $setup -Algorithm SHA256).Hash.ToLowerInvariant()
+          $manifest=(Get-Content "$setup.sha256" -Raw).Trim().Split(' ')[0].ToLowerInvariant()
+          if ($actual -ne $expected -or $actual -ne $manifest) { throw "Published EXE mismatch" }
+          Write-Host "Exact original 0.14.9 released bytes verified: $actual"
+      - name: Install exact published EXE and prepare Edge test harness
+        shell: pwsh
+        run: |
+          $setup=(Resolve-Path 'published/MMMN-Video-Studio-Setup-0.14.9.exe').Path
+          $p=Start-Process -FilePath $setup -ArgumentList '/S' -Wait -PassThru
+          if ($p.ExitCode -ne 0) { throw "Windows installer failed" }
+          $exe=Join-Path $env:LOCALAPPDATA 'Programs/MMMN Video Studio/MMMN-Video-Studio.exe'
+          if (!(Test-Path $exe -PathType Leaf)) { throw "Installed app not found" }
+          "MMMN_RELEASE_INSTALLED_EXE=$exe" >> $env:GITHUB_ENV
+          python -m pip install --disable-pip-version-check playwright==1.56.0
+          if ($LASTEXITCODE -ne 0) { throw "Edge QA dependency failed" }
+      - name: Click actual Major Scene button; persist and reload unchanged media/timing
+        shell: pwsh
+        run: |
+          python .github/scripts/windows_burmese_asr_guard_click_0149.py
+          if ($LASTEXITCODE -ne 0) { throw "Real installed Edge major scene click test failed" }
+      - name: Uninstall safely from disposable machine
+        if: always()
+        shell: pwsh
+        run: |
+          $uninstall=Join-Path $env:LOCALAPPDATA 'Programs/MMMN Video Studio/Uninstall.exe'
+          if (Test-Path $uninstall) {
+            $p=Start-Process -FilePath $uninstall -ArgumentList '/S' -Wait -PassThru
+            if ($p.ExitCode -ne 0) { throw "Uninstaller failed" }
+          }
