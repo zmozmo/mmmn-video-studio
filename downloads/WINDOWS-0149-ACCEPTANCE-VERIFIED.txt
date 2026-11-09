@@ -1,0 +1,44 @@
+MMMN VIDEO STUDIO — WINDOWS 0.14.9 PUBLIC RELEASE ACCEPTANCE
+Date: 2026-11-09 UTC
+Status: PASS (real installed published 0.14.9 EXE, disposable Windows runner)
+
+Filename: MMMN-Video-Studio-Setup-0.14.9.exe
+File size: 64824927 bytes
+SHA-256: 28d3f9b9d886986eeb3ebb8f908b22206e6debe22179c767f4ec733ca9d6ee1b
+
+Native build, old Windows 0.14.0 → 0.14.9 in-place upgrade,
+original project/WAV/PNG/backup safety, offline MP4 and uninstall:
+PASS https://github.com/zmozmo/mmmn-video-studio/actions/runs/42629403389
+
+Exact original native-verified EXE bytes published without rebuild:
+PASS https://github.com/zmozmo/mmmn-video-studio/actions/runs/42630331371
+
+Independently downloaded exact public Setup.exe, installed on NEW
+Windows runner, real Microsoft Edge UI, audio import, save/reload,
+SHA-verified full backup/restore, local API security, uninstall:
+PASS https://github.com/zmozmo/mmmn-video-studio/actions/runs/42647941174
+
+Real Edge UI clicked optional Audio-first button; synthetic WRONG Burmese
+SRT was REJECTED without saving hallucinated cues; synthetic matching
+Burmese SRT was offered only for review and saved/reloaded safely.
+PASS https://github.com/zmozmo/mmmn-video-studio/actions/runs/42647519009
+
+Last actual 90-minute Full HD one-picture long-video acceptance:
+PASS on exact public 0.14.7 installer; 5,400 seconds, 162000 frames.
+https://github.com/zmozmo/mmmn-video-studio/actions/runs/42598420189
+Not re-encoded as a separate 90-minute full-duration test on 0.14.9.
+
+Burmese AI quality research:
+- Generic multilingual whisper.cpp base had 100% observed CER on ONE
+  public Burmese example — not proof of universal model error.
+  https://github.com/zmozmo/mmmn-video-studio/actions/runs/42601243930
+- Dedicated Burmese CPU research candidate had 0% observed CER on its
+  publisher's own ~3.13s public example, ~2.9s hosted CPU inference.
+  https://github.com/zmozmo/mmmn-video-studio/actions/runs/42630539897
+  This candidate is NOT bundled, and a single example cannot certify
+  novel transcription or timeline alignment.
+
+All media in tests were synthetic/public; no private user recording,
+manuscript or photo was included. Owner's physical laptop NOT TESTED.
+Unsigned EXE may show Windows SmartScreen. This does not constitute
+100% software reliability or full novel semantic AI validation.
