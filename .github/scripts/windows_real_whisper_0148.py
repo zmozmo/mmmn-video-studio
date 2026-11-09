@@ -67,6 +67,25 @@ def main():
         srt=result["srt"]
         assert re.search(r"\d\d:\d\d:\d\d[,.]\d\d\d\s*-->\s*\d\d:\d\d:\d\d[,.]\d\d\d",srt),repr(srt[:150])
         assert sha(fixture.DATA/"media"/(mid+".mp3"))==input_hash
+        # This ONE public sample reference comes from the ASR model author's
+        # example card. Report error as an observation, never claim general CER.
+        reference='စစ်ကောင်စီအတွက်လေယာဉ်ဆီရောင်းချဖြန့်ဖြူးပေးနေတဲ့လူ'
+        predicted=''.join(line.strip() for line in srt.splitlines()
+            if line.strip() and not line.strip().isdigit()
+            and '-->' not in line).replace(' ','')
+        def edits(a,b):
+            prev=list(range(len(b)+1))
+            for i,char in enumerate(a,1):
+                current=[i]
+                for j,other in enumerate(b,1):
+                    current.append(min(current[-1]+1,prev[j]+1,
+                                       prev[j-1]+(char!=other)))
+                prev=current
+            return prev[-1]
+        observed=100*edits(reference,predicted)/len(reference)
+        print(f"OBSERVATION: single public Burmese ASR example, raw character error rate "
+              f"{observed:.1f}%; this does NOT predict real novel accuracy",flush=True)
+
         print("PASS: REAL official local whisper-cli.exe + REAL ggml-base.bin "
           "on published Windows 0.14.8 EXE, 3s public Burmese sample => "
           "valid timestamped SRT, original audio SHA intact, no cloud inference; "
