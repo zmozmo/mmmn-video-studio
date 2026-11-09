@@ -186,6 +186,24 @@ for witness in ("_run_speech_step","start_transcription_job",
 server.write_text(s,encoding='utf-8')
 print("0.14.8: cancellable local transcription / API allowlist patched",flush=True)
 
+# Update the existing synthetic test stub to intercept the new safe Popen
+# wrapper (older test intercepted only subprocess.run). Never weaken the real
+# production command path or skip the original-media/SRT-preservation test.
+once("tests/offline_speech_trial_test.py",
+     """        native_run=subprocess.run
+        def run_stub(command,*args,**kwargs):
+            if command and Path(command[0]).is_file() and Path(command[0]).samefile(stub):
+                command=[sys.executable,str(stub),*command[1:]]
+            return native_run(command,*args,**kwargs)
+        with patch.object(mod.subprocess,'run',side_effect=run_stub):""",
+     """        native_speech=mod.Studio._run_speech_step
+        def run_stub(command,timeout,cancel=None):
+            if command and Path(command[0]).is_file() and Path(command[0]).samefile(stub):
+                command=[sys.executable,str(stub),*command[1:]]
+            return native_speech(command,timeout,cancel)
+        with patch.object(mod.Studio,'_run_speech_step',staticmethod(run_stub)):""")
+
+
 once("web/app.js",
      '<button class="btn primary" data-action="audio-first-major-plan">',
      '<button class="btn" data-action="cancel-offline-speech">⏹ အသံမှစာပြောင်းခြင်း ရပ်ရန်</button>'
