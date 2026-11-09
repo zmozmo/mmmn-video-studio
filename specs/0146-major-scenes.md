@@ -42,7 +42,7 @@ This deterministic conservative selector is **not a trained Burmese semantic mod
 - All incremental source patches applied cleanly: [PASS 42555074115](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555074115).
 - Native Windows 0.14.6 install/upgrade/FFmpeg: [PASS 42555073944](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555073944).
 - Exact public EXE UI: [PASS 42555752046](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555752046).
-- Extended 90-minute one-visible-image export: [42555826576](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555826576) (claim PASS only after recorded success).
+- Extended 90-minute one-visible-image export: [42555826576 — **PASS**](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555826576). The published installer encoded a 5,400-second H.264/AAC Full HD MP4 with 162,000 frames, one unchanged visible photo and original synthetic WAV SHA preserved.
 
 ## Source locations
 

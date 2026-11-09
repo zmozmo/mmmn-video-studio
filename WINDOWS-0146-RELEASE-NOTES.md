@@ -36,8 +36,9 @@ The new **“🎬 အရေးကြီး Scene မှသာ ပုံပြေ
 | Publish the exact tested Setup.exe (no post-QA rebuild) | **PASS** | [42555724317](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555724317) |
 | Independently download/install public 0.14.6 Setup.exe, real Edge UI conservative scene module, data and full backup security | **PASS** | [42555752046](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555752046) |
 | **Click actual Major-only Auto Draft button**: 4 narrative beats → 2 visual scenes, 320s preserved; save/reload durable in Edge | **PASS** | [42556697904](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42556697904) |
+| **90-minute 1080p MP4, one unchanged visible photo**, 162,000 full frames, original WAV SHA intact, exact public 0.14.6 EXE | **PASS** | [42555826576](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555826576) |
 
-**Prior release continuity:** 0.14.5 passed full 90-minute/120-minute continuous Full HD H.264/AAC MP4 tests (162,000 / 216,000 frames), and a 60-distinct-image storyboard test. Windows 0.14.6 retains that renderer and its duration-dependent FFprobe verification, but the additional exact-0.14.6 **90-minute same-image** end-to-end render is tracked separately and must not be described as PASS until its run completes.
+**Verified long-form continuity:** Windows 0.14.5 had previously passed 90/120-minute continuous Full HD H.264/AAC exports. The exact public Windows **0.14.6** EXE now separately **PASSed 90 minutes / 5,400.000 seconds / 162,000 counted frames** of 1920×1080 H.264/AAC video using **one unchanged visible photo** across its internal 3600+1800-second encoder segments. The synthetic original WAV SHA remained unchanged. This hosted-runner encode took 1,944.3 seconds; do not use it as the owner's laptop speed estimate. [90-minute exact-public-EXE full test: 42555826576 — PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555826576).
 
 ## Still not tested on owner's personal device
 
