@@ -22,9 +22,10 @@
 | Setup.exe အစစ်ကို Download ပြန်လုပ်ပြီး Edge UI / Smart Scene / Backup / Security | **PASS** |
 | Windows 0.14.5 Video Engine — ၉၀ မိနစ် Full HD Video | **PASS** |
 | Windows 0.14.5 Video Engine — ၁၂၀ မိနစ် Full HD Video | **PASS** |
+| Windows 0.14.6 — **Smart Scene ခလုတ်နှိပ် → ၄ ပိုင်းမှ ၂ ပိုင်းရွေး → Save/Reload** | **PASS** |
 | Windows 0.14.6 — ပုံတစ်ပုံတည်းနဲ့ ၉၀ မိနစ် Full HD Video | **သီးခြား QA ဆက်စစ်နေ** |
 
-[Smart Scene 21 Tests](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555074044) · [0.14.6 Windows Build](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555073944) · [Installed Edge QA](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555752046) · [Same-image 90-minute QA](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555826576)
+[Smart Scene 21 Tests](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555074044) · [ခလုတ်နှိပ် Save/Reload QA](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42556697904) · [0.14.6 Windows Build](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555073944) · [Installed Edge QA](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555752046) · [Same-image 90-minute QA](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555826576)
 
 ## Windows Installer
 
