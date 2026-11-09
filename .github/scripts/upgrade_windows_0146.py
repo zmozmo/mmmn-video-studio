@@ -117,7 +117,7 @@ new_action=r'''  case 'major-only-scene-plan':{
     return;
   }
 '''
-replace("web/app.js","  case 'auto-edit-draft':{",new_action+"  case 'auto-edit-draft':{")
+replace("web/app.js","case 'auto-edit-draft':{",new_action+"case 'auto-edit-draft':{")
 
 # Version metadata and existing retained test witnesses. The increment
 # occurs AFTER 0145 patch, and does NOT recreate 0144 storage patch.
