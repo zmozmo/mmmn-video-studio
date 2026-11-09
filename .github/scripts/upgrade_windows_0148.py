@@ -155,7 +155,8 @@ serve("""            try:
                 raise ValueError('Audio extraction timed out') from e""",
 """            if _progress:_progress('Extracting local narration WAV')
             try:
-                audio=self._run_speech_step(audio_cmd,7200,_cancel)
+                audio=(subprocess.run(audio_cmd,capture_output=True,text=True,timeout=7200)
+                       if _cancel is None else self._run_speech_step(audio_cmd,7200,_cancel))
             except subprocess.TimeoutExpired as e:
                 raise ValueError('Audio extraction timed out') from e""")
 serve("""            try:
@@ -164,7 +165,8 @@ serve("""            try:
                 raise ValueError('Offline speech recognition timed out') from e""",
 """            if _progress:_progress('Recognizing local speech; exact completion time unavailable')
             try:
-                done=self._run_speech_step(cmd,24*3600,_cancel)
+                done=(subprocess.run(cmd,capture_output=True,text=True,timeout=24*3600)
+                      if _cancel is None else self._run_speech_step(cmd,24*3600,_cancel))
             except subprocess.TimeoutExpired as e:
                 raise ValueError('Offline speech recognition timed out') from e""")
 serve("""            destination=self.root/'transcripts'/f'chapter-{chapterNumber}-{secrets.token_hex(6)}.srt'
@@ -181,6 +183,7 @@ s=s[:m.end()]+"\n        'start_transcription_job', 'get_transcription_job_statu
 for witness in ("_run_speech_step","start_transcription_job",
                 "get_transcription_job_status","cancel_transcription_job",
                 "self._run_speech_step(cmd,24*3600,_cancel)",
+            "if _cancel is None else self._run_speech_step(cmd,24*3600,_cancel)",
                 "if _cancel is not None and _cancel.is_set()"):
     if witness not in s:raise ValueError('ASR async API missing '+witness)
 server.write_text(s,encoding='utf-8')
