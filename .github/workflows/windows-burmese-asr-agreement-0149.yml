@@ -1,0 +1,26 @@
+name: Windows 0.14.9 Burmese ASR Manuscript Agreement QA
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'web/burmese-transcript-agreement.mjs'
+      - 'tests/burmese-transcript-agreement.test.mjs'
+      - '.github/workflows/windows-burmese-asr-agreement-0149.yml'
+permissions:
+  contents: read
+jobs:
+  no-wrong-burmese-srt:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify fail-closed Burmese ASR manuscript overlap, never auto-approve
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check web/burmese-transcript-agreement.mjs
+          node --test tests/burmese-transcript-agreement.test.mjs tests/major-scene.test.mjs tests/major-artwork-brief.test.mjs
