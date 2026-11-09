@@ -175,9 +175,9 @@ serve("""            destination=self.root/'transcripts'/f'chapter-{chapterNumbe
             # Never overwrite an earlier corrected transcript.""")
 
 # Security: expose only the three specific short non-blocking commands.
-m=re.search(r'(?m)^ALLOWED\s*=\s*\{',s)
-if not m:raise ValueError('Named API allowlist missing; refuse unsafe service patch')
-s=s[:m.end()]+"\n    'start_transcription_job', 'get_transcription_job_status', 'cancel_transcription_job',"+s[m.end():]
+m=re.search(r'(?m)^ALLOWED\s*=\s*\{\s*name\s+for\s+name\s+in\s+dir\(Studio\)\s+if\s+name\s+in\s*\(',s)
+if not m:raise ValueError('Named API allowlist comprehension missing; refuse unsafe service patch')
+s=s[:m.end()]+"\n        'start_transcription_job', 'get_transcription_job_status', 'cancel_transcription_job',"+s[m.end():]
 for witness in ("_run_speech_step","start_transcription_job",
                 "get_transcription_job_status","cancel_transcription_job",
                 "self._run_speech_step(cmd,24*3600,_cancel)",
