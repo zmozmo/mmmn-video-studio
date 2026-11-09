@@ -1,7 +1,7 @@
 name: Publish Verified Windows 0.14.6 Direct EXE
 on:
   workflow_run:
-    workflows: ["MMMN Windows 0.14.6 Major-Scene Offline Installer Laboratory"]
+    workflows: ["MMMN Windows 0.14.6 Conservative Major-Scene Offline Installer Laboratory"]
     types: [completed]
     branches: [main]
 permissions:
@@ -9,7 +9,7 @@ permissions:
   contents: write
 jobs:
   verified-windows-binary:
-    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.head_sha == github.sha && github.event.workflow_run.repository.full_name == github.repository }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.head_sha == '0252101ee1184df868433167348ef2ca760f8ae8' && github.event.workflow_run.repository.full_name == github.repository }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
