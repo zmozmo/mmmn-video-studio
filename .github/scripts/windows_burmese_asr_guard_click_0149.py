@@ -97,7 +97,16 @@ def main():
       result=json.loads(app.api("load_project_state"))["chapters"][0]
       if result.get("scenePolicy")=="major-only-conservative":break
       time.sleep(.3)
-     else:raise AssertionError("Smart Scene button did not save: "+repr(dialogs))
+     else:
+      state=page.evaluate("""() => ({
+        calls:window.__qa_asr_calls||[],
+        appText:document.body.innerText.slice(-1800),
+        activeSpeech:window.__MMMN_ACTIVE_SPEECH_JOB__,
+        currentChapter:JSON.parse(localStorage.getItem('mmmn-studio-state')||'{}').chapters?.[0]?.scenePolicy
+      })""")
+      print("QA DEBUG: bad=",bad,"dialogs=",dialogs,"pageErrors=",errors,
+            "lastState=",state,flush=True)
+      raise AssertionError("Smart Scene button did not save after verified UI action")
      calls=page.evaluate("""() => window.__qa_asr_calls||[]""")
      assert all(x in calls for x in
        ("offline_speech_status","start_transcription_job","get_transcription_job_status")),calls
