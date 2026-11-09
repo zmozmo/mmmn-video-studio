@@ -1,0 +1,86 @@
+name: Windows 0.14.8 REAL Offline Whisper CPU Model — Public Burmese Clip QA
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/windows-real-whisper-0148.yml'
+permissions:
+  contents: read
+jobs:
+  real-whisper-local-only:
+    runs-on: windows-latest
+    timeout-minutes: 28
+    env:
+      PYTHONIOENCODING: utf-8
+      NO_PROXY: 127.0.0.1,localhost
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Verify EXACT already-released Windows Setup.exe SHA256
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force qa-download | Out-Null
+          $base="https://raw.githubusercontent.com/$env:GITHUB_REPOSITORY/windows-binaries-0148/downloads"
+          foreach ($file in @('MMMN-Video-Studio-Setup-0.14.8.exe','MMMN-Video-Studio-Setup-0.14.8.exe.sha256')) {
+            Invoke-WebRequest -Uri "$base/$file" -OutFile ("qa-download/"+$file)
+          }
+          $setup='qa-download/MMMN-Video-Studio-Setup-0.14.8.exe'
+          $actual=(Get-FileHash $setup -Algorithm SHA256).Hash.ToLowerInvariant()
+          $manifest=(Get-Content "$setup.sha256" -Raw).Trim().Split(' ')[0].ToLowerInvariant()
+          $pinned='7af13007a0c608688ede3dcfa9c3aa4f984949406e5993ceb710362979e8b42b'
+          if ($actual -ne $pinned -or $manifest -ne $pinned) { throw "Published 0.14.8 hash mismatch" }
+          Write-Host "PASS exact released 0.14.8 EXE SHA256 $actual"
+      - name: Download ONLY official CPU whisper.cpp + multilingual ggml-base.bin + PUBLIC short Burmese sample (test-only)
+        shell: pwsh
+        run: |
+          $folder=Join-Path $env:RUNNER_TEMP 'asr-external'
+          New-Item -ItemType Directory -Force $folder | Out-Null
+          $zip=Join-Path $folder 'whisper-bin-x64.zip'
+          $model=Join-Path $folder 'ggml-base.bin'
+          $sample=Join-Path $folder 'public-burmese-example.mp3'
+          Invoke-WebRequest -Uri 'https://github.com/ggml-org/whisper.cpp/releases/download/b5454/whisper-bin-x64.zip' -OutFile $zip -ErrorAction Stop
+          $exeHash=(Get-FileHash $zip -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($exeHash -ne '6ba69e3482d7826214f90a6a9c84ca07782aec1e1d0c6a7c30c994fd5d816ccb') {
+            throw "Official whisper.cpp CPU ZIP SHA mismatch"
+          }
+          Invoke-WebRequest -Uri 'https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base.bin' -OutFile $model -ErrorAction Stop
+          $modelHash=(Get-FileHash $model -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($modelHash -ne '60ed5bc3dd14eea856493d334349b405782ddcaf0028d4b5df4088345fba2efe') {
+            throw "Official multilingual ggml-base model SHA mismatch"
+          }
+          Invoke-WebRequest -Uri 'https://huggingface.co/freococo/myanmar_asr/resolve/main/example.mp3' -OutFile $sample -ErrorAction Stop
+          if ((Get-Item $sample).Length -lt 3000) { throw "Public Burmese audio sample missing" }
+          Expand-Archive -LiteralPath $zip -DestinationPath (Join-Path $folder 'whisper-bin') -Force
+          $cli=Get-ChildItem -Path (Join-Path $folder 'whisper-bin') -Recurse -Filter whisper-cli.exe -File | Select-Object -First 1
+          if (!$cli) { throw "Official whisper-cli.exe not in SHA-verified archive" }
+          "MMMN_TEST_ASR_BIN_FOLDER=$($cli.Directory.FullName)" >> $env:GITHUB_ENV
+          "MMMN_TEST_ASR_MODEL=$model" >> $env:GITHUB_ENV
+          "MMMN_TEST_ASR_AUDIO=$sample" >> $env:GITHUB_ENV
+          Write-Host 'Official open-source CLI/model verified (real local inference will run after downloads)'
+      - name: Install exact public MMMN 0.14.8 Windows app in isolated runner
+        shell: pwsh
+        run: |
+          $setup=(Resolve-Path 'qa-download/MMMN-Video-Studio-Setup-0.14.8.exe').Path
+          $p=Start-Process -FilePath $setup -ArgumentList '/S' -Wait -PassThru
+          if ($p.ExitCode -ne 0) { throw "Windows installer failed" }
+          $exe=Join-Path $env:LOCALAPPDATA 'Programs/MMMN Video Studio/MMMN-Video-Studio.exe'
+          if (!(Test-Path $exe)) { throw "Installed Windows app missing" }
+          "MMMN_RELEASE_INSTALLED_EXE=$exe" >> $env:GITHUB_ENV
+      - name: REALLY transcribe public Burmese audio through local Async API (not mocked)
+        shell: pwsh
+        run: |
+          python .github/scripts/windows_real_whisper_0148.py
+          if ($LASTEXITCODE -ne 0) { throw "Real local ASR functional pipeline failed" }
+      - name: Uninstall and clear temporary public-model QA files
+        if: always()
+        shell: pwsh
+        run: |
+          $uninstall=Join-Path $env:LOCALAPPDATA 'Programs/MMMN Video Studio/Uninstall.exe'
+          if (Test-Path $uninstall) {
+            $p=Start-Process -FilePath $uninstall -ArgumentList '/S' -Wait -PassThru
+            if ($p.ExitCode -ne 0) { throw "Uninstall failed" }
+          }
+          Remove-Item -Recurse -Force (Join-Path $env:RUNNER_TEMP 'asr-external') -ErrorAction SilentlyContinue
