@@ -35,6 +35,7 @@ The new **“🎬 အရေးကြီး Scene မှသာ ပုံပြေ
 | Native Windows installer build, in-place upgrade, full regression suite and offline MP4 | **PASS** | [42555073944](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555073944) |
 | Publish the exact tested Setup.exe (no post-QA rebuild) | **PASS** | [42555724317](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555724317) |
 | Independently download/install public 0.14.6 Setup.exe, real Edge UI conservative scene module, data and full backup security | **PASS** | [42555752046](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555752046) |
+| **Click actual Major-only Auto Draft button**: 4 narrative beats → 2 visual scenes, 320s preserved; save/reload durable in Edge | **PASS** | [42556697904](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42556697904) |
 
 **Prior release continuity:** 0.14.5 passed full 90-minute/120-minute continuous Full HD H.264/AAC MP4 tests (162,000 / 216,000 frames), and a 60-distinct-image storyboard test. Windows 0.14.6 retains that renderer and its duration-dependent FFprobe verification, but the additional exact-0.14.6 **90-minute same-image** end-to-end render is tracked separately and must not be described as PASS until its run completes.
 
