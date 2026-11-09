@@ -1,16 +1,16 @@
 # MMMN Video Studio — Windows အတွက် စတင်အသုံးပြုနည်း
 
-**Version:** 0.14.6 · **Windows 11 x64** · **Offline-first** · **Android ကို ခဏရပ်ထားသည်**
+**Version:** 0.14.7 · **Windows 11 x64** · **Offline-first** · **Android ကို ခဏရပ်ထားသည်**
 
 > ဒီစာမျက်နှာက အက်ပ်ကို တကယ် install စမ်းသုံးဖို့ အဆင်သင့်ဖြစ်တဲ့အခါ အသုံးပြုရန်ပါ။ ကိုယ်ပိုင် Windows Laptop မှာ ChatGPT က အခုထိ install မလုပ်ထားပါ။
 
 ## ၁။ Setup.exe တစ်ဖိုင်တည်းနဲ့ စတင်ခြင်း
 
-[Windows Setup.exe — MMMN Video Studio 0.14.6](https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0146/downloads/MMMN-Video-Studio-Setup-0.14.6.exe)
+[Windows Setup.exe — MMMN Video Studio 0.14.7](https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0147/downloads/MMMN-Video-Studio-Setup-0.14.7.exe)
 
-- ဖိုင်အမည် — `MMMN-Video-Studio-Setup-0.14.6.exe`
-- အရွယ်အစား — **64,837,468 bytes**
-- SHA-256 — `b94b7e9a9f7e5dd373b38216dc2dcc7fa392bb56fd42b981f4f38c2d4a05814f`
+- ဖိုင်အမည် — `MMMN-Video-Studio-Setup-0.14.7.exe`
+- အရွယ်အစား — **64,839,519 bytes**
+- SHA-256 — `ca8b984722c6da971008a457c3d4b0dc734142edf0858d940f2c1bdb03c2f4cb`
 - VS Code၊ CMD၊ Source ZIP၊ Python၊ Node.js၊ Paid AI API **မလိုပါ**။
 
 Windows SmartScreen မှာ **Unknown Publisher** လို့ ပေါ်နိုင်ပါတယ်။ Installer ကို Digital Code Sign မလုပ်ထားသေးတာကြောင့်ပါ။ မသေချာတဲ့ Installer ကို လုံခြုံရေးပိတ်ပြီး အတင်းမဖွင့်ပါနဲ့။ GitHub Release Branch မှာရှိတဲ့ ဖိုင်နဲ့ SHA-256 ကို စစ်ပြီး ယုံကြည်မှသာ ဆက်လုပ်ပါ။
@@ -51,7 +51,7 @@ Video Encoding **H.264**, Audio **AAC**, **30 fps** ဖြစ်ပါတယ်�
 
 ## ၄။ ပုံအများကြီး မလျှောက်ပြောင်းဘဲ အရေးကြီး Scene မှသာ ပြောင်းနည်း (အသစ်)
 
-Windows 0.14.6 မှာ **“🎬 အရေးကြီး Scene မှသာ ပုံပြောင်း (Auto Draft)”** ဆိုတဲ့ ခလုတ်ကို Timeline / Storyboard မှာ ထည့်ထားပါတယ်။
+Windows 0.14.7 မှာ **“🎬 အရေးကြီး Scene မှသာ ပုံပြောင်း (Auto Draft)”** ဆိုတဲ့ ခလုတ်ကို Timeline / Storyboard မှာ ထည့်ထားပါတယ်။
 
 1. ဝတ္ထုစာသား၊ ကိုယ်တိုင်ဖတ်ထားတဲ့ အသံနဲ့ ဇာတ်ဝင်ခန်းပုံတွေကို App ထဲ Import လုပ်ထားပါ။
 2. ရှိရင် **အချိန်မှတ်တမ်းပါတဲ့ SRT** ကို Import လုပ်ပြီး စာသားနဲ့ အချိန်ကို စစ်ပါ။ SRT မရှိရင် App က Offline Audio Pause ကို ခန့်မှန်းသုံးနိုင်ပေမယ့် စကားလုံးတစ်လုံးချင်း အချိန်အတိအကျမဟုတ်ပါ။
@@ -62,11 +62,21 @@ Windows 0.14.6 မှာ **“🎬 အရေးကြီး Scene မှသာ �
 
 **အရေးကြီး:** ဒီစနစ်က Offline စည်းမျဉ်းနဲ့ လက်ရှိ စာသား/SRT/အသံရပ်နားချက်ကို အခြေခံတဲ့ အကြံပြု Draft ပါ။ ဝတ္ထုအသံကို AI က အဓိပ္ပာယ်အပြည့် နားလည်တယ်လို့ မဆိုလိုပါ။ Offline Myanmar Speech-to-Text အတွက် ကိုက်ညီတဲ့ Model သီးခြားရှိဖို့ လိုနိုင်ပြီး စာသား/Timing ကို ပြန်စစ်ရပါမယ်။ **ပုံတွေကို သူ့ဖာသာမဖန်တီးပါ၊ Google Drive ကနေလည်း Auto Sync မလုပ်ပါ။**
 
-## ၅။ ဝတ္ထုအခန်းတွေ ပေါင်းရန်
+## ၅။ 0.14.7 — ပုံလိုအပ်ချက်ကို အရေးကြီး Scene အတွက်သာ ထုတ်ခြင်း
+
+အရင်ဆုံး Timeline မှာ **“🎬 အရေးကြီး Scene မှသာ ပုံပြောင်း”** ကို နှိပ်ပြီး အကြံပြု Scene တွေကို ပြန်စစ်/အတည်ပြုထားပါ။
+
+**“🖼 အရေးကြီး Scene ပုံလိုအပ်ချက်သာ ထုတ်ရန်”** ခလုတ်ကိုနှိပ်ရင် Chapter အတွက် အဓိကပြောင်းသင့်တဲ့ နောက်ခံပုံတွေကိုသာ Markdown စာရင်းထုတ်ပေးပါမယ်။ ပုံရှိပြီးသား၊ ပုံလိုသေးတာ၊ အသံထဲမှာ ဘယ်အချိန်ကစပြဖို့ အကြံပြုထားတယ်ဆိုတာတွေ ပါပါတယ်။ ၉၀ မိနစ်လုံး ပုံတစ်ပုံတည်းထားရင် ပုံအသစ် အများကြီးဖန်တီးဖို့ မတောင်းပါ။
+
+**“🎧 အသံဖတ်ပြချက်နဲ့ အရေးကြီး Scene (Offline Model ရှိမှ)”** ကိုလည်း သုံးနိုင်ပါတယ်။ စက်ထဲမှာ *whisper.cpp executable* နဲ့ *Myanmar ဘာသာပါသော multilingual model* ကို သီးခြားထည့်ထားမှသာ အသံကို Offline SRT အဖြစ် ပြောင်းနိုင်ပါတယ်။ **ဒီ Model ကို Installer ထဲ မထည့်ထားသေးပါ။** Model မရှိတဲ့အခါ အသံရပ်နားချက်အလိုက် ခန့်မှန်းချက်ကိုပဲ သုံးမယ်။ SRT စာသားနဲ့ ပုံပြောင်းချိန်ကို လူကိုယ်တိုင်ပြန်စစ်ဖို့ လိုပါတယ်။
+
+ပုံလိုအပ်ချက် Markdown ဖိုင်မှာ မထုတ်ဝေသေးတဲ့ ဝတ္ထုစာသားတွေ ပါနိုင်တာကြောင့် **ကိုယ်ပိုင်စက်ထဲမှာပဲ သိမ်းပါ။** App က ပုံအသစ်ကို ကိုယ်တိုင် မဖန်တီးသေးသလို Google Drive ကနေလည်း Auto Download မလုပ်ပါ။
+
+## ၆။ ဝတ္ထုအခန်းတွေ ပေါင်းရန်
 
 Chapter MP4 နှစ်ခု သို့မဟုတ် ထို့ထက်ပိုပြီး ထုတ်ပြီးရင် **Combine Selected Chapters to One MP4** ကို သုံးနိုင်ပါတယ်။ Chapter တွေဟာ Resolution၊ FPS၊ Codec တူရမယ်၊ အခန်းစဉ်လိုက်ဖြစ်ရမယ်။ မူရင်း Chapter MP4 တွေကို ဖျက်မပစ်ပါ။
 
-## ၆။ မဖြစ်မနေ Backup ယူရန်
+## ၇။ မဖြစ်မနေ Backup ယူရန်
 
 1. **Updates / Storage** မှာ **Create + Verify Full Backup** ကိုနှိပ်ပါ။
 2. **Open Backup Folder** နဲ့ Windows Explorer ဖွင့်ပါ။
@@ -76,7 +86,7 @@ Chapter MP4 နှစ်ခု သို့မဟုတ် ထို့ထက်
 
 **သတိ:** App ရဲ့ Local Disk တစ်ခုထဲမှာပဲ Backup သိမ်းထားရင် Hard Disk ပျက်တာကို မကာကွယ်နိုင်ပါ။
 
-## ၇။ မပါသေးတာ / ကန့်သတ်ချက်များ
+## ၈။ မပါသေးတာ / ကန့်သတ်ချက်များ
 
 - Google Drive ကို အလိုအလျောက် ချိတ်ဆက်/Sync မလုပ်ပါ။ မူရင်းဝတ္ထုကို Drive ပေါ်မှာ ပြောင်းလဲမပေးပါ။
 - မြန်မာအသံမှ စာသားပြောင်းရာမှာ Offline Speech Model သီးခြားလိုနိုင်ပြီး အမှားမရှိကြောင်း မအာမခံပါ။
@@ -84,4 +94,4 @@ Chapter MP4 နှစ်ခု သို့မဟုတ် ထို့ထက်
 - Installer Digital Signature မရှိသေးပါ။ Windows SmartScreen က Warning ပြနိုင်ပါတယ်။
 - ကိုယ်ပိုင်ဝတ္ထုမူရင်း၊ အသံ၊ ဓာတ်ပုံ၊ Password တွေကို Public GitHub Repository ထဲ မတင်ပါနဲ့။
 
-[Release Readiness Report](WINDOWS-RELEASE-READINESS.md) · [Version 0.14.6 Release Notes](WINDOWS-0146-RELEASE-NOTES.md)
+[Release Readiness Report](WINDOWS-RELEASE-READINESS.md) · [Version 0.14.7 Release Notes](WINDOWS-0147-RELEASE-NOTES.md)
