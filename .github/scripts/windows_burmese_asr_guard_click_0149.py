@@ -77,7 +77,11 @@ def main():
        if a.get("id")!="synthetic-original-voice-0149"]
      project["assets"].append({"id":"synthetic-original-voice-0149",
         "type":"audio/wav","name":"synthetic-voice.wav","size":1024})
-     app.api("save_project_state",{"json":json.dumps(project,ensure_ascii=False)})
+     prepared=json.dumps(project,ensure_ascii=False)
+     app.api("save_project_state",{"json":prepared})
+     # Reset BOTH stores between wrong-ASR and matching-ASR scenarios.
+     # Native disk save alone leaves previous browser localStorage alive.
+     page.evaluate("(data) => localStorage.setItem('mmmn-studio-state',data)",prepared)
      page.reload(wait_until="domcontentloaded")
      page.locator(".shell").wait_for(state="visible",timeout=30000)
      page.locator('[data-tab="timeline"]').first.click()
