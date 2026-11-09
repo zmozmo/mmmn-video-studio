@@ -1,0 +1,51 @@
+MMMN VIDEO STUDIO WINDOWS 0.14.6 PUBLIC EXE ACCEPTANCE
+Evidence timestamp: 2026-11-09 UTC
+Status: PASS for exact Windows installer, conservative scene planner, Edge UI,
+backup recovery and local API. 90-minute one-image test tracked SEPARATELY.
+
+Executable: MMMN-Video-Studio-Setup-0.14.6.exe
+Bytes: 64837468
+SHA-256: b94b7e9a9f7e5dd373b38216dc2dcc7fa392bb56fd42b981f4f38c2d4a05814f
+
+Source major-scene planner:
+  web/major-scene.mjs (pure offline deterministic image-change suggestions).
+  tests/major-scene.test.mjs (21/21 PASS).
+  https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555074044
+
+Incremental v0.14.1 through v0.14.6 patch chain:
+  PASS https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555074115
+
+Native Windows 0.14.6 installer build, in-place upgrade from synthetic user
+state, H.264/AAC FFmpeg render, unit coverage and data preservation:
+  PASS https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555073944
+
+EXACT release bytes published without rebuilding:
+  PASS https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555724317
+
+Independent downloaded EXE from published branch installed into separate
+Windows runner. Real Edge UI test:
+  PASS https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555752046
+  - New Major-only Scene Draft button visible
+  - Imported actual released major-scene.mjs in Edge
+  - Ordinary rain + girl appearance keep existing image
+  - Severe rain with strong darkness changes background only once
+  - Audio duration unchanged
+  - Prior synthetic project, media, manual lock preserved across upgrade
+  - Real WAV upload + exact data checksum
+  - Full backup SHA-256 and safe restore
+  - Forged/no token rejected, no unauthorized folder traversal
+  - No outbound network or browser JavaScript runtime errors
+  - Uninstall PASS
+
+Prior Windows 0.14.5 engine confirmed genuine 90-minute/120-minute H264/AAC
+1080p MP4 with 162000/216000 frames and snapshots preserved:
+https://github.com/zmozmo/mmmn-video-studio/actions/runs/42499519584
+The current 0.14.6 90-minute SAME-PHOTO continuous video verification is a
+distinct acceptance: https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555826576
+DO NOT claim this additional test passed until its run completes successfully.
+
+LIMITATIONS: Real owner's laptop and real full novel assets untested. No
+full Burmese semantic speech understanding or guaranteed speech-to-image
+timing. Offline ASR needs compatible model and proofreading. User-supplied
+photos required. Installer unsigned and Windows SmartScreen may warn.
+No private manuscripts, voices or images included in public source or QA.
