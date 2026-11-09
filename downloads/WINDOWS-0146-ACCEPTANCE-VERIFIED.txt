@@ -44,6 +44,14 @@ The current 0.14.6 90-minute SAME-PHOTO continuous video verification is a
 distinct acceptance: https://github.com/zmozmo/mmmn-video-studio/actions/runs/42555826576
 DO NOT claim this additional test passed until its run completes successfully.
 
+Additional published 0.14.6 installed UI actual button click:
+  PASS https://github.com/zmozmo/mmmn-video-studio/actions/runs/42556697904
+  - From FOUR narrative beats -> TWO major-picture scenes at 0s and 160s.
+  - Rain mention and female entrance do not create unwanted image swaps.
+  - Confirmed user prompt actually saves into native local disk state.
+  - 320 seconds total narration preserved; manual review not bypassed.
+  - Reload retains exact scene timing/image assignments.
+
 LIMITATIONS: Real owner's laptop and real full novel assets untested. No
 full Burmese semantic speech understanding or guaranteed speech-to-image
 timing. Offline ASR needs compatible model and proofreading. User-supplied
