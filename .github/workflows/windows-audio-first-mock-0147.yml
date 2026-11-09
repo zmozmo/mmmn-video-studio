@@ -13,7 +13,7 @@ permissions:
   contents: read
 jobs:
   click-and-save-real-ui:
-    if: ${{ github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.repository.full_name == github.repository) }}
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'push' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.repository.full_name == github.repository) }}
     runs-on: windows-latest
     timeout-minutes: 20
     env:
