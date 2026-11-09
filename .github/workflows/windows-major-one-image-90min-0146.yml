@@ -1,0 +1,62 @@
+name: Windows 0.14.6 Same-Background 90m Full-HD Published EXE QA
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/windows-major-one-image-90min-0146.yml'
+permissions:
+  contents: read
+jobs:
+  one-visible-picture-full-novel:
+    runs-on: windows-latest
+    timeout-minutes: 55
+    env:
+      NO_PROXY: 127.0.0.1,localhost
+      PYTHONIOENCODING: utf-8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Download checksum-pinned exact released Windows 0.14.6 EXE
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force published | Out-Null
+          $base="https://raw.githubusercontent.com/$env:GITHUB_REPOSITORY/windows-binaries-0146/downloads"
+          foreach ($name in @('MMMN-Video-Studio-Setup-0.14.6.exe','MMMN-Video-Studio-Setup-0.14.6.exe.sha256')) {
+            Invoke-WebRequest -Uri "$base/$name" -OutFile (Join-Path 'published' $name) -ErrorAction Stop
+          }
+          $setup='published/MMMN-Video-Studio-Setup-0.14.6.exe'
+          $expected='b94b7e9a9f7e5dd373b38216dc2dcc7fa392bb56fd42b981f4f38c2d4a05814f'
+          $actual=(Get-FileHash $setup -Algorithm SHA256).Hash.ToLowerInvariant()
+          $manifest=(Get-Content "$setup.sha256" -Raw).Trim().Split(' ')[0].ToLowerInvariant()
+          if ($actual -ne $expected -or $actual -ne $manifest) { throw 'Exact published 0.14.6 SHA mismatch; do not execute' }
+          Write-Host "PASS: exact published installer integrity $actual"
+      - name: Install and verify bundled offline FFmpeg in disposable Windows
+        shell: pwsh
+        run: |
+          $p=Start-Process -FilePath (Resolve-Path 'published/MMMN-Video-Studio-Setup-0.14.6.exe') -ArgumentList '/S' -Wait -PassThru
+          if ($p.ExitCode -ne 0) { throw 'Windows Setup.exe install failed' }
+          $exe=Join-Path $env:LOCALAPPDATA 'Programs/MMMN Video Studio/MMMN-Video-Studio.exe'
+          if (!(Test-Path $exe -PathType Leaf)) { throw 'Installed executable missing' }
+          "MMMN_RELEASE_INSTALLED_EXE=$exe" >> $env:GITHUB_ENV
+          & $exe --self-test
+          if ($LASTEXITCODE -ne 0) { throw 'Bundled FFmpeg self-test failed' }
+      - name: ACTUALLY encode entire 90-minute novel with one unchanged visual background
+        shell: pwsh
+        run: |
+          python .github/scripts/windows_major_novel_0146.py
+          if ($LASTEXITCODE -ne 0) { throw '90-minute same-background MP4 acceptance failed' }
+      - name: Safe uninstall on disposable Windows QA runner
+        shell: pwsh
+        if: always()
+        run: |
+          $uninstaller=Join-Path $env:LOCALAPPDATA 'Programs/MMMN Video Studio/Uninstall.exe'
+          if (Test-Path $uninstaller -PathType Leaf) {
+            $p=Start-Process -FilePath $uninstaller -ArgumentList '/S' -Wait -PassThru
+            if ($p.ExitCode -ne 0) { throw 'Uninstall failed' }
+          }
