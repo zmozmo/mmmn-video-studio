@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "platform": "Windows native runner",
+  "artifact": "UNSIGNED LAB INSTALLER - NOT A SIGNED PRODUCTION RELEASE",
+  "sha256": "7af13007a0c608688ede3dcfa9c3aa4f984949406e5993ceb710362979e8b42b",
+  "size_bytes": 64824609,
+  "windows_install_upgrade_render_uninstall": "VERIFIED",
+  "python_test_count": 145
+}
