@@ -75,7 +75,10 @@ def main():
      page.evaluate("""(srt) => {
        const original=window.__TAURI__.core.invoke.bind(window.__TAURI__.core);
        window.__qa_asr_calls=[];
+       window.__qa_native_errors=[];
+       window.__qa_native_commands=[];
        window.__TAURI__.core.invoke=async (command,args) => {
+         window.__qa_native_commands.push(command);
          if(['offline_speech_status','start_transcription_job',
              'get_transcription_job_status'].includes(command)){
            window.__qa_asr_calls.push(command);
@@ -87,7 +90,8 @@ def main():
               result:{srt,modelName:'QA-only-model.bin',humanReviewRequired:true,
                   source:'QA-only simulated local model'}};
          }
-         return original(command,args);
+         try {return await original(command,args);}
+         catch(error) {window.__qa_native_errors.push({command,message:String(error)});throw error;}
        };
      }""",raw)
      button=page.locator('[data-action="audio-first-major-plan"]')
@@ -100,11 +104,16 @@ def main():
      else:
       state=page.evaluate("""() => ({
         calls:window.__qa_asr_calls||[],
+        nativeCommands:window.__qa_native_commands||[],
+        nativeErrors:window.__qa_native_errors||[],
         appText:document.body.innerText.slice(-1800),
         activeSpeech:window.__MMMN_ACTIVE_SPEECH_JOB__,
         currentChapter:JSON.parse(localStorage.getItem('mmmn-studio-state')||'{}').chapters?.[0]?.scenePolicy
       })""")
+      backend=json.loads(app.api("load_project_state"))["chapters"][0]
       print("QA DEBUG: bad=",bad,"dialogs=",dialogs,"pageErrors=",errors,
+            "backendScenePolicy=",backend.get("scenePolicy"),
+            "backendSceneCount=",len(backend.get("scenes",[])),
             "lastState=",state,flush=True)
       raise AssertionError("Smart Scene button did not save after verified UI action")
      calls=page.evaluate("""() => window.__qa_asr_calls||[]""")
