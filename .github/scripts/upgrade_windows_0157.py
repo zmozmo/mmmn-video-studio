@@ -44,13 +44,13 @@ once('web/app.js',"case 'hold-verified-major-photo':{",
           'Image prompt (private suggestion ONLY): '+(r.proposedPrompt||'(keep current image)'),
           'Never auto-approve or silently change a locked picture.','');
       }
-      const msg='အရေးကြီး Scene ပုံလိုအပ်ချက်\\\n'+
-        'ပုံအသစ်လိုနိုင်တဲ့ Scene: '+s.eligibleLocalArtRequests+'\\\n'+
-        'လက်ရှိပုံဆက်ပြရန်: '+s.ordinaryBeatHolds+'\\\n'+
-        'အတည်ပြု/Lock ပုံမပြောင်း: '+s.alreadyLinkedOrLocked+'\\\n\\\n'+
+      const msg='အရေးကြီး Scene ပုံလိုအပ်ချက်\\n'+
+        'ပုံအသစ်လိုနိုင်တဲ့ Scene: '+s.eligibleLocalArtRequests+'\\n'+
+        'လက်ရှိပုံဆက်ပြရန်: '+s.ordinaryBeatHolds+'\\n'+
+        'အတည်ပြု/Lock ပုံမပြောင်း: '+s.alreadyLinkedOrLocked+'\\n\\n'+
         'ဒီခလုတ်က ပုံအသစ်မဖန်တီးပါ။ အထူး Scene တွေအတွက် PRIVATE စစ်ဆေးရန်စာရင်းသာ ထုတ်ပါတယ်။'+
-        '\\\nစာမူနဲ့ ပုံများကို Cloud တင်ခြင်းမပြုပါ။'+
-        '\\\n\\\nPrivate Markdown စာရင်းထုတ်မလား?';
+        '\\nစာမူနဲ့ ပုံများကို Cloud တင်ခြင်းမပြုပါ။'+
+        '\\n\\nPrivate Markdown စာရင်းထုတ်မလား?';
       if(!confirm(msg))return;
       download(new Blob([lines.join('\n')],{type:'text/markdown;charset=utf-8'}),
         'MMMN-ch'+String(c.number).padStart(2,'0')+'-MAJOR-ART-REVIEW-PRIVATE.md');
