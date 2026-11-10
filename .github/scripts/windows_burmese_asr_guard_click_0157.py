@@ -257,6 +257,26 @@ def main():
       page.reload(wait_until="domcontentloaded")
       page.locator(".shell").wait_for(state="visible",timeout=30000)
       page.locator('[data-tab="timeline"]').first.click()
+      # 0.15.7: actual installed Edge private art queue button must export
+      # ONLY a local review file, with zero project, SRT and image changes.
+      before_queue=page.evaluate("""() => JSON.parse(localStorage.getItem('mmmn-studio-state')||'{}').chapters?.[0]""")
+      disk_before_queue=json.loads(app.api("load_project_state"))["chapters"][0]
+      image_sha_before_queue=fixture.sha(photo_file)
+      queue=page.locator('[data-action="review-important-art-queue"]').first
+      assert queue.is_visible(),"0.15.7 private major art queue UI missing"
+      with page.expect_download(timeout=25000) as review:
+       queue.click()
+      doc=review.value
+      assert doc.suggested_filename.endswith('-MAJOR-ART-REVIEW-PRIVATE.md')
+      text=Path(doc.path()).read_text(encoding='utf-8')
+      assert 'PRIVATE Important-scene image candidate review' in text
+      assert 'Ordinary details keeping the current picture' in text
+      after_queue=page.evaluate("""() => JSON.parse(localStorage.getItem('mmmn-studio-state')||'{}').chapters?.[0]""")
+      disk_after_queue=json.loads(app.api("load_project_state"))["chapters"][0]
+      assert before_queue==after_queue,'Local art proposal silently edited chapter'
+      assert disk_before_queue==disk_after_queue,'Local art proposal wrote to native project'
+      assert image_sha_before_queue==fixture.sha(photo_file)
+      print('PASS: 0.15.7 REAL Edge private major-art queue exported and original project/photo/SRT unchanged',flush=True)
       hold=page.locator('[data-action="hold-verified-major-photo"]').first
       assert hold.is_visible(),"Missing real Windows 0.15.7 picture continuity button"
       prev_dialogs=len(dialogs)
