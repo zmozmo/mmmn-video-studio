@@ -89,8 +89,11 @@ def create_review_art(prompt,scene_id,output_dir,*,approved=False,port=8000,
     prompt=validated_prompt(prompt)
     scene_id=validated_scene_id(scene_id)
     if not isinstance(output_dir,(str,Path)):raise ValueError("Local directory required")
-    folder=Path(output_dir).resolve()
-    if folder.is_symlink():raise ValueError("Refusing symlink output directory")
+    requested=Path(output_dir).expanduser()
+    # Check BEFORE resolve(): Path.resolve() removes evidence of symlinks.
+    if any(parent.is_symlink() for parent in (requested,*requested.parents)):
+        raise ValueError("Refusing symlinked output directory or parent")
+    folder=requested.resolve()
     folder.mkdir(parents=True,exist_ok=True)
     if not folder.is_dir():raise ValueError("Output directory unavailable")
     if not 5<=timeout<=900:raise ValueError("Invalid local inference timeout")
