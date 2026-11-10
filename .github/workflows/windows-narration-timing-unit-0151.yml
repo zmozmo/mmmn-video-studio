@@ -50,6 +50,7 @@ jobs:
             python ".github/scripts/upgrade_windows_$suffix.py"
           done
           python -m py_compile portable/studio_server.py
+          python -m py_compile .github/scripts/windows_burmese_asr_guard_click_0151.py
           node --check web/app.js
           node --check web/narration-timing-audit.mjs
           python - <<'PY'
