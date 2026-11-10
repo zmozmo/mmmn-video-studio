@@ -45,6 +45,11 @@ jobs:
                       block='\n'.join(f'{i+1}: {lines[i]}' for i in range(idx,min(idx+85,len(lines))))
                       print(block[:11500])
                       break
+          import re
+          print('DATA-ROOT/ENTRYPOINT ANCHORS')
+          for i,line in enumerate(lines):
+              if re.search(r'LOCALAPPDATA|APPDATA|MMMN_DATA|data_root|DataDir|default_root|root =|Studio\(',line,re.I):
+                  print(i+1,line[:250])
           print('\nFUNCTION WITNESSES:',{
             k:(k in s) for k in ('tools/whisper-cli.exe','ggml-base.bin',
             'NARRATION_EXTS','_run_speech_step','self.root','self.ffmpeg',
