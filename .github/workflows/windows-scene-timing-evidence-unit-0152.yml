@@ -1,0 +1,25 @@
+name: Windows 0.15.2 Important Scene SRT Evidence Unit QA
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, feature/0152-major-scene-timing-evidence]
+    paths:
+      - 'web/major-scene-timing-evidence.mjs'
+      - 'tests/major-scene-timing-evidence.test.mjs'
+      - '.github/workflows/windows-scene-timing-evidence-unit-0152.yml'
+permissions:
+  contents: read
+jobs:
+  local-no-write-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Existing and new Burmese SRT plus storyboard regression tests
+        run: |
+          set -euo pipefail
+          node --check web/major-scene-timing-evidence.mjs
+          node --test tests/major-scene-timing-evidence.test.mjs tests/burmese-transcript-agreement.test.mjs tests/burmese-transcript-chronology.test.mjs tests/narration-timing-audit.test.mjs tests/major-scene.test.mjs tests/major-artwork-brief.test.mjs
