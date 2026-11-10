@@ -62,7 +62,9 @@ jobs:
         shell: pwsh
         run: |
           Invoke-WebRequest -Uri 'https://huggingface.co/freococo/myanmar_asr/resolve/main/example.mp3' -OutFile public-burmese-example.mp3 -ErrorAction Stop
-          "MMMN_REAL_BURMESE_PUBLIC_AUDIO=$((Resolve-Path public-burmese-example.mp3).Path)" >> $env:GITHUB_ENV
+          $env:MMMN_REAL_BURMESE_PUBLIC_AUDIO=(Resolve-Path public-burmese-example.mp3).Path
+          if (!(Test-Path $env:MMMN_REAL_BURMESE_PUBLIC_AUDIO)) { throw 'Public Burmese sample unavailable locally' }
+          "MMMN_REAL_BURMESE_PUBLIC_AUDIO=$env:MMMN_REAL_BURMESE_PUBLIC_AUDIO" >> $env:GITHUB_ENV
           python .github/scripts/windows_burmese_published_addon_e2e_0154.py
           if ($LASTEXITCODE -ne 0) { throw 'Public Complete EXE real Burmese local transcription or original media integrity failed' }
           Write-Host 'PASS: public one-click COMPLETE setup app+local model generated real review-only SRT with voice+project+manual image locks unchanged'
