@@ -27,10 +27,10 @@ BOOK=" ".join(PHRASES)+" "+" ".join(PHRASES)
 def stamp(seconds):
  seconds=int(seconds)
  return "%02d:%02d:%02d,000"%(seconds//3600,(seconds//60)%60,seconds%60)
-def srt(bad):
+def srt(bad,short=False):
  return "\n".join(
   str(i+1)+"\n"+stamp(i*8)+" --> "+stamp((i+1)*8)+"\n"+
-   (WRONG if bad else PHRASES[i//10])+"\n" for i in range(40))
+   (WRONG if bad else PHRASES[i//10])+"\n" for i in range(4 if short else 40))
 
 def main():
  exe=Path(os.environ["MMMN_RELEASE_INSTALLED_EXE"])
@@ -42,7 +42,7 @@ def main():
   # silently creates a fresh isolated context with no previous localStorage.
   context=browser.new_context()
   try:
-   for bad in (True,False):
+   for bad,short in ((True,False),(False,True),(False,False)):
     page=context.new_page()
     dialogs=[];errors=[]
     page.on("dialog",lambda dialog:(dialogs.append(dialog.message),dialog.accept()))
@@ -85,7 +85,7 @@ def main():
      page.reload(wait_until="domcontentloaded")
      page.locator(".shell").wait_for(state="visible",timeout=30000)
      page.locator('[data-tab="timeline"]').first.click()
-     raw=srt(bad)
+     raw=srt(bad,short)
      page.evaluate("""(srt) => {
        const original=window.__TAURI__.core.invoke.bind(window.__TAURI__.core);
        window.__qa_asr_calls=[];
@@ -133,9 +133,9 @@ def main():
      calls=page.evaluate("""() => window.__qa_asr_calls||[]""")
      assert all(x in calls for x in
        ("offline_speech_status","start_transcription_job","get_transcription_job_status")),calls
-     expected_cues=0 if bad else 40
+     expected_cues=0 if bad or short else 40
      assert len(result.get("subtitleCues") or [])==expected_cues,(
-       "Hallucinated Burmese SRT was accepted" if bad else "Matching SRT was rejected",
+       "Hallucinated Burmese SRT was accepted" if bad or short else "Matching SRT was rejected",
        len(result.get("subtitleCues") or []))
      assert result["recordedSeconds"]==320
      assert len(result["scenes"])>=1
@@ -162,9 +162,21 @@ def main():
      page.locator(".shell").wait_for(state="visible",timeout=30000)
      reread=json.loads(app.api("load_project_state"))["chapters"][0]
      assert reread["subtitleCues"]==result["subtitleCues"]
+     # The read-only SRT timing audit must work as a real clickable Edge action.
+     page.locator('[data-tab="timeline"]').first.click()
+     before_audit=page.evaluate("""() => JSON.parse(localStorage.getItem('mmmn-studio-state')||'{}').chapters?.[0]""")
+     audit=page.locator('[data-action="audit-current-srt"]').first
+     assert audit.is_visible(),"Missing 0.15.1 SRT Timing Audit button"
+     before_dialogs=len(dialogs)
+     audit.click()
+     assert len(dialogs)>before_dialogs and 'SRT / အသံ' in dialogs[-1],dialogs
+     after_audit=page.evaluate("""() => JSON.parse(localStorage.getItem('mmmn-studio-state')||'{}').chapters?.[0]""")
+     assert before_audit==after_audit,"Audit button unexpectedly changed chapter data"
+     print("PASS: 0.15.1 real Edge read-only SRT Timing Audit button",flush=True)
      print("PASS: 0.15.1 installed Edge "+
-         ("REJECTED grossly WRONG Burmese ASR; no bogus SRT persisted" if bad
-          else "ACCEPTED matching Burmese ASR as REVIEW-REQUIRED SRT")+
+         ("REJECTED grossly WRONG Burmese ASR" if bad
+          else "REJECTED matching but TRUNCATED SRT timing" if short
+          else "ACCEPTED full matching SRT as REVIEW-REQUIRED")+
          "; original 320s and save/reload preserved",flush=True)
     finally:page.close()
   finally:browser.close()
