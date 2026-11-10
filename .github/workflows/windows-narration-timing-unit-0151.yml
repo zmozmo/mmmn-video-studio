@@ -1,0 +1,25 @@
+name: Windows 0.15.1 Offline Narration Timeline Safety Unit QA
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, feature/0151-narration-timing-audit]
+    paths:
+      - 'web/narration-timing-audit.mjs'
+      - 'tests/narration-timing-audit.test.mjs'
+      - '.github/workflows/windows-narration-timing-unit-0151.yml'
+permissions:
+  contents: read
+jobs:
+  timeline-coverage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Regression - avoid false timing claims on long Burmese narration
+        run: |
+          set -euo pipefail
+          node --check web/narration-timing-audit.mjs
+          node --test tests/narration-timing-audit.test.mjs tests/burmese-transcript-agreement.test.mjs tests/burmese-transcript-chronology.test.mjs tests/major-scene.test.mjs tests/major-artwork-brief.test.mjs
