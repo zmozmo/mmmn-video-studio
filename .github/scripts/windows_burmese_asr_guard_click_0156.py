@@ -238,6 +238,54 @@ def main():
       page.locator(".shell").wait_for(state="visible",timeout=30000)
       reloaded=json.loads(app.api("load_project_state"))["chapters"][0]
       assert reloaded["scenes"][0]["assetId"]==image_id
+      # 0.15.6: test the NEW actual Edge button on TWO scenes. An unassigned
+      # subsequent major beat must keep the verified local photo, never blank,
+      # while preserving original subtitle cues and image SHA on native disk.
+      carry=json.loads(app.api("load_project_state"))
+      carry_ch=carry["chapters"][0]
+      carry_ch["scenePolicy"]="major-only-conservative"
+      carry_ch["scenes"]=[
+       {"id":"preserve-opening-image","start":0,"duration":160,
+        "text":"သင်္ချိုင်းအနီးမှာ ရပ်နေသည်။","assetId":image_id,
+        "alignment":"estimated","motion":"still"},
+       {"id":"missing-new-image","start":160,"duration":160,
+        "text":"မိုးရွာနေစဉ် စကားပြောပြီး နောက်ခံပုံအသစ် မရသေးပါ။",
+        "assetId":None,"alignment":"estimated","motion":"still"}]
+      revised=json.dumps(carry,ensure_ascii=False)
+      app.api("save_project_state",{"json":revised})
+      page.evaluate("(data) => localStorage.setItem('mmmn-studio-state',data)",revised)
+      page.reload(wait_until="domcontentloaded")
+      page.locator(".shell").wait_for(state="visible",timeout=30000)
+      page.locator('[data-tab="timeline"]').first.click()
+      hold=page.locator('[data-action="hold-verified-major-photo"]').first
+      assert hold.is_visible(),"Missing real Windows 0.15.6 picture continuity button"
+      prev_dialogs=len(dialogs)
+      hold.click()
+      assert len(dialogs)>prev_dialogs,"0.15.6 continuity requires explicit confirmation"
+      for _ in range(80):
+       staged=page.evaluate("""() => JSON.parse(localStorage.getItem('mmmn-studio-state')||'{}').chapters?.[0]||{}""")
+       if staged.get("scenes",[{},{}])[1].get("assetId")==image_id:break
+       time.sleep(.2)
+      else:
+       raise AssertionError("Real Edge 0.15.6 continuity button did not carry prior image")
+      assert len(staged["scenes"])==2
+      assert [i["start"] for i in staged["scenes"]]==[0,160]
+      assert [i["duration"] for i in staged["scenes"]]==[160,160]
+      assert staged["scenes"][1]["imageMatchStatus"]=="same-imported-picture-review"
+      assert staged.get("text")==original_text
+      assert staged.get("subtitleCues")==original_cues
+      assert fixture.sha(photo_file)==real_image_sha
+      for _ in range(50):
+       native=json.loads(app.api("load_project_state"))["chapters"][0]
+       if native["scenes"][1].get("assetId")==image_id:break
+       time.sleep(.2)
+      else:
+       raise AssertionError("Photo continuity changed only browser storage, not native disk")
+      assert native["scenes"][1]["imageMatchStatus"]=="same-imported-picture-review"
+      assert native["scenes"][0]["assetId"]==image_id
+      assert native.get("subtitleCues")==original_cues
+      assert fixture.sha(photo_file)==real_image_sha
+      print("PASS: 0.15.6 REAL Edge two 160s major beats reused ONE existing local photo with explicit confirmation, no black image, no scene split, original media and SRT intact",flush=True)
       print("PASS: 0.15.6 REAL Edge local native-imported cemetery picture matched ONE MAJOR scene, explicit confirmation, no new timeline boundaries, 320s original and SRT unchanged, photo SHA unchanged, saved/reloaded",flush=True)
      print("PASS: 0.15.6 REAL Edge private evidence report exported without ANY chapter mutation",flush=True)
      print("PASS: 0.15.6 real Edge read-only SRT Timing Audit button",flush=True)
