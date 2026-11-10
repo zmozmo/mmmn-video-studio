@@ -21,7 +21,7 @@ jobs:
     timeout-minutes: 30
     env:
       GH_TOKEN: ${{ github.token }}
-      QA_RUN_ID: ${{ github.event_name == 'push' && '42784472878' || github.event.workflow_run.id }}
+      QA_RUN_ID: ${{ github.event_name == 'push' && '42792792099' || github.event.workflow_run.id }}
       RELEASE_TAG: mmmn-complete-0.15.7
     steps:
       - uses: actions/checkout@v4
@@ -31,7 +31,7 @@ jobs:
         run: |
           set -euo pipefail
           test "$(gh run view "$QA_RUN_ID" -R "$GITHUB_REPOSITORY" --json conclusion --jq .conclusion)" = success
-          test "$(gh run view "$QA_RUN_ID" -R "$GITHUB_REPOSITORY" --json headSha --jq .headSha)" = 965a0bb2d1e03fc2f557737fc3577b44b76eeb08
+          test "$(gh run view "$QA_RUN_ID" -R "$GITHUB_REPOSITORY" --json headSha --jq .headSha)" = 035e14bf7ed6cd660f6b90e7fa421db56addf695
           mkdir -p exact
           gh run download "$QA_RUN_ID" -R "$GITHUB_REPOSITORY" --name QA-PASS-WINDOWS-ONE-CLICK-COMPLETE-0.15.7 --dir exact
           python3 - <<'PY'
