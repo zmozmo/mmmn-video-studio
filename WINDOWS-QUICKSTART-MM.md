@@ -1,31 +1,35 @@
 # MMMN Video Studio — Windows အတွက် စတင်အသုံးပြုနည်း
 
-**Version:** 0.15.5 · **Windows 11 x64** · **Offline-first** · **Android ကို ခဏရပ်ထားသည်**
+**Version:** 0.15.6 · **Windows 11 x64** · **Offline-first** · **Android မပြီးသေးပါ**
 
-> ဒီစာမျက်နှာက အက်ပ်ကို တကယ် install စမ်းသုံးဖို့ အဆင်သင့်ဖြစ်တဲ့အခါ အသုံးပြုရန်ပါ။ ကိုယ်ပိုင် Windows Laptop မှာ ChatGPT က အခုထိ install မလုပ်ထားပါ။
+> ကိုယ်ပိုင် Windows Laptop မှာ App ကို လက်တွေ့ Install စမ်းသပ်ထားခြင်း မရှိသေးပါ။ GitHub ရဲ့ သီးခြား Windows စမ်းသပ်စက်တွေမှာသာ QA ပြုလုပ်ပြီးပါပြီ။
 
-## အားလုံးပါတဲ့ Installer တစ်ဖိုင်တည်း (Studio + မြန်မာအသံ AI)
+## Complete Setup.exe တစ်ဖိုင်တည်း (Studio + မြန်မာအသံ AI)
 
-**[MMMN Video Studio Complete 0.15.5 — တစ်ဖိုင်တည်း Setup.exe](https://github.com/zmozmo/mmmn-video-studio/releases/download/mmmn-complete-0.15.5/MMMN-Video-Studio-Complete-0.15.5.exe)**
+**[MMMN Video Studio Complete 0.15.6 — Setup.exe](https://github.com/zmozmo/mmmn-video-studio/releases/download/mmmn-complete-0.15.6/MMMN-Video-Studio-Complete-0.15.6.exe)**
 
-ဒီဖိုင်ထဲမှာ Windows Video Studio 0.15.5 နဲ့ Offline မြန်မာအသံ Model 0.15.4 **နှစ်ခုလုံး ပါပြီးသား** ဖြစ်ပါတယ်။ ဖိုင်အရွယ်အစား **429,199,179 bytes (409 MiB ခန့်)** ပါ။
+- ဖိုင်တစ်ဖိုင်တည်းမှာ **Windows Studio 0.15.6 + Burmese CPU Offline Model 0.15.4** ပါပါတယ်။ 429,187,874 bytes (~409 MiB)။
+- SHA-256: `41a71126e8957e4732fe75036fbca6cf22fa5a263068e93ed61379f8d7984e7d`
+- Windows 11 x64 မှာ သာမန် Setup.exe အဖြစ် Install လုပ်ပါ။ Python၊ Node၊ VS Code၊ Source ZIP၊ Model ကို ထပ်ဒေါင်းဖို့ မလိုပါ။
+- [Public ဖိုင်အစစ်ကို Download/Install လုပ်ပြီး မြန်မာအသံ Offline SRT စမ်းသပ်မှု PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42785504940)။
+- **Unsigned** ဖြစ်လို့ SmartScreen Warning ပေါ်နိုင်ပါတယ်။ လုံခြုံရေးကို အကုန်ပိတ်ပြီး Install မလုပ်ပါနဲ့၊ Official GitHub နဲ့ SHA ကို စစ်ဆေးပါ။
+- မြန်မာအသံမှထွက်လာတဲ့ SRT က ခန့်မှန်းအချိန်ဖြစ်ပြီး စာမူ/အသံနဲ့ ကိုယ်တိုင်ပြန်စစ်ရပါမယ်။
 
-- Windows 11 x64 စက်မှာ Setup.exe တစ်ဖိုင်ကို Install လုပ်ရုံပါ။ သီးခြား Model Download / Python / Node / VS Code မလိုပါ။
-- SHA-256: `6b70c8fc0c126034f762aaf44f671fe0c30a4321b0b2f66d0cacfe9c577f5cb2`
-- [တကယ့် Windows Independent Install + Offline မြန်မာအသံ SRT QA PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42768416121)
-- မူရင်းအသံ၊ မူရင်းစာမူ၊ Confirm လုပ်ထားတဲ့ Scene Lock တွေကို အစားမထိုးပါ။
-- မြန်မာအသံကို Offline စာသားပြောင်းနိုင်ပေမယ့် စာလုံးနဲ့ အချိန်တိတိကျကျ မှန်မမှန်ကို နားထောင်ပြီး ပြန်စစ်ရပါမယ်။
-- Digital Signature မရှိသေးပါ။ Windows Security ကို အကုန်ပိတ်ပြီး ဖွင့်ဖို့ မလိုပါ။ SHA နဲ့ ယုံကြည်ရတဲ့ GitHub Release ဖြစ်ကြောင်း စစ်ဆေးပါ။
+## အရေးကြီး Scene တွေအတွက် နောက်ခံပုံကို ဆက်ပြရန် — 0.15.6 အသစ်
 
-အောက်က 64 MB Studio-only Setup.exe က မြန်မာ AI Model မပါသေးတဲ့ ပိုသေးတဲ့ **ရွေးချယ်စရာ** ဖြစ်ပါတယ်။ မြန်မာအသံ AI လိုသူအတွက်တော့ အပေါ်က Complete Setup.exe တစ်ဖိုင်တည်း ရွေးပါ။
+Storyboard ထဲမှာ **🎞️ ပုံမရှိတဲ့ Scene မှာ ယခင်ပုံ ဆက်ပြရန်** ကိုနှိပ်နိုင်ပါတယ်။ Import လုပ်ထားပြီးသား ပုံက Scene အသစ်အတွက်လည်း ဆက်သင့်ရင် အရင်ပုံကို ဆက်ပြဖို့ Review အဖြစ် အကြံပြုပါတယ်။ ကိုယ်တိုင် Confirm မလုပ်မချင်း မပြောင်းပါ။ Manual Lock ပုံ၊ အလိုရှိလို့ ပုံအလွတ်ထားတာ၊ နောက်ခံပုံအသစ်ရွေးထားတာ၊ အသံ၊ SRT၊ Scene အချိန် တို့ကို မပြင်ပါ။
+
+**မိုးရွာတယ်၊ မိန်းကလေးတစ်ယောက် ပေါ်လာတယ် စတဲ့ သာမန်စာကြောင်းတွေကြောင့် ပုံအများကြီး မပြောင်းပါ။** အရေးကြီးတဲ့ ဇာတ်ဝင်ခန်း၊ နေရာပြောင်း၊ အလွန်မှောင်မိုက်သွားတဲ့ မိုးသည်းထန်အခြေအနေမျိုးမှာပဲ ပုံပြောင်းဖို့ စဉ်းစားပေးပါတယ်။
+
+[0.15.6 Complete Release Notes](WINDOWS-0156-COMPLETE-RELEASE-NOTES.md) · [72 Save Stress QA PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42785509349)
 
 ## ၁။ Setup.exe တစ်ဖိုင်တည်းနဲ့ စတင်ခြင်း
 
-[Windows Setup.exe — MMMN Video Studio 0.15.5](https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0155/downloads/MMMN-Video-Studio-Setup-0.15.5.exe)
+[Windows Setup.exe — MMMN Video Studio 0.15.6](https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0156/downloads/MMMN-Video-Studio-Setup-0.15.6.exe)
 
-- ဖိုင်အမည် — `MMMN-Video-Studio-Setup-0.15.5.exe`
-- အရွယ်အစား — **64,849,752 bytes**
-- SHA-256 — `82a46db961713db2a38fdd9bad998cd351e7a87f9bb548329161a2885816f63a`
+- ဖိုင်အမည် — `MMMN-Video-Studio-Setup-0.15.6.exe`
+- အရွယ်အစား — **64,838,447 bytes**
+- SHA-256 — `675204ce1a49ccedec5dffa9164e4c81956202d2216333c1bebcf03e18bb0c9c`
 - VS Code၊ CMD၊ Source ZIP၊ Python၊ Node.js၊ Paid AI API **မလိုပါ**။
 
 Windows SmartScreen မှာ **Unknown Publisher** လို့ ပေါ်နိုင်ပါတယ်။ Installer ကို Digital Code Sign မလုပ်ထားသေးတာကြောင့်ပါ။ မသေချာတဲ့ Installer ကို လုံခြုံရေးပိတ်ပြီး အတင်းမဖွင့်ပါနဲ့။ GitHub Release Branch မှာရှိတဲ့ ဖိုင်နဲ့ SHA-256 ကို စစ်ပြီး ယုံကြည်မှသာ ဆက်လုပ်ပါ။

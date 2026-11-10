@@ -1,40 +1,41 @@
 # MMMN Video Studio — Windows Offline-first
 
-**Latest Windows release: 0.15.5 (unsigned; imported local artwork choice for important scenes, independent Edge QA PASS)** · 10 November 2026  
-**Android: paused** · **Personal laptop: deliberately not tested**
+**Latest verified Windows release: 0.15.6 (unsigned; offline Burmese CPU model, important-scene stable-background continuity, independent Windows QA PASS)** · 10 November 2026  
+**Android: not yet built** · **Personal owner laptop: not yet tested**
 
-## Verified one-file COMPLETE offline Windows installer — Studio + Burmese AI
+## Download ONE complete Windows Setup.exe — Studio + Burmese Offline AI
 
-**[MMMN Video Studio Complete 0.15.5 — Download ONE Setup.exe](https://github.com/zmozmo/mmmn-video-studio/releases/download/mmmn-complete-0.15.5/MMMN-Video-Studio-Complete-0.15.5.exe)**
+**[MMMN Video Studio Complete 0.15.6 — Windows single-file installer](https://github.com/zmozmo/mmmn-video-studio/releases/download/mmmn-complete-0.15.6/MMMN-Video-Studio-Complete-0.15.6.exe)**
 
-- Includes exact independently verified Windows Studio **0.15.5** and locally installed free Burmese CPU Speech Model **0.15.4**. No second setup download, Python, Node or cloud API needed.
-- Package: `MMMN-Video-Studio-Complete-0.15.5.exe` · **429,199,179 bytes** (~409 MiB).
-- SHA-256: `6b70c8fc0c126034f762aaf44f671fe0c30a4321b0b2f66d0cacfe9c577f5cb2`.
-- **Real native Windows combined installer, model weights, actual FFmpeg + real public Burmese voice-to-SRT: PASS** — [native QA](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42768109852).
-- **Exact PUBLIC GitHub one-file EXE independently downloaded, hash-verified, installed, offline Burmese speech-to-SRT, original audio/locks protected, uninstalled: PASS** — [independent QA](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42768416121).
-- The ONE Setup.exe installer and bundled components are **unsigned**. Check its checksum and publisher source; do not turn off Windows security protections to bypass untrusted files.
-- This is an **optional all-in-one alternative** to the smaller Studio-only EXE + separate optional model add-on. It installs for the current Windows user.
-- Offline Burmese words/timestamps remain **human-review-only**. Exact word alignment for 90-minute author narration, story-aware image generation, Android runtime and owner-laptop acceptance have **not** been proven.
+- Filename: `MMMN-Video-Studio-Complete-0.15.6.exe`; **429,187,874 bytes** (~409 MiB).
+- SHA-256: `41a71126e8957e4732fe75036fbca6cf22fa5a263068e93ed61379f8d7984e7d`.
+- Includes Studio 0.15.6 + verified Burmese CPU Offline Model 0.15.4. No model ZIP, Python, Node, VS Code or paid cloud speech service needed after installation.
+- [Complete single-file native Windows install/model/speech/FFmpeg/uninstall PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42784472878).
+- [Independent EXACT PUBLIC Complete setup SHA, re-install, real Burmese CPU local voice-to-SRT/uninstall PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42785504940).
+- [Three independent Windows runs each saved/reloaded 24 times; 72 native saves and 12 reloads all PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42785509349).
+- New **🎞️ same-existing-photo continuity** option: after explicit confirmation, unassigned important scenes keep showing an already-imported previous image. Author-confirmed image, intentional blank, narration, SRT and scene timings are not modified. No automatic new image generation.
+- Speech SRT is unapproved approximate chunk timing, not accurate Burmese word-level alignment. Model inference tested on public Burmese samples, not full 90-minute private author narration.
+- **Unsigned:** Windows SmartScreen may show a publisher warning; verify the official repository and checksum; never disable all Windows security protections merely to install.
 
-[Complete release/download and QA guide](WINDOWS-0155-COMPLETE-RELEASE-NOTES.md)
+[Complete 0.15.6 release details](WINDOWS-0156-COMPLETE-RELEASE-NOTES.md) · [Burmese installation guide](WINDOWS-QUICKSTART-MM.md)
 
-## One-click Windows x64 Installer (direct EXE, no ZIP)
+## Alternative smaller Studio-only EXE (Burmese model NOT included)
 
-**[MMMN Video Studio 0.15.5 Windows setup.exe](https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0155/downloads/MMMN-Video-Studio-Setup-0.15.5.exe)**
+**[MMMN Video Studio 0.15.6 Studio-only Setup.exe](https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0156/downloads/MMMN-Video-Studio-Setup-0.15.6.exe)**
 
-- Filename: `MMMN-Video-Studio-Setup-0.15.5.exe`
-- Size: **64,849,752 bytes**
-- SHA-256: `82a46db961713db2a38fdd9bad998cd351e7a87f9bb548329161a2885816f63a`
-- [Published direct executable and independent acceptance record](https://github.com/zmozmo/mmmn-video-studio/tree/windows-binaries-0155/downloads)
-
-There is no requirement for VS Code, CMD, Python/Node.js installation, source ZIP or a paid video API to use the installed application. **Unsigned**: Windows SmartScreen may display an unknown-publisher warning; check the exact checksum. The user's actual Windows 11 laptop has not been tested yet.
+- Filename: `MMMN-Video-Studio-Setup-0.15.6.exe`
+- Size: **64,838,447 bytes**.
+- SHA-256: `675204ce1a49ccedec5dffa9164e4c81956202d2216333c1bebcf03e18bb0c9c`.
+- [Native Windows installation/upgrade/data/media/FFmpeg QA PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42783068949).
+- [Independent downloaded EXE Edge/real imported PNG continuity/manual lock QA PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42784019444).
+- Prefer the **Complete Setup.exe above** if you want Burmese speech recognition without a second installer.
 
 ## Optional offline Burmese speech model — now independently verified
 
 **[Download the exact tested Burmese CPU Model Add-on 0.15.4 Setup.exe](https://github.com/zmozmo/mmmn-video-studio/releases/download/burmese-asr-addon-0.15.4/MMMN-Burmese-ASR-Offline-Addon-0.15.4.exe)**
 
 - Model add-on file size: **364,228,875 bytes**; SHA-256: `af81e68f3971d6374bffa0987f547e716606e6cf46a45c72b9cf6274729dadeb`.
-- Install **Windows Video Studio 0.15.5 first**, then the separate **Burmese CPU Model Add-on 0.15.4**. Both are current-user setup EXEs; do not download source ZIPs or install Python/Node. The add-on is compatible with Studio 0.15.4/0.15.5.
+- Install **Windows Video Studio 0.15.6 first**, then the separate **Burmese CPU Model Add-on 0.15.4**. Both are current-user setup EXEs; do not download source ZIPs or install Python/Node. The add-on is compatible with Studio 0.15.4/0.15.5/0.15.6.
 - No model is bundled in the 64 MB Studio EXE. The optional add-on is **free and fully local after installation**. It can convert Burmese narration to approximate, review-only SRT using the original audio without uploading it.
 - **Independent REAL installed Studio + REAL installed Model Pack + local Burmese voice-to-SRT QA PASS**: [42767034087](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42767034087). Model native build/installation QA PASS [42766366243](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42766366243); exact release SHA verified [42767194551](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42767194551).
 - Human review is mandatory. No proof of accurate word-level timestamps or full 90-minute real novel recognition yet; the 90-minute deterministic audio segmentation unit tests are not the same as a 90-minute real author voice ASR test.
@@ -142,4 +143,4 @@ The `public-safe-windows-source.zip` stored in this public repo is a pinned audi
 
 Because GitHub Release asset creation previously returned HTTP 403 for the available integration, the exact verified unsigned setup.exe is directly available from a **binary-only Git branch**. The older 0.14.0 GitHub Release is retained. This does not imply an installer code signature.
 
-Local editing and rendering require no cloud connection or subscription. Automatic Google Drive sync and built-in model distribution are not included. Optional LOCAL Burmese speech-to-text integration exists only when a compatible user-supplied whisper.cpp CLI and multilingual model are installed; real Burmese ASR accuracy is unverified; the 0.15.0 guard prevents more mistaken automatic cues but does not ship a model.
+Local editing and video rendering require no cloud connection or subscription. The **Complete 0.15.6** installer now distributes the independently Windows-tested Burmese CPU model; its model output still requires manuscript/audio/SRT review and does not certify long-novel word alignment. Automatic Google Drive sync and autonomous AI-generated pictures are not included.
