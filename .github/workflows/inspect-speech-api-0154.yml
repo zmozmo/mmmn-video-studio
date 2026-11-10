@@ -1,0 +1,52 @@
+name: Inspect 0.15.4 public synthetic native speech API anchors
+on:
+  workflow_dispatch:
+  push:
+    branches: [feature/0154-burmese-local-asr-addon]
+    paths:
+      - '.github/workflows/inspect-speech-api-0154.yml'
+permissions:
+  contents: read
+jobs:
+  safe-public-source-anchors:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Extract public synthetic-safe source and print speech API methods only
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import zipfile,hashlib
+          from pathlib import Path
+          p=Path('public-safe-windows-source.zip')
+          assert hashlib.sha256(p.read_bytes()).hexdigest()=='a4ffb06ec4903f8c5266f981dffbb71302df23fd7b0611c1bf8944b48fac51b3'
+          with zipfile.ZipFile(p) as z:z.extractall('.')
+          PY
+          cp -rf MMMN-Video-Studio/. .
+          python .github/scripts/fix_windows_mime.py
+          for suffix in 0141 0142 0143 0144 0145 0146 0147 0148 0149 0150 0151 0152; do
+            python ".github/scripts/upgrade_windows_$suffix.py"
+          done
+          python - <<'PY'
+          import re
+          from pathlib import Path
+          s=Path('portable/studio_server.py').read_text(encoding='utf-8')
+          markers=('def offline_speech_status(', 'def transcribe_narration(',
+                   'def media(', 'def __init__(', 'def __getattr__(')
+          lines=s.splitlines()
+          for marker in markers:
+              for idx,line in enumerate(lines):
+                  if marker in line:
+                      print('\nSTART:'+marker+' LINE',idx+1)
+                      block='\n'.join(f'{i+1}: {lines[i]}' for i in range(idx,min(idx+85,len(lines))))
+                      print(block[:11500])
+                      break
+          print('\nFUNCTION WITNESSES:',{
+            k:(k in s) for k in ('tools/whisper-cli.exe','ggml-base.bin',
+            'NARRATION_EXTS','_run_speech_step','self.root','self.ffmpeg',
+            'ffprobe','subprocess.run','def offline_speech_status')})
+          PY
