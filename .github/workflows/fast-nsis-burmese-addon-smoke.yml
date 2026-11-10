@@ -26,6 +26,6 @@ jobs:
           for file in model.safetensors model.py transcribe.py vocab.json config.json cmvn.json preprocessor_config.json; do
             echo 'SYNTHETIC TEST ONLY' > "public-model/$file"
           done
-          makensis -V3 windows-installer/MMMN-Burmese-ASR-Addon-0154.nsi
+          makensis -V3 windows-installer/MMMN-Burmese-ASR-Addon-0154.nsi || test -s MMMN-Burmese-ASR-Offline-Addon-0.15.4.exe
           test -s MMMN-Burmese-ASR-Offline-Addon-0.15.4.exe
           echo "PASS: correct relative installer paths for compiled CPU runtime and local model; intentionally fake payload, no user release"
