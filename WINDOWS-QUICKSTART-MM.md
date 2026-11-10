@@ -1,19 +1,27 @@
 # MMMN Video Studio — Windows အတွက် စတင်အသုံးပြုနည်း
 
-**Version:** 0.15.6 · **Windows 11 x64** · **Offline-first** · **Android မပြီးသေးပါ**
+**Version:** 0.15.7 · **Windows 11 x64** · **Offline-first** · **Android မပြီးသေးပါ**
 
 > ကိုယ်ပိုင် Windows Laptop မှာ App ကို လက်တွေ့ Install စမ်းသပ်ထားခြင်း မရှိသေးပါ။ GitHub ရဲ့ သီးခြား Windows စမ်းသပ်စက်တွေမှာသာ QA ပြုလုပ်ပြီးပါပြီ။
 
 ## Complete Setup.exe တစ်ဖိုင်တည်း (Studio + မြန်မာအသံ AI)
 
-**[MMMN Video Studio Complete 0.15.6 — Setup.exe](https://github.com/zmozmo/mmmn-video-studio/releases/download/mmmn-complete-0.15.6/MMMN-Video-Studio-Complete-0.15.6.exe)**
+**[MMMN Video Studio Complete 0.15.7 — Setup.exe](https://github.com/zmozmo/mmmn-video-studio/releases/download/mmmn-complete-0.15.7/MMMN-Video-Studio-Complete-0.15.7.exe)**
 
-- ဖိုင်တစ်ဖိုင်တည်းမှာ **Windows Studio 0.15.6 + Burmese CPU Offline Model 0.15.4** ပါပါတယ်။ 429,187,874 bytes (~409 MiB)။
-- SHA-256: `41a71126e8957e4732fe75036fbca6cf22fa5a263068e93ed61379f8d7984e7d`
+- ဖိုင်တစ်ဖိုင်တည်းမှာ **Windows Studio 0.15.7 + Burmese CPU Offline Model 0.15.4** ပါပါတယ်။ 429,190,822 bytes (~409 MiB)။
+- SHA-256: `537eb7f1b943f8f686fd75fe0e99497197534e97f7eb35c04d0ae175d7573ad5`
 - Windows 11 x64 မှာ သာမန် Setup.exe အဖြစ် Install လုပ်ပါ။ Python၊ Node၊ VS Code၊ Source ZIP၊ Model ကို ထပ်ဒေါင်းဖို့ မလိုပါ။
-- [Public ဖိုင်အစစ်ကို Download/Install လုပ်ပြီး မြန်မာအသံ Offline SRT စမ်းသပ်မှု PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42785504940)။
+- [Public ဖိုင်အစစ်ကို Download/Install လုပ်ပြီး မြန်မာအသံ Offline SRT စမ်းသပ်မှု PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42793480635)။
 - **Unsigned** ဖြစ်လို့ SmartScreen Warning ပေါ်နိုင်ပါတယ်။ လုံခြုံရေးကို အကုန်ပိတ်ပြီး Install မလုပ်ပါနဲ့၊ Official GitHub နဲ့ SHA ကို စစ်ဆေးပါ။
 - မြန်မာအသံမှထွက်လာတဲ့ SRT က ခန့်မှန်းအချိန်ဖြစ်ပြီး စာမူ/အသံနဲ့ ကိုယ်တိုင်ပြန်စစ်ရပါမယ်။
+
+## အရေးကြီး Scene ပုံလိုအပ်ချက် စစ်ရန် — 0.15.7 အသစ်
+
+Storyboard ထဲမှာ **🎨 အရေးကြီး Scene ပုံလိုအပ်ချက် စစ်ရန်** ကို နှိပ်နိုင်ပါတယ်။ သက်ဆိုင်ရာ ဝတ္ထုရဲ့ အကြီးမားဆုံး မြင်ကွင်းပြောင်းလဲမှုတွေကိုသာ ရွေးပြီး Private Local Markdown စာရင်း ထုတ်ပေးပါတယ်။ Scene တစ်ခုချင်းစီကို ကိုယ်တိုင်ပြန်စစ်ရပါမယ်။
+
+မိုးရိုးရိုးရွာတာ၊ စကားပြောတာ၊ လူသစ်ရောက်လာတာတိုင်း ပုံမပြောင်းပါ။ **ဒီခလုတ်က AI ပုံအသစ်တကယ် Generate လုပ်တာ မဟုတ်ပါ**။ ရှိပြီးသား ပုံ၊ မူရင်းအသံ၊ SRT၊ Manual Scene Lock နဲ့ Backup မပြောင်းပါ။ အများဆုံး Scene 12 ခုစာ Review Request ထုတ်ပေးပါတယ်။
+
+[Edge မှာ ခလုတ်ကို တကယ်နှိပ်၊ ဖိုင်ထုတ်၊ မူရင်းဒေတာမပြောင်းကြောင်း စမ်းသပ်မှု PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42792616245)။
 
 ## အရေးကြီး Scene တွေအတွက် နောက်ခံပုံကို ဆက်ပြရန် — 0.15.6 အသစ်
 

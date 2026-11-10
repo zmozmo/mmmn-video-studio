@@ -1,23 +1,24 @@
 # MMMN Video Studio — Windows Offline-first
 
-**Latest verified Windows release: 0.15.6 (unsigned; offline Burmese CPU model, important-scene stable-background continuity, independent Windows QA PASS)** · 10 November 2026  
+**Latest verified Windows release: 0.15.7 (unsigned; major-only private local artwork review, Burmese CPU model, independent Windows QA PASS)** · 10 November 2026  
 **Android: not yet built** · **Personal owner laptop: not yet tested**
 
 ## Download ONE complete Windows Setup.exe — Studio + Burmese Offline AI
 
-**[MMMN Video Studio Complete 0.15.6 — Windows single-file installer](https://github.com/zmozmo/mmmn-video-studio/releases/download/mmmn-complete-0.15.6/MMMN-Video-Studio-Complete-0.15.6.exe)**
+**[MMMN Video Studio Complete 0.15.7 — Windows single-file installer](https://github.com/zmozmo/mmmn-video-studio/releases/download/mmmn-complete-0.15.7/MMMN-Video-Studio-Complete-0.15.7.exe)**
 
-- Filename: `MMMN-Video-Studio-Complete-0.15.6.exe`; **429,187,874 bytes** (~409 MiB).
-- SHA-256: `41a71126e8957e4732fe75036fbca6cf22fa5a263068e93ed61379f8d7984e7d`.
-- Includes Studio 0.15.6 + verified Burmese CPU Offline Model 0.15.4. No model ZIP, Python, Node, VS Code or paid cloud speech service needed after installation.
-- [Complete single-file native Windows install/model/speech/FFmpeg/uninstall PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42784472878).
-- [Independent EXACT PUBLIC Complete setup SHA, re-install, real Burmese CPU local voice-to-SRT/uninstall PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42785504940).
+- Filename: `MMMN-Video-Studio-Complete-0.15.7.exe`; **429,190,822 bytes** (~409 MiB).
+- SHA-256: `537eb7f1b943f8f686fd75fe0e99497197534e97f7eb35c04d0ae175d7573ad5`.
+- Includes Studio 0.15.7 + verified Burmese CPU Offline Model 0.15.4. No model ZIP, Python, Node, VS Code or paid cloud speech service needed after installation.
+- [Complete single-file native Windows install/model/speech/FFmpeg/uninstall PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42792792099).
+- [Independent EXACT PUBLIC Complete setup SHA, re-install, real Burmese CPU local voice-to-SRT/uninstall PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42793480635).
 - [Three independent Windows runs each saved/reloaded 24 times; 72 native saves and 12 reloads all PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42785509349).
+- New in **0.15.7**: **🎨 Important-scene-only private art review** exports a local Markdown request list (max 12 visible significant beats), never turns ordinary rain/dialogue into picture changes, never edits existing photo/manual locks and does NOT generate pictures. Independent real Edge QA confirms no source/project/SRT mutation. [Real Edge 0.15.7 QA PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42792616245).
 - New **🎞️ same-existing-photo continuity** option: after explicit confirmation, unassigned important scenes keep showing an already-imported previous image. Author-confirmed image, intentional blank, narration, SRT and scene timings are not modified. No automatic new image generation.
 - Speech SRT is unapproved approximate chunk timing, not accurate Burmese word-level alignment. Model inference tested on public Burmese samples, not full 90-minute private author narration.
 - **Unsigned:** Windows SmartScreen may show a publisher warning; verify the official repository and checksum; never disable all Windows security protections merely to install.
 
-[Complete 0.15.6 release details](WINDOWS-0156-COMPLETE-RELEASE-NOTES.md) · [Burmese installation guide](WINDOWS-QUICKSTART-MM.md)
+[Complete 0.15.7 release details](WINDOWS-0157-RELEASE-NOTES.md) · [Previous Complete 0.15.6](WINDOWS-0156-COMPLETE-RELEASE-NOTES.md) · [Burmese installation guide](WINDOWS-QUICKSTART-MM.md)
 
 ## Alternative smaller Studio-only EXE (Burmese model NOT included)
 
@@ -143,4 +144,4 @@ The `public-safe-windows-source.zip` stored in this public repo is a pinned audi
 
 Because GitHub Release asset creation previously returned HTTP 403 for the available integration, the exact verified unsigned setup.exe is directly available from a **binary-only Git branch**. The older 0.14.0 GitHub Release is retained. This does not imply an installer code signature.
 
-Local editing and video rendering require no cloud connection or subscription. The **Complete 0.15.6** installer now distributes the independently Windows-tested Burmese CPU model; its model output still requires manuscript/audio/SRT review and does not certify long-novel word alignment. Automatic Google Drive sync and autonomous AI-generated pictures are not included.
+Local editing and video rendering require no cloud connection or subscription. The **Complete 0.15.7** installer now distributes the independently Windows-tested Burmese CPU model; its model output still requires manuscript/audio/SRT review and does not certify long-novel word alignment. Automatic Google Drive sync and autonomous AI-generated pictures are not included.
