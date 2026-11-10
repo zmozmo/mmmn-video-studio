@@ -1,16 +1,16 @@
 # MMMN Video Studio — Windows အတွက် စတင်အသုံးပြုနည်း
 
-**Version:** 0.14.9 · **Windows 11 x64** · **Offline-first** · **Android ကို ခဏရပ်ထားသည်**
+**Version:** 0.15.0 · **Windows 11 x64** · **Offline-first** · **Android ကို ခဏရပ်ထားသည်**
 
 > ဒီစာမျက်နှာက အက်ပ်ကို တကယ် install စမ်းသုံးဖို့ အဆင်သင့်ဖြစ်တဲ့အခါ အသုံးပြုရန်ပါ။ ကိုယ်ပိုင် Windows Laptop မှာ ChatGPT က အခုထိ install မလုပ်ထားပါ။
 
 ## ၁။ Setup.exe တစ်ဖိုင်တည်းနဲ့ စတင်ခြင်း
 
-[Windows Setup.exe — MMMN Video Studio 0.14.9](https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0149/downloads/MMMN-Video-Studio-Setup-0.14.9.exe)
+[Windows Setup.exe — MMMN Video Studio 0.15.0](https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0150/downloads/MMMN-Video-Studio-Setup-0.15.0.exe)
 
-- ဖိုင်အမည် — `MMMN-Video-Studio-Setup-0.14.9.exe`
-- အရွယ်အစား — **64,824,927 bytes**
-- SHA-256 — `28d3f9b9d886986eeb3ebb8f908b22206e6debe22179c767f4ec733ca9d6ee1b`
+- ဖိုင်အမည် — `MMMN-Video-Studio-Setup-0.15.0.exe`
+- အရွယ်အစား — **64,836,579 bytes**
+- SHA-256 — `ce60a9c9e8f40caf68c5d2d0573e966e875bc75a7099e15c10dd3525508b66b3`
 - VS Code၊ CMD၊ Source ZIP၊ Python၊ Node.js၊ Paid AI API **မလိုပါ**။
 
 Windows SmartScreen မှာ **Unknown Publisher** လို့ ပေါ်နိုင်ပါတယ်။ Installer ကို Digital Code Sign မလုပ်ထားသေးတာကြောင့်ပါ။ မသေချာတဲ့ Installer ကို လုံခြုံရေးပိတ်ပြီး အတင်းမဖွင့်ပါနဲ့။ GitHub Release Branch မှာရှိတဲ့ ဖိုင်နဲ့ SHA-256 ကို စစ်ပြီး ယုံကြည်မှသာ ဆက်လုပ်ပါ။
@@ -74,6 +74,12 @@ Windows 0.14.7 မှာ **“🎬 အရေးကြီး Scene မှသာ �
 
 **မပါသေးတာ:** Windows Installer ထဲမှာ Offline ASR Model မပါသေးပါ။ ဝတ္ထုအသံအစစ်ကို အလိုအလျောက် ၁၀၀% မှန်အောင် နားလည်တယ်လို့ မဆိုလိုပါ။ ပုံတွေကိုလည်း သူ့ဖာသာ မဖန်တီးနိုင်သေးပါ။
 
+## Windows 0.15.0 — SRT အချိန်နှင့် ဇာတ်လမ်းအစဉ်ကို တင်းကျပ်စွာစစ်ခြင်း
+
+မြန်မာ SRT မှာ အချိန်အပိုင်းတွေ ထပ်နေခြင်း၊ နောက်ပြန်ဖြစ်ခြင်း၊ မှားနေခြင်း၊ မူရင်းစာမူထဲက ဇာတ်ကွက်အစဉ်နဲ့ မတူခြင်းရှိရင် အဲဒီအချိန်ကို နောက်ခံပုံပြောင်းဖို့ မယူပါဘူး။ စာသားကိုက်ရင်တောင် **Draft timing အတွက် သုံးမလား** လို့ သီးခြား အတည်ပြုချက်တောင်းပါမယ်။ Cancel ဆိုရင် မူရင်း SRT မပြောင်းဘဲ Pause/စာသားခန့်မှန်းချက်ကို ပြန်သုံးနိုင်ပါတယ်။
+
+**သတိ:** ဒီလိုတိုက်စစ်နိုင်တာက မြန်မာအသံကို ၁၀၀% မှန်ကန်စွာ နားလည်တာ မဟုတ်ပါ။ ၉၀ မိနစ်စာ ကိုယ်ပိုင်အသံအပြည့်နဲ့ စာတန်းအမှန်တကယ်ကိုက်ညီမှုကို မစမ်းရသေးပါ။
+
 ## ၅။ 0.14.7 — ပုံလိုအပ်ချက်ကို အရေးကြီး Scene အတွက်သာ ထုတ်ခြင်း
 
 အရင်ဆုံး Timeline မှာ **“🎬 အရေးကြီး Scene မှသာ ပုံပြောင်း”** ကို နှိပ်ပြီး အကြံပြု Scene တွေကို ပြန်စစ်/အတည်ပြုထားပါ။
@@ -106,4 +112,4 @@ Chapter MP4 နှစ်ခု သို့မဟုတ် ထို့ထက်
 - Installer Digital Signature မရှိသေးပါ။ Windows SmartScreen က Warning ပြနိုင်ပါတယ်။
 - ကိုယ်ပိုင်ဝတ္ထုမူရင်း၊ အသံ၊ ဓာတ်ပုံ၊ Password တွေကို Public GitHub Repository ထဲ မတင်ပါနဲ့။
 
-[Release Readiness Report](WINDOWS-RELEASE-READINESS.md) · [Version 0.14.9 Release Notes](WINDOWS-0149-RELEASE-NOTES.md)
+[Release Readiness Report](WINDOWS-RELEASE-READINESS.md) · [Version 0.15.0 Release Notes](WINDOWS-0150-RELEASE-NOTES.md) · [0.14.9 Notes](WINDOWS-0149-RELEASE-NOTES.md)
