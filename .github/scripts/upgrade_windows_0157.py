@@ -18,10 +18,10 @@ if not tests.is_file() or 'runaway photo' not in tests.read_text(encoding='utf-8
  raise ValueError('Missing conservative scene-art queue regression suite')
 once('web/app.js',
  "import {analyzeMajorScenePictureContinuity,keepExistingMajorScenePicture} from './major-scene-picture-continuity.mjs';",
- "import {analyzeMajorScenePictureContinuity,keepExistingMajorScenePicture} from './major-scene-picture-continuity.mjs';\\n"+
+ "import {analyzeMajorScenePictureContinuity,keepExistingMajorScenePicture} from './major-scene-picture-continuity.mjs';\n"+
  "import {proposePrivateMajorArtQueue} from './important-scene-art-queue.mjs';")
 once('web/app.js','<button class="btn" data-action="hold-verified-major-photo">',
- '<button class="btn" data-action="review-important-art-queue">🎨 အရေးကြီး Scene ပုံလိုအပ်ချက် စစ်ရန်</button>\\n'+
+ '<button class="btn" data-action="review-important-art-queue">🎨 အရေးကြီး Scene ပုံလိုအပ်ချက် စစ်ရန်</button>\n'+
  '<button class="btn" data-action="hold-verified-major-photo">')
 once('web/app.js',"case 'hold-verified-major-photo':{",
  """case 'review-important-art-queue':{
@@ -44,15 +44,15 @@ once('web/app.js',"case 'hold-verified-major-photo':{",
           'Image prompt (private suggestion ONLY): '+(r.proposedPrompt||'(keep current image)'),
           'Never auto-approve or silently change a locked picture.','');
       }
-      const msg='အရေးကြီး Scene ပုံလိုအပ်ချက်\\\\n'+
-        'ပုံအသစ်လိုနိုင်တဲ့ Scene: '+s.eligibleLocalArtRequests+'\\\\n'+
-        'လက်ရှိပုံဆက်ပြရန်: '+s.ordinaryBeatHolds+'\\\\n'+
-        'အတည်ပြု/Lock ပုံမပြောင်း: '+s.alreadyLinkedOrLocked+'\\\\n\\\\n'+
+      const msg='အရေးကြီး Scene ပုံလိုအပ်ချက်\\\n'+
+        'ပုံအသစ်လိုနိုင်တဲ့ Scene: '+s.eligibleLocalArtRequests+'\\\n'+
+        'လက်ရှိပုံဆက်ပြရန်: '+s.ordinaryBeatHolds+'\\\n'+
+        'အတည်ပြု/Lock ပုံမပြောင်း: '+s.alreadyLinkedOrLocked+'\\\n\\\n'+
         'ဒီခလုတ်က ပုံအသစ်မဖန်တီးပါ။ အထူး Scene တွေအတွက် PRIVATE စစ်ဆေးရန်စာရင်းသာ ထုတ်ပါတယ်။'+
-        '\\\\nစာမူနဲ့ ပုံများကို Cloud တင်ခြင်းမပြုပါ။'+
-        '\\\\n\\\\nPrivate Markdown စာရင်းထုတ်မလား?';
+        '\\\nစာမူနဲ့ ပုံများကို Cloud တင်ခြင်းမပြုပါ။'+
+        '\\\n\\\nPrivate Markdown စာရင်းထုတ်မလား?';
       if(!confirm(msg))return;
-      download(new Blob([lines.join('\\n')],{type:'text/markdown;charset=utf-8'}),
+      download(new Blob([lines.join('\n')],{type:'text/markdown;charset=utf-8'}),
         'MMMN-ch'+String(c.number).padStart(2,'0')+'-MAJOR-ART-REVIEW-PRIVATE.md');
       toast('အရေးကြီး Scene ပုံလိုအပ်ချက် စာရင်းကို Local မှာ ထုတ်ထားပါပြီ။');
     }catch(error){
