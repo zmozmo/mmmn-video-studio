@@ -1,16 +1,16 @@
 # MMMN Video Studio — Windows အတွက် စတင်အသုံးပြုနည်း
 
-**Version:** 0.15.1 · **Windows 11 x64** · **Offline-first** · **Android ကို ခဏရပ်ထားသည်**
+**Version:** 0.15.2 · **Windows 11 x64** · **Offline-first** · **Android ကို ခဏရပ်ထားသည်**
 
 > ဒီစာမျက်နှာက အက်ပ်ကို တကယ် install စမ်းသုံးဖို့ အဆင်သင့်ဖြစ်တဲ့အခါ အသုံးပြုရန်ပါ။ ကိုယ်ပိုင် Windows Laptop မှာ ChatGPT က အခုထိ install မလုပ်ထားပါ။
 
 ## ၁။ Setup.exe တစ်ဖိုင်တည်းနဲ့ စတင်ခြင်း
 
-[Windows Setup.exe — MMMN Video Studio 0.15.1](https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0151/downloads/MMMN-Video-Studio-Setup-0.15.1.exe)
+[Windows Setup.exe — MMMN Video Studio 0.15.2](https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0152/downloads/MMMN-Video-Studio-Setup-0.15.2.exe)
 
-- ဖိုင်အမည် — `MMMN-Video-Studio-Setup-0.15.1.exe`
-- အရွယ်အစား — **64,831,959 bytes**
-- SHA-256 — `4c0df19cbc6259577a7152c5a008ed990d461ee5ff9a7cdbe73284075f32869b`
+- ဖိုင်အမည် — `MMMN-Video-Studio-Setup-0.15.2.exe`
+- အရွယ်အစား — **64,853,687 bytes**
+- SHA-256 — `d7196122d31402eac27e71b659b4a55015609f83bad376356ffda4916a122c74`
 - VS Code၊ CMD၊ Source ZIP၊ Python၊ Node.js၊ Paid AI API **မလိုပါ**။
 
 Windows SmartScreen မှာ **Unknown Publisher** လို့ ပေါ်နိုင်ပါတယ်။ Installer ကို Digital Code Sign မလုပ်ထားသေးတာကြောင့်ပါ။ မသေချာတဲ့ Installer ကို လုံခြုံရေးပိတ်ပြီး အတင်းမဖွင့်ပါနဲ့။ GitHub Release Branch မှာရှိတဲ့ ဖိုင်နဲ့ SHA-256 ကို စစ်ပြီး ယုံကြည်မှသာ ဆက်လုပ်ပါ။
@@ -74,6 +74,12 @@ Windows 0.14.7 မှာ **“🎬 အရေးကြီး Scene မှသာ �
 
 **မပါသေးတာ:** Windows Installer ထဲမှာ Offline ASR Model မပါသေးပါ။ ဝတ္ထုအသံအစစ်ကို အလိုအလျောက် ၁၀၀% မှန်အောင် နားလည်တယ်လို့ မဆိုလိုပါ။ ပုံတွေကိုလည်း သူ့ဖာသာ မဖန်တီးနိုင်သေးပါ။
 
+## Windows 0.15.2 — အရေးကြီး Scene နဲ့ အသံ SRT ကို တိုက်စစ်ရန်
+
+Timeline / Storyboard မှာ **🧭 အရေးကြီး Scene / SRT အချိန်တိုက်စစ်ချက်** ကိုနှိပ်ပါ။ စာမူနဲ့ SRT ကို သီးခြားစစ်ပြီး အရေးကြီး Scene တွေအတွက် တစ်နေရာတည်းမှာသာ ကိုက်ညီတဲ့ မြန်မာစာသားရှိရင် နားထောင်ပြန်စစ်ဖို့ အနီးစပ်ဆုံး SRT Cue အချိန်ကို PRIVATE Markdown အစီရင်ခံစာထဲ ဖော်ပြပါမယ်။ စာသားထပ်နေခြင်း၊ မှားခြင်း၊ အသံအချိန်မပြည့်ခြင်းတွေမှာ အချိန်မခန့်မှန်းပါ။
+
+**ဒီခလုတ်က Scene Timing၊ ပုံ၊ Audio၊ အတည်ပြုပြီးသား SRT နဲ့ Manual Lock တွေကို မပြင်ပါ။** ဖိုင်ထဲမှာ မထုတ်ဝေရသေးတဲ့ ဝတ္ထုစာသား ပါနိုင်လို့ Public GitHub / Social Media ပေါ် မတင်ပါနဲ့။
+
 ## Windows 0.15.1 — အသံဖိုင်နဲ့ SRT အချိန်ပြည့်ကို စစ်ရန်
 
 Timeline / Storyboard မှာ **🕒 အသံ / SRT အချိန်ကွက်လပ် စစ်ရန်** ကိုနှိပ်ပါ။ အသံဖိုင်တစ်ခုလုံးနဲ့ SRT ဖုံးလွှမ်းမှု၊ အစ/အဆုံးနဲ့ အလယ်ကွက်လပ်တွေကို အစီရင်ခံပေးပါမယ်။ စစ်ဆေးရုံသာဖြစ်ပြီး မူရင်း Project ကို မပြင်ပါ။ မြန်မာစာသားတူပေမယ့် မူရင်းအသံရဲ့ အစပိုင်းလောက်ပဲပါတဲ့ SRT ကို Auto Scene Timing အတွက် မသုံးပါ။ စကားလုံးအတိအကျ/ပုံပြောင်းချိန်ကိုတော့ လူကိုယ်တိုင်စစ်ဖို့ လိုပါတယ်။
@@ -116,4 +122,4 @@ Chapter MP4 နှစ်ခု သို့မဟုတ် ထို့ထက်
 - Installer Digital Signature မရှိသေးပါ။ Windows SmartScreen က Warning ပြနိုင်ပါတယ်။
 - ကိုယ်ပိုင်ဝတ္ထုမူရင်း၊ အသံ၊ ဓာတ်ပုံ၊ Password တွေကို Public GitHub Repository ထဲ မတင်ပါနဲ့။
 
-[Release Readiness Report](WINDOWS-RELEASE-READINESS.md) · [Version 0.15.1 Release Notes](WINDOWS-0151-RELEASE-NOTES.md) · [0.15.0 Notes](WINDOWS-0150-RELEASE-NOTES.md) · [0.14.9 Notes](WINDOWS-0149-RELEASE-NOTES.md)
+[Release Readiness Report](WINDOWS-RELEASE-READINESS.md) · [Version 0.15.2 Release Notes](WINDOWS-0152-RELEASE-NOTES.md) · [0.15.1 Notes](WINDOWS-0151-RELEASE-NOTES.md) · [0.15.0 Notes](WINDOWS-0150-RELEASE-NOTES.md) · [0.14.9 Notes](WINDOWS-0149-RELEASE-NOTES.md)
