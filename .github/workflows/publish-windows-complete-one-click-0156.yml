@@ -1,5 +1,9 @@
 name: Publish Verified Single-EXE MMMN Video Studio Complete 0.15.6
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/publish-windows-complete-one-click-0156.yml'
   workflow_run:
     workflows: ["Build and REAL Windows QA Single-EXE MMMN Studio Complete 0.15.6"]
     types: [completed]
@@ -12,12 +16,12 @@ permissions:
   actions: read
 jobs:
   publish-only-exact-installed-windows-bytes:
-    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.repository.full_name == github.repository }}
+    if: ${{ github.event_name == 'push' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.repository.full_name == github.repository) }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
       GH_TOKEN: ${{ github.token }}
-      QA_RUN_ID: ${{ github.event.workflow_run.id }}
+      QA_RUN_ID: ${{ github.event_name == 'push' && '42784472878' || github.event.workflow_run.id }}
       RELEASE_TAG: mmmn-complete-0.15.6
     steps:
       - uses: actions/checkout@v4
@@ -26,6 +30,8 @@ jobs:
       - name: Download exact Windows installed-and-tested complete setup, no rebuild
         run: |
           set -euo pipefail
+          test "$(gh run view "$QA_RUN_ID" -R "$GITHUB_REPOSITORY" --json conclusion --jq .conclusion)" = success
+          test "$(gh run view "$QA_RUN_ID" -R "$GITHUB_REPOSITORY" --json headSha --jq .headSha)" = 965a0bb2d1e03fc2f557737fc3577b44b76eeb08
           mkdir -p exact
           gh run download "$QA_RUN_ID" -R "$GITHUB_REPOSITORY" --name QA-PASS-WINDOWS-ONE-CLICK-COMPLETE-0.15.6 --dir exact
           python3 - <<'PY'
