@@ -52,7 +52,13 @@ def validate_image(raw):
 def _request(port,payload,timeout):
     if not isinstance(port,int) or not 1024<=port<=65535:
         raise ValueError("Only a safe local port is allowed")
-    opener=urllib.request.build_opener(urllib.request.ProxyHandler({}))
+    # Prevent the local HTTP service from redirecting private scene prompts to
+    # any HTTP(S) host, including cloud/metadata endpoints. ProxyHandler({})
+    # by itself does NOT prevent 301/302/307/308 redirects in urllib.
+    class _NoRedirect(urllib.request.HTTPRedirectHandler):
+        def redirect_request(self,req,fp,code,msg,headers,newurl):
+            raise RuntimeError("Local image model redirected; refusing private prompt forwarding")
+    opener=urllib.request.build_opener(urllib.request.ProxyHandler({}),_NoRedirect())
     url="http://127.0.0.1:"+str(port)+"/api/generate"
     request=urllib.request.Request(url,
         data=json.dumps(payload,ensure_ascii=False).encode("utf-8"),
@@ -61,9 +67,14 @@ def _request(port,payload,timeout):
     try:
         with opener.open(request,timeout=timeout) as res:
             if res.status!=200:raise RuntimeError("Local model HTTP status "+str(res.status))
+            media=res.headers.get("Content-Type","").split(";",1)[0].strip().lower()
+            if media!="application/json":
+                raise ValueError("Local model did not return JSON content type")
             blob=res.read(MAX_REPLY_BYTES+1)
             if len(blob)>MAX_REPLY_BYTES:raise ValueError("Model output exceeds safe maximum")
             return json.loads(blob.decode("utf-8"))
+    except urllib.error.HTTPError as exc:
+        raise RuntimeError("Local image service refused request (HTTP "+str(exc.code)+")") from exc
     except (urllib.error.URLError,TimeoutError) as exc:
         raise RuntimeError("Local FastSD CPU model server is unavailable") from exc
 

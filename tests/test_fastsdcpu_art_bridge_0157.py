@@ -89,6 +89,52 @@ class ArtBridgeSafety(unittest.TestCase):
   before=source.read_bytes()
   self.run_local()
   self.assertEqual(source.read_bytes(),before)
+ def test_local_redirect_never_contacts_external_destination(self):
+  from http.server import BaseHTTPRequestHandler,HTTPServer
+  from threading import Thread
+  attempts=[]
+  class Destination(BaseHTTPRequestHandler):
+   def do_GET(self):
+    attempts.append(self.path)
+    self.send_response(200);self.end_headers();self.wfile.write(b"{}")
+   def do_POST(self):
+    attempts.append(self.path)
+    self.send_response(200);self.end_headers();self.wfile.write(b"{}")
+   def log_message(self,*args):pass
+  target=HTTPServer(("127.0.0.1",0),Destination)
+  class Redirect(BaseHTTPRequestHandler):
+   def do_POST(self):
+    self.send_response(307)
+    self.send_header("Location","http://127.0.0.1:"+str(target.server_port)+"/secret-prompt")
+    self.end_headers()
+   def log_message(self,*args):pass
+  source=HTTPServer(("127.0.0.1",0),Redirect)
+  a=Thread(target=source.serve_forever,daemon=True)
+  b=Thread(target=target.serve_forever,daemon=True)
+  a.start();b.start()
+  try:
+   with self.assertRaises((RuntimeError,ValueError)):
+    _request(source.server_port,{"prompt":"private unpublished manuscript"},5)
+   self.assertEqual(attempts,[],"Private prompt must not reach redirected endpoint")
+  finally:
+   source.shutdown();target.shutdown();source.server_close();target.server_close()
+   a.join(5);b.join(5)
+ def test_local_http_content_type_must_be_json(self):
+  from http.server import BaseHTTPRequestHandler,HTTPServer
+  from threading import Thread
+  class WrongContent(BaseHTTPRequestHandler):
+   def do_POST(self):
+    data=b'{"images":[]}'
+    self.send_response(200)
+    self.send_header("Content-Type","text/html")
+    self.send_header("Content-Length",str(len(data)))
+    self.end_headers();self.wfile.write(data)
+   def log_message(self,*args):pass
+  srv=HTTPServer(("127.0.0.1",0),WrongContent)
+  t=Thread(target=srv.serve_forever,daemon=True);t.start()
+  try:
+   with self.assertRaises(ValueError):_request(srv.server_port,{"prompt":"private"},5)
+  finally:srv.shutdown();srv.server_close();t.join(5)
  def test_localhost_fastsd_http_json_contract_with_fake_server(self):
   from http.server import BaseHTTPRequestHandler,HTTPServer
   from threading import Thread
