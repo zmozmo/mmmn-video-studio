@@ -1,0 +1,69 @@
+name: Publish Verified Windows 0.15.1 Direct EXE
+on:
+  workflow_run:
+    workflows: ["MMMN Windows 0.15.1 Fail-Closed Burmese ASR Installer Laboratory"]
+    types: [completed]
+    branches: [main]
+permissions:
+  actions: read
+  contents: write
+jobs:
+  verified-windows-binary:
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.repository.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RUN_ID: ${{ github.event.workflow_run.id }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download already PASS Windows installer and independent native evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh run view "$RUN_ID" -R "$GITHUB_REPOSITORY" --json conclusion --jq '.conclusion' | grep -qx success
+          mkdir -p "$RUNNER_TEMP/verified"
+          gh run download "$RUN_ID" -R "$GITHUB_REPOSITORY" --name MMMN-WINDOWS-SETUP-0.15.1-UNSIGNED-VERIFIED --dir "$RUNNER_TEMP/verified"
+          python3 - <<'PY'
+          import os,pathlib,hashlib,json
+          folder=pathlib.Path(os.environ['RUNNER_TEMP'])/'verified'
+          exe=folder/'MMMN-Video-Studio-Setup-0.15.1.exe'
+          shafile=folder/'MMMN-Video-Studio-Setup-0.15.1.exe.sha256'
+          witness=folder/'RELEASE-EVIDENCE-VERIFIED.json'
+          candidate=folder/'WINDOWS-RELEASE-CANDIDATE.json'
+          with exe.open('rb') as f: digest=hashlib.file_digest(f,'sha256').hexdigest()
+          e=json.loads(witness.read_text())
+          c=json.loads(candidate.read_text())
+          assert digest==shafile.read_text().split()[0].lower()
+          assert e['status']=='PASS' and e['sha256']==digest and e['windows_install_upgrade_render_uninstall']=='VERIFIED'
+          assert c['status']=='PASS' and c['sha256']==digest and c['version']=='0.15.1' and c['exact_tested_bytes_reused'] is True
+          assert 40_000_000<exe.stat().st_size<100_000_000
+          print('Windows verified direct installer:',exe.stat().st_size,'SHA256:',digest)
+          PY
+      - name: Publish exact tested EXE to public-safe binary-only Git branch (no source ZIP)
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch --orphan windows-binaries-0151
+          # git switch --orphan already clears the index; git rm . then
+          # errors with "pathspec . did not match any files" on new Git.
+          git status --short
+          mkdir -p downloads
+          cp "$RUNNER_TEMP/verified/MMMN-Video-Studio-Setup-0.15.1.exe" downloads/
+          cp "$RUNNER_TEMP/verified/MMMN-Video-Studio-Setup-0.15.1.exe.sha256" downloads/
+          cp "$RUNNER_TEMP/verified/RELEASE-EVIDENCE-VERIFIED.json" downloads/
+          printf '%s\n' \
+            'MMMN Video Studio Windows 0.15.1 unsigned verified EXE' \
+            "Native Windows CI: https://github.com/$GITHUB_REPOSITORY/actions/runs/$RUN_ID" \
+            'The actual installed 0.15.1 EXE was validated on a disposable Windows runner.' \
+            "Installer SHA256: $(cut -d' ' -f1 "$RUNNER_TEMP/verified/MMMN-Video-Studio-Setup-0.15.1.exe.sha256")" \
+            'Only synthetic test media was used. No private user manuscript or recording is included. Adds low-disk narration/photo import guard and free-space display.' \
+            'Not code signed. Independent published-binary Windows QA is required before user acceptance.' \
+            > README.md
+          git add README.md downloads
+          git commit -m 'Publish exact CI-verified Windows 0.15.1 EXE without ZIP'
+          git push origin HEAD:refs/heads/windows-binaries-0151
+          echo "BINARY URL https://raw.githubusercontent.com/$GITHUB_REPOSITORY/windows-binaries-0151/downloads/MMMN-Video-Studio-Setup-0.15.1.exe"
