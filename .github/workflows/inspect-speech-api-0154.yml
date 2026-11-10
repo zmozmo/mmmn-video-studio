@@ -46,6 +46,9 @@ jobs:
                       print(block[:11500])
                       break
           import re
+          print('SOURCE DATA ROOT DEFINITION')
+          for idx in range(69,83):
+              print(idx+1,lines[idx])
           print('DATA-ROOT/ENTRYPOINT ANCHORS')
           for i,line in enumerate(lines):
               if re.search(r'LOCALAPPDATA|APPDATA|MMMN_DATA|data_root|DataDir|default_root|root =|Studio\(',line,re.I):
