@@ -32,36 +32,9 @@ jobs:
             Invoke-WebRequest -Uri "$base/$name" -OutFile (Join-Path 'published' $name) -ErrorAction Stop
           }
           $setup='published/MMMN-Video-Studio-Setup-0.15.0.exe'
-          # Compare the exact published setup to the checksum from the signed-in CI release manifest.
           $actual=(Get-FileHash $setup -Algorithm SHA256).Hash.ToLowerInvariant()
           $manifest=(Get-Content "$setup.sha256" -Raw).Trim().Split(' ')[0].ToLowerInvariant()
           if ($manifest -notmatch '^[a-f0-9]{64}$' -or $actual -ne $manifest) { throw 'Published setup hash mismatch: do not execute' }
-          Write-Host "PASS: exact published installer integrity $actual"
-      - name: Install and verify bundled offline FFmpeg in disposable Windows
-        shell: pwsh
-        run: |
-          $p=Start-Process -FilePath (Resolve-Path 'published/MMMN-Video-Studio-Setup-0.15.0.exe') -ArgumentList '/S' -Wait -PassThru
-          if ($p.ExitCode -ne 0) { throw 'Windows Setup.exe install failed' }
-          $exe=Join-Path $env:LOCALAPPDATA 'Programs/MMMN Video Studio/MMMN-Video-Studio.exe'
-          if (!(Test-Path $exe -PathType Leaf)) { throw 'Installed executable missing' }
-          "MMMN_RELEASE_INSTALLED_EXE=$exe" >> $env:GITHUB_ENV
-          & $exe --self-test
-          if ($LASTEXITCODE -ne 0) { throw 'Bundled FFmpeg self-test failed' }
-      - name: ACTUALLY encode entire 90-minute novel with one unchanged visual background
-        shell: pwsh
-        run: |
-          python .github/scripts/windows_major_novel_0150.py
-          if ($LASTEXITCODE -ne 0) { throw '90-minute same-background MP4 acceptance failed' }
-      - name: Safe uninstall on disposable Windows QA runner
-        shell: pwsh
-        if: always()
-        run: |
-          $uninstaller=Join-Path $env:LOCALAPPDATA 'Programs/MMMN Video Studio/Uninstall.exe'
-          if (Test-Path $uninstaller -PathType Leaf) {
-            $p=Start-Process -FilePath $uninstaller -ArgumentList '/S' -Wait -PassThru
-            if ($p.ExitCode -ne 0) { throw 'Uninstall failed' }
-          }
- -or $actual -ne $manifest) { throw 'Exact published 0.15.0 SHA mismatch; do not execute' }
           Write-Host "PASS: exact published installer integrity $actual"
       - name: Install and verify bundled offline FFmpeg in disposable Windows
         shell: pwsh
