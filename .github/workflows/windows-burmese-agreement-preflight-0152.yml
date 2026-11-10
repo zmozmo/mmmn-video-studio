@@ -5,6 +5,7 @@ on:
     branches: [main, feature/0152-major-scene-timing-evidence]
     paths:
       - '.github/scripts/upgrade_windows_0152.py'
+      - '.github/scripts/windows_burmese_asr_guard_click_0152.py'
       - 'web/major-artwork-brief.mjs'
       - 'tests/major-artwork-brief.test.mjs'
       - '.github/workflows/windows-burmese-agreement-preflight-0152.yml'
@@ -63,6 +64,7 @@ jobs:
           python .github/scripts/upgrade_windows_0151.py
           python .github/scripts/upgrade_windows_0152.py
           python -m py_compile portable/studio_server.py
+          python -m py_compile .github/scripts/windows_burmese_asr_guard_click_0152.py
           python -m unittest discover -s tests -p windows_speech_async_0148_test.py -v
           node --check web/app.js
           node --check web/burmese-transcript-agreement.mjs
