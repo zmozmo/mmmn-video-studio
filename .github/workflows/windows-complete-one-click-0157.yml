@@ -1,6 +1,10 @@
 name: Build and REAL Windows QA Single-EXE MMMN Studio Complete 0.15.7
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/windows-complete-one-click-0157.yml'
   workflow_run:
     workflows: ["Independently QA Released Windows 0.15.7 Direct Setup EXE"]
     types: [completed]
@@ -13,7 +17,7 @@ permissions:
   actions: read
 jobs:
   exact-two-verified-offline-exes:
-    if: ${{ github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.repository.full_name == github.repository) }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.repository.full_name == github.repository) }}
     runs-on: windows-latest
     timeout-minutes: 35
     env:
