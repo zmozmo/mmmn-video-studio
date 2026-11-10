@@ -6,7 +6,7 @@ photo generation or unattended scene changes. Never train or upload audio.
 SRT cue times are clip-level approximations ONLY and need original-manuscript
 agreement checks plus manual listening before use in any film.
 """
-import argparse,bisect,importlib.util,json,math,os,re,subprocess,sys,tempfile
+import argparse,bisect,importlib.util,json,math,os,re,subprocess,sys,tempfile,shutil
 from pathlib import Path
 
 MAX_SECONDS=5400
@@ -81,6 +81,22 @@ def run_program(args,timeout=120):
     if p.returncode:raise RuntimeError("Local FFmpeg/FFprobe failed: "+p.stderr[-350:])
     return p.stdout,p.stderr
 
+def expose_local_ffmpeg_to_embedded_transcriber(ffmpeg):
+    """Third-party Burmese ASR calls the basename 'ffmpeg' via subprocess.run.
+    The packaged Studio FFmpeg is not in system PATH on clean Windows. Expose
+    only the validated local binary directory in this CHILD PROCESS PATH,
+    never modify global Windows PATH or fetch/download a new executable.
+    """
+    path=Path(ffmpeg)
+    resolved=path.resolve() if path.is_file() else shutil.which(str(ffmpeg))
+    if not resolved or not Path(resolved).is_file():
+        raise FileNotFoundError("Local FFmpeg executable not found; no cloud fallback")
+    folder=str(Path(resolved).resolve().parent)
+    current=os.environ.get("PATH","")
+    if folder not in current.split(os.pathsep):
+        os.environ["PATH"]=folder+os.pathsep+current
+    return folder
+
 def probe_seconds(source,ffprobe):
     out,_=run_program([ffprobe,"-v","error","-show_entries",
         "format=duration","-of","default=noprint_wrappers=1:nokey=1",str(source)])
@@ -140,6 +156,9 @@ def main():
         raise FileNotFoundError("Missing local original voice recording")
     if target.exists():raise FileExistsError("Never overwrite an existing user SRT")
     if target==original:raise ValueError("Output must never be the original audio")
+    # The third-party local model internally spawns "ffmpeg" by name.
+    # Use the exact FFmpeg bundled with Studio in THIS subprocess only.
+    expose_local_ffmpeg_to_embedded_transcriber(args.ffmpeg)
     seconds=probe_seconds(original,args.ffprobe)
     if not 0<seconds<=MAX_SECONDS:raise ValueError("Only narration up to 90 minutes is accepted")
     pauses=detect_pause_midpoints(original,args.ffmpeg)

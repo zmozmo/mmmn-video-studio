@@ -1,4 +1,5 @@
-import unittest,importlib.util,math
+import unittest,importlib.util,math,os,tempfile
+from unittest.mock import patch
 from pathlib import Path
 spec=importlib.util.spec_from_file_location("asr",
     Path(__file__).resolve().parents[1]/"scripts"/"burmese_asr_chunker_0153.py")
@@ -46,3 +47,16 @@ class ChunkTests(unittest.TestCase):
   with self.assertRaises(FileNotFoundError):
    m.load_model_only_from_disk("/no/such/private/model/folder")
 if __name__=="__main__":unittest.main()
+
+ def test_packaged_studio_ffmpeg_is_exposed_to_local_model_only(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   exe=Path(tmp)/("ffmpeg.exe" if os.name=="nt" else "ffmpeg")
+   exe.write_bytes(b"dummy, only used to test PATH selection")
+   with patch.dict(os.environ,{"PATH":"ORIGINAL_OS_PATH"}):
+    actual=m.expose_local_ffmpeg_to_embedded_transcriber(str(exe))
+    self.assertEqual(actual,str(Path(tmp).resolve()))
+    self.assertEqual(os.environ["PATH"].split(os.pathsep)[0],str(Path(tmp).resolve()))
+    self.assertIn("ORIGINAL_OS_PATH",os.environ["PATH"])
+ def test_never_downloads_when_local_ffmpeg_is_missing(self):
+  with self.assertRaises(FileNotFoundError):
+   m.expose_local_ffmpeg_to_embedded_transcriber("/should-not-exist-mmmn-ffmpeg/ffmpeg.exe")
