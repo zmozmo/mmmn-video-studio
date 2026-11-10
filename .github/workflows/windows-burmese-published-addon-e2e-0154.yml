@@ -38,6 +38,8 @@ jobs:
           $actual=(Get-FileHash $file -Algorithm SHA256).Hash.ToLowerInvariant()
           if ($sha -notmatch '^[a-f0-9]{64}$' -or $sha -ne $actual) { throw 'Burmese add-on SHA mismatch' }
           Write-Host "PASS: EXACT real model pack integrity $actual"
+          @{model_pack_run_id=[string]$run;model_pack_sha256=[string]$actual;approval='source-bytes-for-independent-app-e2e'} |
+            ConvertTo-Json -Compress | Set-Content -Path verified-addon-bound.json -Encoding utf8
       - name: Download published Windows Studio installer 0.15.4 and verify exact hash
         shell: pwsh
         run: |
@@ -73,6 +75,14 @@ jobs:
         run: |
           python .github/scripts/windows_burmese_published_addon_e2e_0154.py
           if ($LASTEXITCODE -ne 0) { throw 'Published Windows Studio plus REAL Burmese CPU addon QA failed' }
+      - name: Record exact source model-pack run and sha256 after successful Studio integration
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: REAL-PUBLISHED-STUDIO-AND-ADDON-E2E-0154
+          if-no-files-found: error
+          retention-days: 14
+          path: verified-addon-bound.json
       - name: Safely uninstall model and app on disposable QA machine
         shell: pwsh
         if: always()

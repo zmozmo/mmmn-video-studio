@@ -15,6 +15,7 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
       TAG: burmese-asr-addon-0.15.4
+      E2E_RUN_ID: ${{ github.event.workflow_run.id }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -23,9 +24,19 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          id=$(gh run list --workflow windows-burmese-offline-model-pack-0154.yml --branch main -R "$GITHUB_REPOSITORY" --limit 12 --json databaseId,conclusion --jq '.[] | select(.conclusion == "success") | .databaseId' | head -n 1)
-          test -n "$id" || { echo 'No PASS model pack. Refusing to publish.'; exit 1; }
-          mkdir -p verified
+          mkdir -p approved-source verified
+          gh run download "$E2E_RUN_ID" -R "$GITHUB_REPOSITORY" --name REAL-PUBLISHED-STUDIO-AND-ADDON-E2E-0154 --dir approved-source
+          id=$(python3 - <<'PY'
+          from pathlib import Path
+          import json
+          witness=json.loads(Path('approved-source/verified-addon-bound.json').read_text(encoding='utf-8-sig'))
+          assert witness['model_pack_run_id'].isdigit()
+          assert len(witness['model_pack_sha256'])==64
+          assert witness['approval']=='source-bytes-for-independent-app-e2e'
+          print(witness['model_pack_run_id'])
+          PY
+          )
+          test -n "$id" || { echo 'Independent E2E did not attest any model pack'; exit 1; }
           gh run download "$id" -R "$GITHUB_REPOSITORY" --name VERIFIED-MMMN-REAL-BURMESE-OFFLINE-MODEL-ADDON-0154 --dir verified
           python3 - <<'PY'
           from pathlib import Path
@@ -36,6 +47,8 @@ jobs:
           assert file.is_file() and manifest.is_file()
           digest=hashlib.file_digest(file.open('rb'),'sha256').hexdigest()
           assert digest==manifest.read_text().split()[0].lower()
+          witness=__import__('json').loads(Path('approved-source/verified-addon-bound.json').read_text(encoding='utf-8-sig'))
+          assert digest==witness['model_pack_sha256'], 'Published candidate was not the EXACT addon independently tested with the Studio'
           assert file.stat().st_size>100_000_000
           assert file.stat().st_size<2_000_000_000
           print('Native PASS pack, SHA256',digest,'bytes',file.stat().st_size)
