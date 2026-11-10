@@ -1,0 +1,14 @@
+# MMMN Offline Burmese Speech Model Add-on 0.15.4
+
+The installed add-on contains publicly released Apache-2.0 Burmese ASR
+model weights and code by freococo:
+https://huggingface.co/freococo/myanmar_asr
+
+Includes free/open-source CPU Python runtime dependencies (PyTorch,
+torchaudio, numpy, safetensors, librosa, soundfile), which retain their
+respective upstream licenses. This add-on is independent of the model
+author and does not claim official endorsement.
+
+No original author recordings or manuscripts are uploaded or bundled.
+Model output is not word-aligned, must be reviewed, and cannot silently
+change the original recorded voice, manually accepted SRT or picture locks.

@@ -1,0 +1,54 @@
+name: Real Offline Burmese ASR E2E — Public Multi-Clip Narration 0.15.4
+on:
+  workflow_dispatch:
+  push:
+    branches: [feature/0154-burmese-local-asr-addon, main]
+    paths:
+      - '.github/scripts/test_real_burmese_chunker_0154.py'
+      - '.github/workflows/real-burmese-local-addon-0154.yml'
+      - 'scripts/burmese_asr_chunker_0153.py'
+permissions:
+  contents: read
+jobs:
+  public-speech-real-model:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      OMP_NUM_THREADS: '3'
+      CUDA_VISIBLE_DEVICES: ''
+      PIP_DISABLE_PIP_VERSION_CHECK: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install research-only CPU and public audio dependencies
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -qq --no-install-recommends ffmpeg
+          python -m pip install --quiet torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --quiet huggingface_hub hf_xet 'datasets[audio]==3.6.0' soundfile numpy
+      - name: Download public licensed Burmese CPU Model to disposable runner
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from huggingface_hub import snapshot_download
+          import os
+          root=os.environ['RUNNER_TEMP']+'/public-model'
+          snapshot_download(repo_id='freococo/myanmar_asr',local_dir=root,
+            allow_patterns=['model.safetensors','model.py','transcribe.py',
+              'config.json','preprocessor_config.json','vocab.json',
+              'cmvn.json','requirements.txt'])
+          with open(os.environ['GITHUB_ENV'],'a') as f:
+              print('MMMN_CANDIDATE_MODEL_DIR='+root,file=f)
+          PY
+          python -m pip install --quiet -r "$RUNNER_TEMP/public-model/requirements.txt"
+      - name: REAL public Burmese model -> FFmpeg pause chunks -> actual local SRT
+        run: |
+          set -euo pipefail
+          python -m py_compile scripts/burmese_asr_chunker_0153.py .github/scripts/test_real_burmese_chunker_0154.py
+          python -m unittest discover -s tests -p 'test_burmese_asr_chunker_0153.py' -v
+          python .github/scripts/test_real_burmese_chunker_0154.py
