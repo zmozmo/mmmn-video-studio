@@ -1,0 +1,83 @@
+name: Independent Real Windows Studio plus Installed Burmese Model Pack E2E 0.15.4
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Native Windows Real Burmese CPU Add-on Installer 0.15.4"]
+    types: [completed]
+    branches: [main]
+permissions:
+  actions: read
+  contents: read
+jobs:
+  real-local-speech-app-and-addon:
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main') }}
+    runs-on: windows-latest
+    timeout-minutes: 45
+    env:
+      GH_TOKEN: ${{ github.token }}
+      NO_PROXY: 127.0.0.1,localhost
+      PYTHONIOENCODING: utf-8
+      PYTHONUTF8: '1'
+      HF_HUB_OFFLINE: '1'
+      TRANSFORMERS_OFFLINE: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Download exact already-PASS native Burmese model pack bytes and SHA
+        shell: pwsh
+        run: |
+          $run = if ($env:GITHUB_EVENT_NAME -eq 'workflow_run') { '${{ github.event.workflow_run.id }}' } else { (gh run list --workflow 'windows-burmese-offline-model-pack-0154.yml' --branch main --limit 10 --json databaseId,status,conclusion | ConvertFrom-Json | Where-Object { $_.conclusion -eq 'success' } | Select-Object -First 1).databaseId }
+          if (!$run) { throw 'No verified Windows Burmese CPU model pack run available' }
+          New-Item -ItemType Directory -Force addon | Out-Null
+          gh run download $run -R $env:GITHUB_REPOSITORY --name VERIFIED-MMMN-REAL-BURMESE-OFFLINE-MODEL-ADDON-0154 --dir addon
+          if ($LASTEXITCODE -ne 0) { throw 'No verified real model pack artifact' }
+          $file='addon/MMMN-Burmese-ASR-Offline-Addon-0.15.4.exe'
+          $sha=(Get-Content "$file.sha256" -Raw).Trim().Split(' ')[0].ToLowerInvariant()
+          $actual=(Get-FileHash $file -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($sha -notmatch '^[a-f0-9]{64}$' -or $sha -ne $actual) { throw 'Burmese add-on SHA mismatch' }
+          Write-Host "PASS: EXACT real model pack integrity $actual"
+      - name: Download published Windows Studio installer 0.15.4 and verify exact hash
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force released | Out-Null
+          $base="https://raw.githubusercontent.com/$env:GITHUB_REPOSITORY/windows-binaries-0154/downloads"
+          foreach ($name in @('MMMN-Video-Studio-Setup-0.15.4.exe','MMMN-Video-Studio-Setup-0.15.4.exe.sha256')) {
+            Invoke-WebRequest -Uri "$base/$name" -OutFile (Join-Path released $name) -ErrorAction Stop
+          }
+          $file='released/MMMN-Video-Studio-Setup-0.15.4.exe'
+          $sha=(Get-Content "$file.sha256" -Raw).Trim().Split(' ')[0].ToLowerInvariant()
+          if ((Get-FileHash $file -Algorithm SHA256).Hash.ToLowerInvariant() -ne $sha) { throw 'Published Windows Studio SHA mismatch' }
+      - name: Actually install the two independent offline EXEs on disposable Windows
+        shell: pwsh
+        run: |
+          $main=(Resolve-Path 'released/MMMN-Video-Studio-Setup-0.15.4.exe').Path
+          $addon=(Resolve-Path 'addon/MMMN-Burmese-ASR-Offline-Addon-0.15.4.exe').Path
+          $p=Start-Process -FilePath $main -ArgumentList '/S' -Wait -PassThru
+          if ($p.ExitCode -ne 0) { throw 'Published Windows Studio install failed' }
+          $p=Start-Process -FilePath $addon -ArgumentList '/S' -Wait -PassThru
+          if ($p.ExitCode -ne 0) { throw 'Real Burmese CPU model add-on install failed' }
+          $exe=Join-Path $env:LOCALAPPDATA 'Programs/MMMN Video Studio/MMMN-Video-Studio.exe'
+          if (!(Test-Path $exe)) { throw 'Published Studio executable not installed' }
+          "MMMN_RELEASE_INSTALLED_EXE=$exe" >> $env:GITHUB_ENV
+          & $exe --self-test
+          if ($LASTEXITCODE -ne 0) { throw 'Installed Studio bundled FFmpeg check failed' }
+      - name: Use only public model creator sample for real speech pipeline acceptance
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri 'https://huggingface.co/freococo/myanmar_asr/resolve/main/example.mp3' -OutFile public-burmese-model-example.mp3 -ErrorAction Stop
+          "MMMN_REAL_BURMESE_PUBLIC_AUDIO=$((Resolve-Path public-burmese-model-example.mp3).Path)" >> $env:GITHUB_ENV
+      - name: Published actual Studio and bundled actual Burmese model must produce review SRT
+        shell: pwsh
+        run: |
+          python .github/scripts/windows_burmese_published_addon_e2e_0154.py
+          if ($LASTEXITCODE -ne 0) { throw 'Published Windows Studio plus REAL Burmese CPU addon QA failed' }
+      - name: Safely uninstall model and app on disposable QA machine
+        shell: pwsh
+        if: always()
+        run: |
+          $uninstall=Join-Path $env:LOCALAPPDATA 'MMMN-Video-Studio-Trial/addons/BurmeseASR/Uninstall-MMMN-Burmese-ASR.exe'
+          if (Test-Path $uninstall) { Start-Process -FilePath $uninstall -ArgumentList '/S' -Wait }
+          $mainUninstall=Join-Path $env:LOCALAPPDATA 'Programs/MMMN Video Studio/Uninstall.exe'
+          if (Test-Path $mainUninstall) { Start-Process -FilePath $mainUninstall -ArgumentList '/S' -Wait }
