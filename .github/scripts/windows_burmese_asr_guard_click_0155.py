@@ -190,6 +190,55 @@ def main():
      after_disk=json.loads(app.api("load_project_state"))["chapters"][0]
      assert before_report==after_report,"Read-only report changed user's browser chapter"
      assert before_disk==after_disk,"Read-only report changed user's native disk chapter"
+     if not bad and not short:
+      # Use a REAL native-imported PNG, not a metadata-only/nonexistent photo.
+      image_id="actual-graveyard-png-0155"
+      app.upload(image_id,"png",fixture.PNG)
+      photo_file=fixture.DATA/"media"/(image_id+".png")
+      real_image_sha=fixture.sha(photo_file)
+      fresh=json.loads(app.api("load_project_state"))
+      chapter=fresh["chapters"][0]
+      original_cues=chapter.get("subtitleCues")
+      original_text=chapter.get("text")
+      chapter["scenePolicy"]="major-only-conservative"
+      chapter["scenes"]=[{"id":"test-major-graveyard",
+        "start":0,"duration":320,"text":"သင်္ချိုင်းထဲသို့ ဝင်ရောက်လာကြသည်။",
+        "assetId":None,"alignment":"estimated","motion":"still"}]
+      fresh["assets"].append({"id":image_id,"name":"graveyard.png",
+        "type":"image/png","nativeStored":True})
+      ready=json.dumps(fresh,ensure_ascii=False)
+      app.api("save_project_state",{"json":ready})
+      page.evaluate("(data) => localStorage.setItem('mmmn-studio-state', data)",ready)
+      page.reload(wait_until="domcontentloaded")
+      page.locator(".shell").wait_for(state="visible",timeout=30000)
+      page.locator('[data-tab="timeline"]').first.click()
+      find=page.locator('[data-action="match-local-major-images"]').first
+      assert find.is_visible(),"0.15.5 real local imported-artwork match button missing"
+      before_changes=len(dialogs)
+      find.click()
+      assert len(dialogs)>before_changes,"Explicit user confirmation dialog missing"
+      for _ in range(80):
+       candidate=page.evaluate("""() => JSON.parse(localStorage.getItem('mmmn-studio-state')||'{}').chapters?.[0]||{}""")
+       if candidate.get("scenes",[{}])[0].get("assetId")==image_id:break
+       time.sleep(.2)
+      else:
+       raise AssertionError("Matching imported actual photo never applied via real Edge button")
+      selected=candidate["scenes"][0]
+      assert selected["imageMatchStatus"]=="suggested-review",selected
+      assert selected["start"]==0 and selected["duration"]==320
+      assert candidate.get("text")==original_text
+      assert candidate.get("subtitleCues")==original_cues
+      assert fixture.sha(photo_file)==real_image_sha
+      persisted=json.loads(app.api("load_project_state"))["chapters"][0]
+      assert persisted["scenes"][0]["assetId"]==image_id,"UI image changed but disk did not"
+      assert persisted["scenes"][0]["imageMatchStatus"]=="suggested-review"
+      assert persisted.get("subtitleCues")==original_cues
+      assert persisted.get("text")==original_text
+      page.reload(wait_until="domcontentloaded")
+      page.locator(".shell").wait_for(state="visible",timeout=30000)
+      reloaded=json.loads(app.api("load_project_state"))["chapters"][0]
+      assert reloaded["scenes"][0]["assetId"]==image_id
+      print("PASS: 0.15.5 REAL Edge local native-imported cemetery picture matched ONE MAJOR scene, explicit confirmation, no new timeline boundaries, 320s original and SRT unchanged, photo SHA unchanged, saved/reloaded",flush=True)
      print("PASS: 0.15.5 REAL Edge private evidence report exported without ANY chapter mutation",flush=True)
      print("PASS: 0.15.5 real Edge read-only SRT Timing Audit button",flush=True)
      print("PASS: 0.15.5 installed Edge "+

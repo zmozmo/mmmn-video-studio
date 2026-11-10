@@ -11,7 +11,7 @@ on:
       - 'tests/narration-timing-audit.test.mjs'
       - 'web/major-scene-timing-evidence.mjs'
       - 'tests/major-scene-timing-evidence.test.mjs'
-      - 'tests/windows_burmese_addon_0155_test.py'
+      - 'tests/windows_burmese_addon_0154_test.py'
       - 'web/local-major-artwork-match.mjs'
       - 'tests/local-major-artwork-match.test.mjs'
       - '.github/scripts/upgrade_windows_0155.py'

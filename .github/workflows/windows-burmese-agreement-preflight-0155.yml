@@ -19,7 +19,7 @@ on:
       - 'web/local-major-artwork-match.mjs'
       - 'tests/local-major-artwork-match.test.mjs'
       - '.github/scripts/upgrade_windows_0155.py'
-      - 'tests/windows_burmese_addon_0155_test.py'
+      - 'tests/windows_burmese_addon_0154_test.py'
       - '.github/scripts/upgrade_windows_0155.py'
 permissions:
   contents: read
@@ -71,7 +71,7 @@ jobs:
           python .github/scripts/upgrade_windows_0154.py
           python .github/scripts/upgrade_windows_0155.py
           python -m py_compile portable/studio_server.py
-          python -m unittest discover -s tests -p windows_burmese_addon_0155_test.py -v
+          python -m unittest discover -s tests -p windows_burmese_addon_0154_test.py -v
           python -m py_compile .github/scripts/windows_burmese_asr_guard_click_0155.py
           python -m unittest discover -s tests -p windows_speech_async_0148_test.py -v
           node --check web/app.js
