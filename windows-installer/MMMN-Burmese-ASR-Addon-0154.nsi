@@ -1,7 +1,7 @@
 Unicode true
 !include "MUI2.nsh"
 Name "MMMN Burmese Offline ASR Add-on 0.15.4"
-OutFile "MMMN-Burmese-ASR-Offline-Addon-0.15.4.exe"
+OutFile "..\MMMN-Burmese-ASR-Offline-Addon-0.15.4.exe"
 InstallDir "$LOCALAPPDATA\MMMN-Video-Studio-Trial\addons\BurmeseASR"
 RequestExecutionLevel user
 SetCompressor /SOLID lzma
