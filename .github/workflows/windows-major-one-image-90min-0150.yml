@@ -35,7 +35,7 @@ jobs:
           # Compare the exact published setup to the checksum from the signed-in CI release manifest.
           $actual=(Get-FileHash $setup -Algorithm SHA256).Hash.ToLowerInvariant()
           $manifest=(Get-Content "$setup.sha256" -Raw).Trim().Split(' ')[0].ToLowerInvariant()
-          if ($manifest -notmatch '^[a-f0-9]{64}
+          if ($manifest -notmatch '^[a-f0-9]{64}$' -or $actual -ne $manifest) { throw 'Published setup hash mismatch: do not execute' }
           Write-Host "PASS: exact published installer integrity $actual"
       - name: Install and verify bundled offline FFmpeg in disposable Windows
         shell: pwsh
