@@ -40,7 +40,7 @@ test('existing manually approved image remains intact despite unavailable media'
  const c=chapter([shot('a',0,80,'gone',{visualLocked:true}),
    shot('b',80,80)]);
  const result=inspect(c,[pic('other')]);
- assert.equal(result.report.unresolvedMissingOrNonlocal,1);
+ assert.equal(result.report.unresolvedMissingOrNonlocal,2); // existing missing photo and following unassigned scene
  assert.equal(keep(c,[pic('other')],true).scenes[0].assetId,'gone');
 });
 test('never copy a metadata-only unimported image across scenes',()=>{
