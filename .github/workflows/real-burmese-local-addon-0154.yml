@@ -7,6 +7,7 @@ on:
       - '.github/scripts/test_real_burmese_chunker_0154.py'
       - '.github/workflows/real-burmese-local-addon-0154.yml'
       - 'scripts/burmese_asr_chunker_0153.py'
+      - 'tests/test_burmese_asr_chunker_0153.py'
 permissions:
   contents: read
 jobs:
