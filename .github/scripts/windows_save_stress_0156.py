@@ -42,11 +42,27 @@ def main():
     assert s["scenes"]==source["scenes"],"Storyboard lost after text save"
     assert s.get("audioAssetId")==source.get("audioAssetId"),"Audio reference changed"
     if i in (5,11,17,23):
-     page.reload(wait_until="domcontentloaded")
-     page.locator(".shell").wait_for(state="visible",timeout=20000)
-     page.locator('[data-tab="manuscript"]').first.click()
-     field=page.locator("#chapter-text")
-     assert marker in field.input_value(),"Reload lost a saved edit"
+     # Diagnose unavailable Edge on reload, retry UI only and never repeat data writes.
+     for retry in range(3):
+      try:
+       response=(page.reload(wait_until="domcontentloaded",timeout=45000)
+         if retry==0 else page.goto(app.url,wait_until="domcontentloaded",timeout=45000))
+       page.locator(".shell").wait_for(state="visible",timeout=15000)
+       page.locator('[data-tab="manuscript"]').first.click(timeout=10000)
+       field=page.locator("#chapter-text")
+       field.wait_for(state="visible",timeout=10000)
+       assert marker in field.input_value(),"Reload lost a saved edit"
+       break
+      except Exception as exc:
+       disk=stored(app,marker)["chapters"][0]
+       print("DIAG: Edge reload, attempt",retry+1,
+         "iteration",i,"status",getattr(response,"status",None) if "response" in locals() else None,
+         "url",page.url,"browserErrors",errors[-5:],"saveStatus",responses[-5:],
+         "nativeSaved",marker in disk.get("text",""),"error",str(exc)[:500],flush=True)
+       if retry==2:
+        raise AssertionError("UI failed 3 reload attempts, original disk chapter still persisted") from exc
+       page.wait_for_timeout(800)
+
     if i%6==5:print(f"PASS: run {RUN}, {i+1}/24 native saved/reloaded",flush=True)
    assert not errors,errors
    assert responses and all(code<400 for code in responses),responses
