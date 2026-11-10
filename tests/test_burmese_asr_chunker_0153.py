@@ -46,8 +46,6 @@ class ChunkTests(unittest.TestCase):
  def test_missing_local_model_is_safe_no_download(self):
   with self.assertRaises(FileNotFoundError):
    m.load_model_only_from_disk("/no/such/private/model/folder")
-if __name__=="__main__":unittest.main()
-
  def test_packaged_studio_ffmpeg_is_exposed_to_local_model_only(self):
   with tempfile.TemporaryDirectory() as tmp:
    exe=Path(tmp)/("ffmpeg.exe" if os.name=="nt" else "ffmpeg")
@@ -60,3 +58,4 @@ if __name__=="__main__":unittest.main()
  def test_never_downloads_when_local_ffmpeg_is_missing(self):
   with self.assertRaises(FileNotFoundError):
    m.expose_local_ffmpeg_to_embedded_transcriber("/should-not-exist-mmmn-ffmpeg/ffmpeg.exe")
+if __name__=="__main__":unittest.main()
