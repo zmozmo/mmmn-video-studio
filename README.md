@@ -14,6 +14,18 @@
 
 There is no requirement for VS Code, CMD, Python/Node.js installation, source ZIP or a paid video API to use the installed application. **Unsigned**: Windows SmartScreen may display an unknown-publisher warning; check the exact checksum. The user's actual Windows 11 laptop has not been tested yet.
 
+## Optional offline Burmese speech model — now independently verified
+
+**[Download the exact tested Burmese CPU Model Add-on 0.15.4 Setup.exe](https://github.com/zmozmo/mmmn-video-studio/releases/download/burmese-asr-addon-0.15.4/MMMN-Burmese-ASR-Offline-Addon-0.15.4.exe)**
+
+- Model add-on file size: **364,228,875 bytes**; SHA-256: `af81e68f3971d6374bffa0987f547e716606e6cf46a45c72b9cf6274729dadeb`.
+- Install **Windows Video Studio 0.15.5 first**, then the separate **Burmese CPU Model Add-on 0.15.4**. Both are current-user setup EXEs; do not download source ZIPs or install Python/Node. The add-on is compatible with Studio 0.15.4/0.15.5.
+- No model is bundled in the 64 MB Studio EXE. The optional add-on is **free and fully local after installation**. It can convert Burmese narration to approximate, review-only SRT using the original audio without uploading it.
+- **Independent REAL installed Studio + REAL installed Model Pack + local Burmese voice-to-SRT QA PASS**: [42767034087](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42767034087). Model native build/installation QA PASS [42766366243](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42766366243); exact release SHA verified [42767194551](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42767194551).
+- Human review is mandatory. No proof of accurate word-level timestamps or full 90-minute real novel recognition yet; the 90-minute deterministic audio segmentation unit tests are not the same as a 90-minute real author voice ASR test.
+
+[Model add-on installation/QA guide](WINDOWS-BURMESE-MODEL-ADDON-0154.md)
+
 ## Features
 
 - Local-first Burmese manuscript editor with scene-by-scene storyboard, image choices, manual scene locking and timing. Editing a manuscript **preserves** scene choices, manual locks and existing timing.
@@ -25,7 +37,7 @@ There is no requirement for VS Code, CMD, Python/Node.js installation, source ZI
 - New in **0.14.7**: **🖼 Important-scenes-only artwork brief** exports a private local Markdown checklist of only significant scene pictures, excluding technical same-image encoder segments. **🎧 Audio-first Smart Draft** can optionally call a separately installed local whisper.cpp multilingual model to generate unapproved Myanmar SRT before major-scene planning; if unavailable, clearly falls back to pause/text-length estimates. The **installer does not bundle an ASR model or generate artwork**.
 - New in **0.14.8**: cancellable asynchronous optional local speech transcription with safe FFmpeg/Whisper subprocess cleanup; preserve original voice and corrected SRT.
 - New in **0.15.5**: choose **already imported local pictures** for existing major-only scenes by unique grounded name/tags, only after an explicit author confirmation. Never download images, use phantom metadata-only art, create extra photo changes, overwrite manual images/time locks or alter narration. Independent real Edge actually uploaded a PNG, matched the cemetery scene and verified unchanged picture/audio/SRT/disk data.
-- New in **0.15.4**: optionally detects an independently installed offline Burmese CPU Conformer model pack and routes narration through the existing cancel-safe local worker. Keeps old Whisper fallback and major-scene/SRT human-review guards; no automatic photo or time approval. **Model add-on setup.exe is NOT approved/released yet; separate real Windows packaging and model inference QA is running.**
+- New in **0.15.4**: optionally detects an independently installed offline Burmese CPU Conformer model pack and routes narration through the existing cancel-safe local worker. Keeps old Whisper fallback and major-scene/SRT human-review guards; no automatic photo or time approval. **The separately installed model add-on is now published after real native and independent Studio-to-model QA PASS.**
 - New in **0.15.2**: extra local **major-scene/SRT evidence** button and PRIVATE read-only Markdown report. Only unique Myanmar passage matches with adequate full-audio SRT coverage yield approximate listening cues. No automatic scene timing, background, source or manual-lock changes. Independent Edge click verified file export and zero stored project changes.
 - New in **0.15.1**: full-narration offline SRT timing coverage audit, a read-only audit button and rejection of text-matching but truncated ASR before automatic picture timing. Real installed Edge tested three synthetic cases. A Burmese ASR model is still NOT bundled.
 - New in **0.15.0**: reject negative, overlapping or reversed generated SRT timestamps, test Burmese cue-level evidence and the order of the original story, and request explicit approval before using proposed ASR timing. Rejected cues fall back safely. **This does not prove speech recognition accuracy.**
@@ -46,19 +58,19 @@ There is no requirement for VS Code, CMD, Python/Node.js installation, source ZI
 | **0.15.4 native Windows build/upgrade/MP4/data integrity/uninstall** | **PASS** | [42763027222](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42763027222) |
 | **0.15.4 exact tested Windows Studio EXE publication** | **PASS** | [42763651702](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42763651702) |
 | **0.15.4 same-photo 90-minute full HD published EXE QA** | **IN PROGRESS** | [42763681451](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42763681451) |
-| **0.15.4 separate Burmese native CPU add-on package/installed real model QA** | **IN PROGRESS** | [Latest QA](https://github.com/zmozmo/mmmn-video-studio/actions/workflows/windows-burmese-offline-model-pack-0154.yml) |
+| **0.15.4 optional Burmese CPU Model Pack, real installed Studio-to-SRT E2E, exact released add-on** | **PASS** | [Native addon](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42766366243) · [Independent E2E](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42767034087) · [Published release](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42767194551) |
 | **0.15.2 public EXE independently downloaded/installed, Edge local review export with unchanged project bytes** | **PASS** | [42756225248](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42756225248) |
 | **0.15.2 full Windows Installer/upgrade/MP4/data integrity/uninstall** | **PASS** | [42755522222](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42755522222) |
 | **0.15.2 exact tested EXE publication** | **PASS** | [42756195741](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42756195741) |
-| **0.15.2 published EXE full 90-minute 1080p MP4** | **IN PROGRESS** | [42756225385](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42756225385) |
+| **0.15.2 published EXE full 90-minute 1080p MP4** | **PASS** | [42756225385](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42756225385) |
 | **0.15.1 independent public-EXE Windows and Edge, 3 ASR timing cases** | **PASS** | [42752668531](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42752668531) |
 | **0.15.1 native install, upgrade, MP4, backup and uninstall** | **PASS** | [42751977489](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42751977489) |
 | **0.15.1 exact tested EXE publication** | **PASS** | [42752627042](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42752627042) |
-| **0.15.1 published EXE 90-minute 1080p MP4** | **IN PROGRESS** | [42752668322](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42752668322) |
+| **0.15.1 published EXE 90-minute 1080p MP4** | **PASS** | [42752668322](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42752668322) |
 | **0.15.0 independently downloaded public EXE: upgrade, Edge UI, storage and uninstall** | **PASS** | [42750156953](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42750156953) |
 | **0.15.0 native build, Python 145 tests, MP4, upgrade, data preservation** | **PASS** | [42749464288](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42749464288) |
 | **0.15.0 exact binary publication** | **PASS** | [42750121344](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42750121344) |
-| **0.15.0 real full 90-minute 1080p MP4 on independent released EXE** | **IN PROGRESS** | [42750156838](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42750156838) |
+| **0.15.0 real full 90-minute 1080p MP4 on independent released EXE** | **PASS** | [42750156838](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42750156838) |
 | **0.14.9 published EXE real Windows install/upgrade, Edge, data SHA, backup, security and uninstall** | **PASS** | [42647941174](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42647941174) |
 | **0.14.9 installed Edge: wrong Burmese SRT rejected, matching SRT requires review** | **PASS (synthetic SRT)** | [42647519009](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42647519009) |
 | 0.14.9 native build and in-place version upgrade | **PASS** | [42629403389](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42629403389) |

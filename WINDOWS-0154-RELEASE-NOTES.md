@@ -6,7 +6,7 @@
 
 - Windows Studio setup: 64,832,335 bytes
 - SHA-256: 318d7d37addd1fec3be226460ac198baecf31cd018bd0d0d984de8351abaf1c9
-- A Burmese model add-on is a **separate optional package**, not inside this approximately 65 MB Windows Studio setup. Its one-click Windows CPU installer is under real packaging QA, and is NOT yet approved for distribution.
+- A Burmese model add-on is a **separate optional package**, not inside this approximately 65 MB Windows Studio setup. **[The exact tested 0.15.4 CPU Model Pack is now released](https://github.com/zmozmo/mmmn-video-studio/releases/download/burmese-asr-addon-0.15.4/MMMN-Burmese-ASR-Offline-Addon-0.15.4.exe)**, 364,228,875 bytes, SHA-256: `af81e68f3971d6374bffa0987f547e716606e6cf46a45c72b9cf6274729dadeb`.
 
 ## New support in installed Studio
 
@@ -24,7 +24,7 @@
 | Native Windows build/upgrade/MP4/154 Python tests/data SHA/uninstall | PASS | [Native Windows](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42763027222) |
 | Publish byte-identical unsigned Windows Studio setup | PASS | [Publisher](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42763651702) |
 | Independent exact downloaded Studio setup, Edge, media, security and uninstall | PASS | [Independent Windows](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42763681555) |
-| Independently built one-click local Burmese CPU Model Add-on and real installed Windows model inference | IN PROGRESS | [Addon QA](https://github.com/zmozmo/mmmn-video-studio/actions/workflows/windows-burmese-offline-model-pack-0154.yml) |
+| One-click local Burmese CPU Model Add-on independently installed + actual Studio API transcription | PASS | [Native Windows model](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42766366243) · [Real Studio-to-model E2E](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42767034087) · [Release](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42767194551) |
 | 90-minute 1080p full MP4 from exact published 0.15.4 EXE | IN PROGRESS | [Long MP4 QA](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42763681451) |
 
 ## Still unverified

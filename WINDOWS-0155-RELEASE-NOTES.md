@@ -29,7 +29,7 @@
 ## Optional real Burmese CPU Model
 
 - The Windows application contains optional offline Burmese CPU model routing, but the heavy model is **not bundled** in this 64 MB Studio installer.
-- A separate optional model pack 0.15.4 passed native Windows install/real public-speech inference and remains subject to independent installed Studio+model end-to-end QA before any public download.
+- **[Optional Burmese CPU Model Pack 0.15.4 Setup.exe](https://github.com/zmozmo/mmmn-video-studio/releases/download/burmese-asr-addon-0.15.4/MMMN-Burmese-ASR-Offline-Addon-0.15.4.exe)** is independently verified and released. SHA-256: `af81e68f3971d6374bffa0987f547e716606e6cf46a45c72b9cf6274729dadeb`. It works alongside the main Studio 0.15.5 EXE and is not embedded in the 64 MB Studio installer. [Real Windows installed app+model E2E PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42767034087).
 - No real author's private 90-minute Burmese narration has been independently assessed. Model subtitles are segment-level estimates, not exact word alignment. Human approval is mandatory.
 
 **Still outside this release:** full automated high-quality offline image generation, full novel semantic video understanding, automatic Google Drive private manuscript sync, digital code signing and Android build.
