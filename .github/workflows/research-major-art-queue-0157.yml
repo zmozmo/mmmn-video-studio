@@ -1,0 +1,24 @@
+name: Research 0.15.7 Important Scene Local Art Request Safety
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, research/0157-local-art-bridge]
+    paths:
+      - 'web/important-scene-art-queue.mjs'
+      - 'tests/important-scene-art-queue.test.mjs'
+      - '.github/workflows/research-major-art-queue-0157.yml'
+permissions:
+  contents: read
+jobs:
+  local-major-only-candidate-queue:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: No runaway slideshow, untouched original media and local-only preview
+        run: |
+          node --check web/important-scene-art-queue.mjs
+          node --test tests/important-scene-art-queue.test.mjs tests/major-scene.test.mjs tests/major-artwork-brief.test.mjs tests/local-major-artwork-match.test.mjs tests/major-scene-picture-continuity.test.mjs
