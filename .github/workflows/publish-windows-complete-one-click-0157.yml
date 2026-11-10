@@ -1,0 +1,68 @@
+name: Publish Verified Single-EXE MMMN Video Studio Complete 0.15.7
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/publish-windows-complete-one-click-0157.yml'
+  workflow_run:
+    workflows: ["Build and REAL Windows QA Single-EXE MMMN Studio Complete 0.15.7"]
+    types: [completed]
+    branches: [main]
+concurrency:
+  group: mmmn-complete-0157-release-only
+  cancel-in-progress: false
+permissions:
+  contents: write
+  actions: read
+jobs:
+  publish-only-exact-installed-windows-bytes:
+    if: ${{ github.event_name == 'push' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.repository.full_name == github.repository) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+      QA_RUN_ID: ${{ github.event_name == 'push' && '42784472878' || github.event.workflow_run.id }}
+      RELEASE_TAG: mmmn-complete-0.15.7
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Download exact Windows installed-and-tested complete setup, no rebuild
+        run: |
+          set -euo pipefail
+          test "$(gh run view "$QA_RUN_ID" -R "$GITHUB_REPOSITORY" --json conclusion --jq .conclusion)" = success
+          test "$(gh run view "$QA_RUN_ID" -R "$GITHUB_REPOSITORY" --json headSha --jq .headSha)" = 965a0bb2d1e03fc2f557737fc3577b44b76eeb08
+          mkdir -p exact
+          gh run download "$QA_RUN_ID" -R "$GITHUB_REPOSITORY" --name QA-PASS-WINDOWS-ONE-CLICK-COMPLETE-0.15.7 --dir exact
+          python3 - <<'PY'
+          import json,hashlib
+          from pathlib import Path
+          folder=Path('exact')
+          file=folder/'MMMN-Video-Studio-Complete-0.15.7.exe'
+          sha=hashlib.file_digest(file.open('rb'),'sha256').hexdigest()
+          manifest=(folder/(file.name+'.sha256')).read_text(encoding='utf-8-sig').split()[0].lower()
+          witness=json.loads((folder/'COMPLETE-QA-VERIFIED-0157.json').read_text(encoding='utf-8-sig'))
+          assert sha==manifest==witness['exact_installed_bytes_sha256']
+          assert witness['status']=='PASS' and witness['version']=='0.15.7'
+          assert witness['one_click_windows_setup'] is True
+          assert witness['real_native_burmese_asr_in_installed_app'] is True
+          assert witness['both_source_setups_sha256_pinned'] is True
+          assert witness['unpublished_user_data_used'] is False
+          assert 400_000_000<file.stat().st_size<1_500_000_000
+          print('VERIFIED exact one-click Complete setup',file.stat().st_size,'bytes SHA256',sha)
+          PY
+      - name: Create a free single-file GitHub Release only after native Windows E2E PASS
+        run: |
+          set -euo pipefail
+          file=exact/MMMN-Video-Studio-Complete-0.15.7.exe
+          sha=exact/MMMN-Video-Studio-Complete-0.15.7.exe.sha256
+          report=exact/COMPLETE-QA-VERIFIED-0157.json
+          if gh release view "$RELEASE_TAG" -R "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            mkdir -p prior
+            gh release download "$RELEASE_TAG" -R "$GITHUB_REPOSITORY" --pattern 'MMMN-Video-Studio-Complete-0.15.7.exe' --dir prior
+            cmp "$file" prior/MMMN-Video-Studio-Complete-0.15.7.exe
+            echo 'Matching exact complete installer previously published; no overwrite.'
+          else
+            gh release create "$RELEASE_TAG" "$file" "$sha" "$report" -R "$GITHUB_REPOSITORY" --target main --prerelease --title "MMMN Video Studio Complete 0.15.7 — Burmese Offline AI One-Click" --notes "ONE SETUP.EXE containing verified Windows Studio 0.15.7 and separately verified Burmese CPU speech model 0.15.4. Both are installed for the current user with one installer. Real native Windows E2E speech-to-local SRT PASS. No paid API, no private manuscripts or recordings uploaded, no cloud inference. Original sound/confirmed SRT/timing locks preserved. IMPORTANT: Unapproved speech recognition uses estimated chunk timestamps; full 90-minute author narration alignment and automatic AI artwork are NOT certified. Unsigned Windows executable, SmartScreen may warn. Free and local-first."
+          fi
+          echo "Verified complete Windows setup https://github.com/$GITHUB_REPOSITORY/releases/download/$RELEASE_TAG/MMMN-Video-Studio-Complete-0.15.7.exe"
