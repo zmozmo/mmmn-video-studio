@@ -172,6 +172,25 @@ def main():
      assert len(dialogs)>before_dialogs and 'SRT / အသံ' in dialogs[-1],dialogs
      after_audit=page.evaluate("""() => JSON.parse(localStorage.getItem('mmmn-studio-state')||'{}').chapters?.[0]""")
      assert before_audit==after_audit,"Audit button unexpectedly changed chapter data"
+     # NEW 0.15.2: real Edge PRIVATE local scene/SRT report download.
+     # This action may not alter either browser project or backed-up native state.
+     before_report=page.evaluate("""() => JSON.parse(localStorage.getItem('mmmn-studio-state')||'{}').chapters?.[0]""")
+     before_disk=json.loads(app.api("load_project_state"))["chapters"][0]
+     report_button=page.locator('[data-action="export-major-timing-evidence"]').first
+     assert report_button.is_visible(),"Missing 0.15.2 scene/SRT evidence report button"
+     dialog_start=len(dialogs)
+     with page.expect_download(timeout=30000) as expected:
+      report_button.click()
+     downloaded=expected.value
+     assert downloaded.suggested_filename.endswith("-SCENE-SRT-REVIEW-PRIVATE.md"),downloaded.suggested_filename
+     content=Path(downloaded.path()).read_text(encoding="utf-8")
+     assert "PRIVATE LOCAL REVIEW" in content and "UNPUBLISHED" in content,content[:250]
+     assert len(dialogs)>dialog_start and "အရေးကြီး Scene" in dialogs[-1],dialogs
+     after_report=page.evaluate("""() => JSON.parse(localStorage.getItem('mmmn-studio-state')||'{}').chapters?.[0]""")
+     after_disk=json.loads(app.api("load_project_state"))["chapters"][0]
+     assert before_report==after_report,"Read-only report changed user's browser chapter"
+     assert before_disk==after_disk,"Read-only report changed user's native disk chapter"
+     print("PASS: 0.15.2 REAL Edge private evidence report exported without ANY chapter mutation",flush=True)
      print("PASS: 0.15.2 real Edge read-only SRT Timing Audit button",flush=True)
      print("PASS: 0.15.2 installed Edge "+
          ("REJECTED grossly WRONG Burmese ASR" if bad
