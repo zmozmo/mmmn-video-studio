@@ -52,7 +52,7 @@ once('web/app.js',"case 'hold-verified-major-photo':{",
         '\\nစာမူနဲ့ ပုံများကို Cloud တင်ခြင်းမပြုပါ။'+
         '\\n\\nPrivate Markdown စာရင်းထုတ်မလား?';
       if(!confirm(msg))return;
-      download(new Blob([lines.join('\n')],{type:'text/markdown;charset=utf-8'}),
+      download(new Blob([lines.join('\\n')],{type:'text/markdown;charset=utf-8'}),
         'MMMN-ch'+String(c.number).padStart(2,'0')+'-MAJOR-ART-REVIEW-PRIVATE.md');
       toast('အရေးကြီး Scene ပုံလိုအပ်ချက် စာရင်းကို Local မှာ ထုတ်ထားပါပြီ။');
     }catch(error){
