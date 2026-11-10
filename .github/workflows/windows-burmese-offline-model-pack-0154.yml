@@ -92,6 +92,9 @@ jobs:
           & $exe --input $audio --model-dir $model --output qa/review-only.srt --ffmpeg $ffmpeg --ffprobe $ffprobe
           if ($LASTEXITCODE -eq 0) { throw 'Existing reviewed SRT was overwritten' }
           Write-Host 'PASS: native compiled CPU model transcribed public Burmese without network; overwrite refused'
+          # PyInstaller correctly exits nonzero when an existing reviewed SRT is protected.
+          # This is an EXPECTED negative test, not an Action failure.
+          exit 0
       - name: Compile one-click local-only model installer, exact tested runtime files
         shell: pwsh
         run: |
