@@ -4,6 +4,21 @@
 
 > ဒီစာမျက်နှာက အက်ပ်ကို တကယ် install စမ်းသုံးဖို့ အဆင်သင့်ဖြစ်တဲ့အခါ အသုံးပြုရန်ပါ။ ကိုယ်ပိုင် Windows Laptop မှာ ChatGPT က အခုထိ install မလုပ်ထားပါ။
 
+## အားလုံးပါတဲ့ Installer တစ်ဖိုင်တည်း (Studio + မြန်မာအသံ AI)
+
+**[MMMN Video Studio Complete 0.15.5 — တစ်ဖိုင်တည်း Setup.exe](https://github.com/zmozmo/mmmn-video-studio/releases/download/mmmn-complete-0.15.5/MMMN-Video-Studio-Complete-0.15.5.exe)**
+
+ဒီဖိုင်ထဲမှာ Windows Video Studio 0.15.5 နဲ့ Offline မြန်မာအသံ Model 0.15.4 **နှစ်ခုလုံး ပါပြီးသား** ဖြစ်ပါတယ်။ ဖိုင်အရွယ်အစား **429,199,179 bytes (409 MiB ခန့်)** ပါ။
+
+- Windows 11 x64 စက်မှာ Setup.exe တစ်ဖိုင်ကို Install လုပ်ရုံပါ။ သီးခြား Model Download / Python / Node / VS Code မလိုပါ။
+- SHA-256: `6b70c8fc0c126034f762aaf44f671fe0c30a4321b0b2f66d0cacfe9c577f5cb2`
+- [တကယ့် Windows Independent Install + Offline မြန်မာအသံ SRT QA PASS](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42768416121)
+- မူရင်းအသံ၊ မူရင်းစာမူ၊ Confirm လုပ်ထားတဲ့ Scene Lock တွေကို အစားမထိုးပါ။
+- မြန်မာအသံကို Offline စာသားပြောင်းနိုင်ပေမယ့် စာလုံးနဲ့ အချိန်တိတိကျကျ မှန်မမှန်ကို နားထောင်ပြီး ပြန်စစ်ရပါမယ်။
+- Digital Signature မရှိသေးပါ။ Windows Security ကို အကုန်ပိတ်ပြီး ဖွင့်ဖို့ မလိုပါ။ SHA နဲ့ ယုံကြည်ရတဲ့ GitHub Release ဖြစ်ကြောင်း စစ်ဆေးပါ။
+
+အောက်က 64 MB Studio-only Setup.exe က မြန်မာ AI Model မပါသေးတဲ့ ပိုသေးတဲ့ **ရွေးချယ်စရာ** ဖြစ်ပါတယ်။ မြန်မာအသံ AI လိုသူအတွက်တော့ အပေါ်က Complete Setup.exe တစ်ဖိုင်တည်း ရွေးပါ။
+
 ## ၁။ Setup.exe တစ်ဖိုင်တည်းနဲ့ စတင်ခြင်း
 
 [Windows Setup.exe — MMMN Video Studio 0.15.5](https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0155/downloads/MMMN-Video-Studio-Setup-0.15.5.exe)

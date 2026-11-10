@@ -3,6 +3,21 @@
 **Latest Windows release: 0.15.5 (unsigned; imported local artwork choice for important scenes, independent Edge QA PASS)** · 10 November 2026  
 **Android: paused** · **Personal laptop: deliberately not tested**
 
+## Verified one-file COMPLETE offline Windows installer — Studio + Burmese AI
+
+**[MMMN Video Studio Complete 0.15.5 — Download ONE Setup.exe](https://github.com/zmozmo/mmmn-video-studio/releases/download/mmmn-complete-0.15.5/MMMN-Video-Studio-Complete-0.15.5.exe)**
+
+- Includes exact independently verified Windows Studio **0.15.5** and locally installed free Burmese CPU Speech Model **0.15.4**. No second setup download, Python, Node or cloud API needed.
+- Package: `MMMN-Video-Studio-Complete-0.15.5.exe` · **429,199,179 bytes** (~409 MiB).
+- SHA-256: `6b70c8fc0c126034f762aaf44f671fe0c30a4321b0b2f66d0cacfe9c577f5cb2`.
+- **Real native Windows combined installer, model weights, actual FFmpeg + real public Burmese voice-to-SRT: PASS** — [native QA](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42768109852).
+- **Exact PUBLIC GitHub one-file EXE independently downloaded, hash-verified, installed, offline Burmese speech-to-SRT, original audio/locks protected, uninstalled: PASS** — [independent QA](https://github.com/zmozmo/mmmn-video-studio/actions/runs/42768416121).
+- The ONE Setup.exe installer and bundled components are **unsigned**. Check its checksum and publisher source; do not turn off Windows security protections to bypass untrusted files.
+- This is an **optional all-in-one alternative** to the smaller Studio-only EXE + separate optional model add-on. It installs for the current Windows user.
+- Offline Burmese words/timestamps remain **human-review-only**. Exact word alignment for 90-minute author narration, story-aware image generation, Android runtime and owner-laptop acceptance have **not** been proven.
+
+[Complete release/download and QA guide](WINDOWS-0155-COMPLETE-RELEASE-NOTES.md)
+
 ## One-click Windows x64 Installer (direct EXE, no ZIP)
 
 **[MMMN Video Studio 0.15.5 Windows setup.exe](https://raw.githubusercontent.com/zmozmo/mmmn-video-studio/windows-binaries-0155/downloads/MMMN-Video-Studio-Setup-0.15.5.exe)**
