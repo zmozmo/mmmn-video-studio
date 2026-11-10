@@ -1,0 +1,66 @@
+name: Windows 0.15.6 Published EXE Native Save Stress (3 Independent Runs)
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/scripts/windows_save_stress_0156.py'
+      - '.github/workflows/windows-save-stress-0156.yml'
+permissions:
+  contents: read
+jobs:
+  independent-native-persistence:
+    strategy:
+      fail-fast: false
+      matrix:
+        attempt: [1, 2, 3]
+    runs-on: windows-latest
+    timeout-minutes: 25
+    env:
+      PYTHONIOENCODING: utf-8
+      NO_PROXY: 127.0.0.1,localhost
+      MMMN_STRESS_ATTEMPT: ${{ matrix.attempt }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Download and SHA-verify exact PUBLIC 0.15.6 Studio.exe
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force published | Out-Null
+          $base="https://raw.githubusercontent.com/$env:GITHUB_REPOSITORY/windows-binaries-0156/downloads"
+          foreach($name in @('MMMN-Video-Studio-Setup-0.15.6.exe','MMMN-Video-Studio-Setup-0.15.6.exe.sha256')) {
+            Invoke-WebRequest -Uri "$base/$name" -OutFile (Join-Path published $name) -ErrorAction Stop
+          }
+          $exe='published/MMMN-Video-Studio-Setup-0.15.6.exe'
+          $actual=(Get-FileHash $exe -Algorithm SHA256).Hash.ToLowerInvariant()
+          $manifest=(Get-Content "$exe.sha256" -Raw).Trim().Split(' ')[0].ToLowerInvariant()
+          if($actual -ne $manifest -or $actual -ne '675204ce1a49ccedec5dffa9164e4c81956202d2216333c1bebcf03e18bb0c9c') {
+            throw 'Published EXE differs from tested 0.15.6 bytes'
+          }
+      - name: Install and verify real Windows native EXE
+        shell: pwsh
+        run: |
+          $p=Start-Process -FilePath (Resolve-Path 'published/MMMN-Video-Studio-Setup-0.15.6.exe').Path -ArgumentList '/S' -PassThru -Wait
+          if($p.ExitCode -ne 0) { throw 'Native setup failed' }
+          $exe=Join-Path $env:LOCALAPPDATA 'Programs/MMMN Video Studio/MMMN-Video-Studio.exe'
+          if(!(Test-Path $exe)) {throw 'Installed EXE absent'}
+          "MMMN_RELEASE_INSTALLED_EXE=$exe" >> $env:GITHUB_ENV
+          & $exe --self-test
+          if($LASTEXITCODE -ne 0) {throw 'FFmpeg bundled self-test failed'}
+      - name: Three runner matrix 24x real Edge saves plus native disk checks
+        shell: pwsh
+        run: |
+          python -m pip install --quiet playwright==1.56.0
+          python .github/scripts/windows_save_stress_0156.py
+          if($LASTEXITCODE -ne 0) {throw 'Native manuscript save persistence regression'}
+      - name: Uninstall disposable binaries, never remove local media
+        shell: pwsh
+        if: always()
+        run: |
+          $uninstaller=Join-Path $env:LOCALAPPDATA 'Programs/MMMN Video Studio/Uninstall.exe'
+          if(Test-Path $uninstaller) {
+            $p=Start-Process -FilePath $uninstaller -ArgumentList '/S' -PassThru -Wait
+            if($p.ExitCode -ne 0) {throw 'Uninstall failed'}
+          }
