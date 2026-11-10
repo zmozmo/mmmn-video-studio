@@ -5,7 +5,7 @@ import {proposeLocalMajorArtwork as propose,
 const scene=(id,start,duration,text,extra={})=>({id,start,duration,text,
  assetId:null,...extra});
 const chapter=(scenes,extra={})=>({scenePolicy:'major-only-conservative',scenes,...extra});
-const art=(id,name)=>({id,name,type:'image/png'});
+const art=(id,name)=>({id,name,type:'image/png',nativeStored:true});
 test('one existing graveyard picture can be proposed for one actual major scene',()=>{
  const c=chapter([scene('a',0,90,'သင်္ချိုင်းထဲသို့ ဝင်ရောက်ကြသည်။')]);
  const p=propose(c,[art('cem','သင်္ချိုင်း_ည.png')]);
@@ -87,4 +87,16 @@ test('no network requests or fabricated image files',()=>{
  assert.equal(p.report.networkCalls,0);
  assert.equal(p.report.picturesDownloaded,0);
  assert.equal(p.report.picturesGenerated,0);
+});
+
+test('metadata-only picture without verified native import is not auto-selected',()=>{
+ const c=chapter([scene('a',0,100,'သင်္ချိုင်းလမ်းကို ရောက်ရှိ')]);
+ const p=propose(c,[{id:'not-uploaded',name:'graveyard.png',type:'image/png',nativeStored:false}]);
+ assert.equal(p.report.uniqueLabelCandidates,0);
+ assert.equal(p.report.missingPictures,1);
+});
+test('media marked as nativeStored with manual photo lock stays protected',()=>{
+ const c=chapter([scene('a',0,75,'သင်္ချိုင်းအဝင်',{assetId:'manual-photo',visualLocked:true})]);
+ const p=propose(c,[art('other','graveyard.png')]);
+ assert.equal(p.report.uniqueLabelCandidates,0);
 });

@@ -67,7 +67,7 @@ export function proposeLocalMajorArtwork(chapter,assets){
  const seen=new Set(),images=[];
  for(const a of assets){
   if(!a||typeof a.id!=='string'||a.id.length>120||
-     !String(a.type||'').startsWith('image/')||seen.has(a.id))continue;
+     a.nativeStored!==true||!String(a.type||'').startsWith('image/')||seen.has(a.id))continue;
   seen.add(a.id);images.push(a);
  }
  const rows=[];let candidates=0,kept=0,ambiguous=0,missing=0,continuations=0;
