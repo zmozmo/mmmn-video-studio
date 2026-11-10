@@ -92,6 +92,7 @@ jobs:
           Invoke-WebRequest -Uri 'https://huggingface.co/freococo/myanmar_asr/resolve/main/example.mp3' -OutFile synthetic-public-burmese.mp3 -ErrorAction Stop
           $env:MMMN_REAL_BURMESE_PUBLIC_AUDIO=(Resolve-Path synthetic-public-burmese.mp3).Path
           "MMMN_REAL_BURMESE_PUBLIC_AUDIO=$env:MMMN_REAL_BURMESE_PUBLIC_AUDIO" >> $env:GITHUB_ENV
+          if (!(Test-Path $env:MMMN_REAL_BURMESE_PUBLIC_AUDIO)) { throw 'Public test audio missing in this PowerShell process' }
           python .github/scripts/windows_burmese_published_addon_e2e_0154.py
           if ($LASTEXITCODE -ne 0) { throw 'ONE setup.exe did not deliver a working private speech-to-SRT pipeline' }
           Write-Host 'PASS: ONE installer => actual local CPU model ASR in installed Studio, source audio/locks intact'
