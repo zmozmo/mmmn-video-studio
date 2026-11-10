@@ -1,0 +1,26 @@
+name: Research 0.15.7 FastSDCPU Local Image Bridge Contract
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, research/0157-local-art-bridge]
+    paths:
+      - 'scripts/fastsdcpu_art_bridge_0157.py'
+      - 'tests/test_fastsdcpu_art_bridge_0157.py'
+      - '.github/workflows/research-fastsdcpu-local-art-0157.yml'
+permissions:
+  contents: read
+jobs:
+  localhost-private-art-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Pillow image decoding verification and no model downloads
+        run: |
+          set -euo pipefail
+          python -m pip install --quiet Pillow==11.3.0
+          python -m py_compile scripts/fastsdcpu_art_bridge_0157.py
+          python -m unittest discover -s tests -p test_fastsdcpu_art_bridge_0157.py -v
